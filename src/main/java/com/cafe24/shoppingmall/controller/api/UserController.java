@@ -40,9 +40,10 @@ public class UserController {
 		return userService.checkId(id)==true? "중복":"이용가능";
 	}
 	
+//	@ApiOperation(value = "스웩")
 //	@ApiImplicitParams({
 //		@ApiImplicitParam(name="id", value="아이디", required = true, dataType = "string"),
-//		@ApiImplicitParam(name="pw", value="비밀번호", required = true, dataType = "string"),
+//		@ApiImplicitParam(name="pw", value="비밀번호", required = true, dataType = "string")
 //		@ApiImplicitParam(name="name", value="이름", required = true, dataType = "string"),
 //		@ApiImplicitParam(name="email", value="이메일주소", required = true, dataType = "string"),
 //		@ApiImplicitParam(name="tel_phone", value="휴대폰번호", required = true, dataType = "string")
@@ -52,8 +53,7 @@ public class UserController {
 			@ModelAttribute @Valid UserVO vo,
 			BindingResult result,
 			Model model) {
-		System.out.println(vo);
-		
+
 		// 아이디 중복 한번 더 체크
 		if(userService.checkId(vo.getId())) {
 			return "중복 아이디";

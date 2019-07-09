@@ -15,8 +15,8 @@ public class UserVO {
 	@Pattern(regexp = "^[a-zA-Z0-9]*$")
 	private String id;
 	
-	@Length(min=6, max=14)
 	@NotEmpty
+	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,}$")
 	private String pw;
 	
 	@NotEmpty
