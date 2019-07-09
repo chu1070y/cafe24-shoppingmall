@@ -21,7 +21,7 @@ import com.cafe24.shoppingmall.config.TestWebConfig;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes= {AppConfig.class, TestWebConfig.class})
 @WebAppConfiguration
-public class GuestbookControllerTest {
+public class UserControllerTest {
 	private MockMvc mockMvc;
 	
 	@Autowired
@@ -35,16 +35,10 @@ public class GuestbookControllerTest {
 	}
 	
 	@Test
-	public void testDB() {
-		
-	}
-	
-	@Test
-	public void testFetchGuestbookList() throws Exception{
+	public void testUserInsert() throws Exception{
 		mockMvc
-		.perform(get("/api/guestbook/list/10", 1L))
+		.perform(get("/api/user"))
 		.andExpect(status().isOk()).andDo(print());
 	}
-	
-	
+
 }
