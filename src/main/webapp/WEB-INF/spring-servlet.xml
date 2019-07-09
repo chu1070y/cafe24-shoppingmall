@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- auto proxy -->
+	<aop:aspectj-autoproxy />
+
+	<!-- file upload -->
+	<mvc:resources mapping="/images/**"
+		location="file:./D:/mysite-upload/" />
+	<context:component-scan
+		base-package="com.cafe24.fileupload" />
+
+	<!-- 멀티파트 리졸버 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 최대업로드 가능한 바이트크기 -->
+		<property name="maxUploadSize" value="52428800" />
+		<!-- 디스크에 임시 파일을 생성하기 전에 메모리에 보관할수있는 최대 바이트 크기 -->
+		<!-- property name="maxInMemorySize" value="52428800" / -->
+		<!-- defaultEncoding -->
+		<property name="defaultEncoding" value="utf-8" />
+	</bean>
+	
+
+	<!-- 1. validator, conservionService, messageconverter -->
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+
+			<!-- text/html으로 요청이 들어올 때 UTF-8로 메시지를 바꿔라 -->
+			<bean
+				class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/html; charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+
+			<!-- application/json으로 요청이 들어올 때 UTF-8로 메시지를 바꿔라 -->
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>application/json; charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+
+		<!-- Argument Resolver -->
+		<mvc:argument-resolvers>
+			<bean
+				class="com.cafe24.security.AuthUserHandlerMethodArgumentResolver" />
+		</mvc:argument-resolvers>
+
+	</mvc:annotation-driven>
+
+	<!-- 2. 서블릿 컨테이너의 디폴트 서블릿 위임 핸들러 -->
+	<mvc:default-servlet-handler />
+
+	<!-- 3. ViewResolver 설정 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+		<property name="order" value="1" />
+	</bean>
+
+	<!-- 4. MessageSource -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>messages/message_ko</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 5. Interceptors -->
+	<mvc:interceptors>
+		<!-- <mvc:interceptor> <mvc:mapping path="/board/**" /> <bean class="com.cafe24.mysite.interceptor.MyInterceptor01" 
+			/> </mvc:interceptor> -->
+
+		<mvc:interceptor>
+			<mvc:mapping path="/user/auth" />
+			<bean class="com.cafe24.security.AuthLoginInterceptor" />
+		</mvc:interceptor>
+
+		<mvc:interceptor>
+			<mvc:mapping path="/user/logout" />
+			<mvc:mapping path="/user/updateUser" />
+			<bean class="com.cafe24.security.AuthLogoutInterceptor" />
+		</mvc:interceptor>
+
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/user/auth" />
+			<mvc:exclude-mapping path="/user/logout" />
+			<mvc:exclude-mapping path="/user/updateUser" />
+			<mvc:exclude-mapping path="/assets/**" />
+			<bean class="com.cafe24.security.AuthInterceptor" />
+		</mvc:interceptor>
+
+		<mvc:interceptor>
+			<mvc:mapping path="/board/read/**" />
+			<bean class="com.cafe24.security.CookieInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+
+	<!-- 빈설정을 annotation으로 하겠다 (@Controller에 auto scan) -->
+	<context:annotation-config />
+	<!-- Controller Scanning 하는 base package -->
+	<context:component-scan
+		base-package="com.cafe24.mysite.controller, com.cafe24.mysite.exception, com.cafe24.mysite.controller.api" />
+
+</beans>
