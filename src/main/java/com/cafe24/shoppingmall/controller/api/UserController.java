@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cafe24.shoppingmall.service.UserService;
 import com.cafe24.shoppingmall.vo.UserVO;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -36,11 +40,19 @@ public class UserController {
 		return userService.checkId(id)==true? "중복":"이용가능";
 	}
 	
+//	@ApiImplicitParams({
+//		@ApiImplicitParam(name="id", value="아이디", required = true, dataType = "string"),
+//		@ApiImplicitParam(name="pw", value="비밀번호", required = true, dataType = "string"),
+//		@ApiImplicitParam(name="name", value="이름", required = true, dataType = "string"),
+//		@ApiImplicitParam(name="email", value="이메일주소", required = true, dataType = "string"),
+//		@ApiImplicitParam(name="tel_phone", value="휴대폰번호", required = true, dataType = "string")
+//	})
 	@PostMapping("/registerMember")
 	public String registerMember(
 			@ModelAttribute @Valid UserVO vo,
 			BindingResult result,
 			Model model) {
+		System.out.println(vo);
 		
 		// 아이디 중복 한번 더 체크
 		if(userService.checkId(vo.getId())) {

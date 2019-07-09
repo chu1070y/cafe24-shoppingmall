@@ -1,6 +1,5 @@
 package com.cafe24.shoppingmall.vo;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Email;
@@ -29,11 +28,11 @@ public class UserVO {
 	@NotEmpty
 	private String email;
 	
-	@Pattern(regexp = "^\\d{2.3}-\\d{3,4}-\\d{4}$")
+	@Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$")
 	private String tel_home;
 	
 	@NotEmpty
-	@Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$")
+	@Pattern(regexp = "^01(?:0|1|0)-\\d{4}-\\d{4}$")
 	private String tel_phone;
 	
 	private Integer point;

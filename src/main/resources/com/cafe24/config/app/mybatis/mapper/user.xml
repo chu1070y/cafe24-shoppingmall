@@ -10,7 +10,14 @@
 	</select>
 	
 	<insert id="insert" parameterType="uservo">
-		insert into member values(null, #{id}, #{pw}, #{name}, #{addr}, #{email}, #{tel_home}, #{tel_phone}, 0, #{gender}, #{birthdate}, null, null, '0')
+		insert into member(id, pw, name, addr, email, tel_home, tel_phone, gender, birthdate, status) 
+			values(#{id}, 
+			SHA2(#{pw}, 512), #{name}, 
+			AES_ENCRYPT(#{addr}, 'cafe24'), 
+			AES_ENCRYPT(#{email}, 'cafe24'), 
+			AES_ENCRYPT(#{tel_home}, 'cafe24'), 
+			AES_ENCRYPT(#{tel_phone}, 'cafe24'),
+			#{gender}, #{birthdate}, '0')
 	</insert>
 	
 </mapper>
