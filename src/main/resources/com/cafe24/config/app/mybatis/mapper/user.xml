@@ -3,57 +3,14 @@
 
 <mapper namespace="user">
 	
-	<select id="getByEmail" parameterType="string" resultType="uservo">
+	<select id="getById" parameterType="string" resultType="uservo">
 		select * 
-		from user 
-		where email = #{email}
-		
+		from member
+		where id = #{id}
 	</select>
 	
 	<insert id="insert" parameterType="uservo">
-		<![CDATA[
-			insert into user values(null, #{name}, #{email}, #{password}, #{gender}, 'USER', now())
-		]]>
-		<selectKey keyProperty="no" resultType="long" order="AFTER">
-			<![CDATA[
-			select last_insert_id();
-			]]>
-		</selectKey>
+		insert into member values(null, #{id}, #{pw}, #{name}, #{addr}, #{email}, #{tel_home}, #{tel_phone}, 0, #{gender}, #{birthdate}, null, null, '0')
 	</insert>
-	
-	<select id="getByEmailAndPassword" parameterType="map" resultType="uservo">
-		<![CDATA[
-			select no, name, password, role, gender from user where email = #{email} and password = #{password}
-		]]>
-	</select>
-	
-	<select id="getByNo" parameterType="long" resultType="uservo">
-		<![CDATA[
-			select no, name, email, password, gender, role from user where no = #{no}
-		]]>
-	</select>
-	
-	<update id="update" parameterType="uservo">
-		<![CDATA[
-		update user
-			set name = #{name}, 
-		]]>
-				<if test="email != ''">
-					<![CDATA[
-					email = #{email},
-					]]>
-				</if>
-				<if test="email != ''">
-					<![CDATA[
-					password = #{password},
-					]]>
-				</if>
-		<![CDATA[
-				 gender = #{gender}
-		where no = #{no}
-		]]>
-		
-	</update>
-	
 	
 </mapper>
