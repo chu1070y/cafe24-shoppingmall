@@ -1,8 +1,10 @@
 package com.cafe24.shoppingmall.sinario;
 
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.HashMap;
@@ -61,7 +63,7 @@ public class UserJoinSinarioTest {
 		map1.put("name", "추연훈");
 		map1.put("email", "chu1070y@naver.com");
 		map1.put("tel_phone", "010-5241-1430");
-		testUserRegisterMember(map1);
+		testProcess3(map1);
 		
 		// 중복 유저정보 입력
 		Map<String, String> map2 = new HashMap<String, String>();
@@ -70,11 +72,10 @@ public class UserJoinSinarioTest {
 		map2.put("name", "추연훈");
 		map2.put("email", "chu1070y@naver.com");
 		map2.put("tel_phone", "010-5241-1430");
-		testUserRegisterMember(map2);
 		
-		testUserJoinPage();
-		testUserCheckId(map2.get("id"));
-		testUserRegisterMember(map2);
+		testProcess1();
+		testProcess2(map2.get("id"));
+		testProcess3(map2);
 	}
 
 	/*
@@ -89,11 +90,10 @@ public class UserJoinSinarioTest {
 		map.put("name", "추연훈");
 		map.put("email", "chu1070y@naver.com");
 		map.put("tel_phone", "010-5241-1430");
-		testUserRegisterMember(map);
 		
-		testUserJoinPage();
-		testUserCheckId(map.get("id"));
-		testUserRegisterMember(map);
+		testProcess1();
+		testProcess2(map.get("id"));
+		testProcess3(map);
 	}
 	
 	/*
@@ -108,11 +108,10 @@ public class UserJoinSinarioTest {
 		map.put("name", "추연훈");
 		map.put("email", "chu1070y@naver.com");
 		map.put("tel_phone", "010-5241-1430");
-		testUserRegisterMember(map);
 		
-		testUserJoinPage();
-		testUserCheckId(map.get("id"));
-		testUserRegisterMember(map);
+		testProcess1();
+		testProcess2(map.get("id"));
+		testProcess3(map);
 	}
 	
 	/*
@@ -127,11 +126,10 @@ public class UserJoinSinarioTest {
 		map.put("name", "추연훈");
 		map.put("email", "chu1070y");
 		map.put("tel_phone", "010-5241-1430");
-		testUserRegisterMember(map);
 		
-		testUserJoinPage();
-		testUserCheckId(map.get("id"));
-		testUserRegisterMember(map);
+		testProcess1();
+		testProcess2(map.get("id"));
+		testProcess3(map);
 	}
 	
 	/*
@@ -146,11 +144,10 @@ public class UserJoinSinarioTest {
 		map.put("name", "추연훈");
 		map.put("email", "chu1070y@naver.com");
 		map.put("tel_phone", "010-5241-1430");
-		testUserRegisterMember(map);
 		
-		testUserJoinPage();
-		testUserCheckId(map.get("id"));
-		testUserRegisterMember(map);
+		testProcess1();
+		testProcess2(map.get("id"));
+		testProcess3(map);
 	}
 	
 	//
@@ -158,27 +155,26 @@ public class UserJoinSinarioTest {
 	//
 	
 	// 회원가입 페이지 요청
-	public void testUserJoinPage() throws Exception{
+	public void testProcess1() throws Exception{
+		System.out.println("회원가입 페이지 요청");
 		mockMvc
 		.perform(get("/api/user/join"))
 		.andExpect(status().isOk()).andDo(print());
 	}
 	
-	// 회원 테이블 데이터 삭제
-	public void userDeleteAll() throws Exception{
-		userService.deleteAll();
-	}
-	
 	// 아이디 중복 체크 요청
-	public void testUserCheckId(String id) throws Exception{
+	public void testProcess2(String id) throws Exception{
+		System.out.println("아이디 중복 체크 요청");
 		mockMvc
 		.perform(get("/api/user/checkId")
 		.param("id", id))
-		.andExpect(status().isOk()).andDo(print());
+		.andExpect(status().isOk()).andDo(print())
+		.andExpect(jsonPath("$.result", is("success")));
 	}
 	
 	// 회원등록 신청
-	public void testUserRegisterMember(Map<String, String> map) throws Exception{
+	public void testProcess3(Map<String, String> map) throws Exception{
+		System.out.println("회원등록 신청");
 		mockMvc
 		.perform(post("/api/user/registerMember")
 		.param("id", map.get("id"))
@@ -186,9 +182,14 @@ public class UserJoinSinarioTest {
 		.param("name", map.get("name"))
 		.param("email", map.get("email"))
 		.param("tel_phone", map.get("tel_phone")))
-		.andExpect(status().isOk()).andDo(print());
+		.andExpect(status().isOk()).andDo(print())
+		.andExpect(jsonPath("$.result", is("success")));
 	}
-
+	
+	// 회원 테이블 데이터 삭제
+	public void userDeleteAll() throws Exception{
+		userService.deleteAll();
+	}
 	
 
 }
