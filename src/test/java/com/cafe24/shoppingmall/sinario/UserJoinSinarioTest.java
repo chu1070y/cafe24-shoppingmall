@@ -185,11 +185,5 @@ public class UserJoinSinarioTest {
 		.andExpect(status().isOk()).andDo(print())
 		.andExpect(jsonPath("$.result", is("success")));
 	}
-	
-	// 회원 테이블 데이터 삭제
-	public void userDeleteAll() throws Exception{
-		userService.deleteAll();
-	}
-	
 
 }
