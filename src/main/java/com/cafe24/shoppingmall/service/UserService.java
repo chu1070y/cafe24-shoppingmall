@@ -19,4 +19,8 @@ public class UserService {
 	public Boolean registerMember(UserVO vo) {
 		return userDAO.insert(vo);
 	}
+
+	public Boolean deleteAll() {
+		return userDAO.deleteAll();
+	}
 }

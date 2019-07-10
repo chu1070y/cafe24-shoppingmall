@@ -20,4 +20,8 @@
 			#{gender}, #{birthdate}, '0')
 	</insert>
 	
+	<delete id="deleteAll">
+		delete from member;
+	</delete>
+	
 </mapper>

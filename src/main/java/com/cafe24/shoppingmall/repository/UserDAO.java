@@ -19,5 +19,9 @@ public class UserDAO {
 	public Boolean insert(UserVO vo) {
 		return 1 == sqlSession.insert("user.insert", vo);
 	}
+
+	public Boolean deleteAll() {
+		return 1 == sqlSession.delete("user.deleteAll");
+	}
 	
 }

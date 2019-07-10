@@ -10,10 +10,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.cafe24.shoppingmall.config.AppConfig;
-import com.cafe24.shoppingmall.config.TestWebConfig;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes= {AppConfig.class, TestWebConfig.class})
+@ContextConfiguration(classes= {AppConfig.class})
 public class SqlSessionTests {
 	
 	@Autowired
