@@ -18,6 +18,10 @@
 			AES_ENCRYPT(#{tel_home}, 'cafe24'), 
 			AES_ENCRYPT(#{tel_phone}, 'cafe24'),
 			#{gender}, #{birthdate}, '0')
+			
+		<selectKey keyProperty="no" resultType="int" order="AFTER">
+			select last_insert_id()
+		</selectKey>
 	</insert>
 	
 	<delete id="deleteAll">

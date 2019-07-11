@@ -1,8 +1,10 @@
 package com.cafe24.shoppingmall.controller.api;
 
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
@@ -46,20 +48,22 @@ public class UserControllerTest {
 	public void testUserCheckId() throws Exception{
 		mockMvc
 		.perform(get("/api/user/checkId")
-		.param("id", "aaaaaaaaaa"))
-		.andExpect(status().isOk()).andDo(print());
+		.param("id", "bbbbbb"))
+		.andExpect(status().isOk()).andDo(print())
+		.andExpect(jsonPath("$.result", is("success")));
 	}
 	
 	@Test
 	public void testUserRegisterMember() throws Exception{
 		mockMvc
 		.perform(post("/api/user/registerMember")
-		.param("id", "bbbbbb")
-		.param("pw", "12345678z")
+		.param("id", "bbbbbb2")
+		.param("pw", "12345678z!")
 		.param("name", "chuchu")
 		.param("email", "aaaaa@naver.com")
 		.param("tel_phone", "010-1234-1234"))
-		.andExpect(status().isOk()).andDo(print());
+		.andExpect(status().isOk()).andDo(print())
+		.andExpect(jsonPath("$.result", is("success")));
 	}
 	
 	

@@ -16,7 +16,7 @@ public class UserService {
 		return userDAO.get(id) != null;
 	}
 
-	public Boolean registerMember(UserVO vo) {
+	public UserVO registerMember(UserVO vo) {
 		return userDAO.insert(vo);
 	}
 

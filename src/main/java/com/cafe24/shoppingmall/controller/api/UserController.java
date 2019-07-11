@@ -6,10 +6,11 @@ import java.util.regex.Pattern;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,15 +46,16 @@ public class UserController {
 		return userService.checkId(id)==true? JSONResult.fail("중복"):JSONResult.success("사용가능");
 	}
 	
+
 	@PostMapping(value = "/registerMember")
-	public JSONResult registerMember(
+	public ResponseEntity<JSONResult> registerMember(
 			@ModelAttribute @Valid UserVO vo,
 			BindingResult result,
 			Model model) {
 
 		// 아이디 중복 한번 더 체크
 		if(userService.checkId(vo.getId())) {
-			return JSONResult.fail("중복 아이디");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("중복 아이디"));
 		}
 		
 		// 유효성 검사 실패시
@@ -64,13 +66,13 @@ public class UserController {
 				errorMsg += error.getField() + "/";
 			}
 			errorMsg += "오류발생";
-			return JSONResult.fail(errorMsg);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(errorMsg));
 		}
 		
 		model.addAllAttributes(result.getModel());
 		
-		userService.registerMember(vo);
-		return JSONResult.success("회원 등록 성공");
+		UserVO vo2 = userService.registerMember(vo);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("회원 등록 성공, no:" + vo2.getNo()));
 	}
 
 }

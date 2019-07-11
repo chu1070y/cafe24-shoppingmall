@@ -10,8 +10,8 @@ public class UserVO {
 	
 	private Integer no;
 	
-	@NotEmpty
-	@Pattern(regexp = "^[a-zA-Z0-9] {4,18}$")
+	@NotEmpty(message="")
+	@Pattern(regexp = "^[a-zA-Z0-9]{4,18}$", message="")
 	private String id;
 	
 	@NotEmpty
