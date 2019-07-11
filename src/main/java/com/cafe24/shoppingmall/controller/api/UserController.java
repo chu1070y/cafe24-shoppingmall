@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,20 +39,12 @@ public class UserController {
 			@RequestParam("id") String id) {
 
         if(!Pattern.matches("^[a-zA-Z0-9]{4,18}$", id)){
-        	return JSONResult.fail("입력형식이 잘못되었습니다");
+        	return JSONResult.fail("아이디 입력형식 오류");
         }
 		
 		return userService.checkId(id)==true? JSONResult.fail("중복"):JSONResult.success("사용가능");
 	}
 	
-//	@ApiOperation(value = "스웩")
-//	@ApiImplicitParams({
-//		@ApiImplicitParam(name="id", value="아이디", required = true, dataType = "string"),
-//		@ApiImplicitParam(name="pw", value="비밀번호", required = true, dataType = "string")
-//		@ApiImplicitParam(name="name", value="이름", required = true, dataType = "string"),
-//		@ApiImplicitParam(name="email", value="이메일주소", required = true, dataType = "string"),
-//		@ApiImplicitParam(name="tel_phone", value="휴대폰번호", required = true, dataType = "string")
-//	})
 	@PostMapping(value = "/registerMember")
 	public JSONResult registerMember(
 			@ModelAttribute @Valid UserVO vo,
@@ -65,12 +58,13 @@ public class UserController {
 		
 		// 유효성 검사 실패시
 		if(result.hasErrors()) {
-			List<ObjectError> list = result.getAllErrors();
-			for(ObjectError error : list) {
-				System.out.println(error);
+			List<FieldError> list = result.getFieldErrors();
+			String errorMsg = "";
+			for(FieldError error : list) {
+				errorMsg += error.getField() + "/";
 			}
-			
-			return JSONResult.fail("입력형식이 잘못되었습니다");
+			errorMsg += "오류발생";
+			return JSONResult.fail(errorMsg);
 		}
 		
 		model.addAllAttributes(result.getModel());
