@@ -23,6 +23,8 @@ public class AdminService {
 		// 2. 상품번호를 이용해 상품 이미지를 등록한다.
 		// 3. 상품번호를 이용해 재고, 진열상태를 등록한다.
 		
+		System.out.println(vo);
+		
 	}
 
 	

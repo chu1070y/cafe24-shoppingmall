@@ -11,14 +11,12 @@ public class ProductApiVO {
 	@Length(min = 2)
 	private String name;
 	private String description;
-	@NotEmpty
 	private Integer price;
 	private Integer salePrice;
 	
 	private String optionCode;
 	private Integer addPrice;
 	private Integer stockNum;
-	private Integer stockAvail;
 	
 	@Pattern(regexp = "^[0-1]$")
 	private String stockUse;
@@ -82,15 +80,7 @@ public class ProductApiVO {
 	public void setStockNum(Integer stockNum) {
 		this.stockNum = stockNum;
 	}
-
-	public Integer getStockAvail() {
-		return stockAvail;
-	}
-
-	public void setStockAvail(Integer stockAvail) {
-		this.stockAvail = stockAvail;
-	}
-
+	
 	public String getStockUse() {
 		return stockUse;
 	}
@@ -119,8 +109,7 @@ public class ProductApiVO {
 	public String toString() {
 		return "ProductApiVO [name=" + name + ", description=" + description + ", price=" + price + ", salePrice="
 				+ salePrice + ", optionCode=" + optionCode + ", addPrice=" + addPrice + ", stockNum=" + stockNum
-				+ ", stockAvail=" + stockAvail + ", stockUse=" + stockUse + ", display=" + display + ", productImgList="
-				+ productImgList + "]";
+				+ ", stockUse=" + stockUse + ", display=" + display + ", productImgList=" + productImgList + "]";
 	}
 
 	
