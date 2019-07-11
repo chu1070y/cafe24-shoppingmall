@@ -4,7 +4,7 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class AdminVO {
+public class LoginVO {
 
 	@NotEmpty
 	@Pattern(regexp = "^[a-zA-Z0-9] {4,18}$")
@@ -52,7 +52,7 @@ public class AdminVO {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AdminVO other = (AdminVO) obj;
+		LoginVO other = (LoginVO) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

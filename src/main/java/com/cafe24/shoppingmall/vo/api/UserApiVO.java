@@ -1,4 +1,4 @@
-package com.cafe24.shoppingmall.vo;
+package com.cafe24.shoppingmall.vo.api;
 
 import javax.validation.constraints.Pattern;
 
@@ -6,19 +6,14 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class UserVO {
+public class UserApiVO {
 	
-	private Integer no;
-	
-	@NotEmpty(message="")
-	@Pattern(regexp = "^[a-zA-Z0-9]{4,18}$", message="")
+	@Pattern(regexp = "^[a-zA-Z0-9]{4,18}$")
 	private String id;
 	
-	@NotEmpty
 	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,}$")
 	private String pw;
 	
-	@NotEmpty
 	@Length(min=2, max=8)
 	private String name;
 	private String addr = "";
@@ -30,22 +25,17 @@ public class UserVO {
 	@Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$")
 	private String tel_home;
 	
-	@NotEmpty
 	@Pattern(regexp = "^01(?:0|1|0)-\\d{4}-\\d{4}$")
 	private String tel_phone;
 	
 	private Integer point;
 	private String gender;
 	private String birthdate;
-	private String updatedate;
-	private String regdate;
-	private String status;
-	
-	public Integer getNo() {
-		return no;
-	}
-	public void setNo(Integer no) {
-		this.no = no;
+	@Override
+	public String toString() {
+		return "UserApiVO [id=" + id + ", pw=" + pw + ", name=" + name + ", addr=" + addr + ", email=" + email
+				+ ", tel_home=" + tel_home + ", tel_phone=" + tel_phone + ", point=" + point + ", gender=" + gender
+				+ ", birthdate=" + birthdate + "]";
 	}
 	public String getId() {
 		return id;
@@ -107,29 +97,7 @@ public class UserVO {
 	public void setBirthdate(String birthdate) {
 		this.birthdate = birthdate;
 	}
-	public String getUpdatedate() {
-		return updatedate;
-	}
-	public void setUpdatedate(String updatedate) {
-		this.updatedate = updatedate;
-	}
-	public String getRegdate() {
-		return regdate;
-	}
-	public void setRegdate(String regdate) {
-		this.regdate = regdate;
-	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	@Override
-	public String toString() {
-		return "UserVO [no=" + no + ", id=" + id + ", pw=" + pw + ", name=" + name + ", addr=" + addr + ", email="
-				+ email + ", tel_home=" + tel_home + ", tel_phone=" + tel_phone + ", point=" + point + ", gender="
-				+ gender + ", birthdate=" + birthdate + ", updatedate=" + updatedate + ", regdate=" + regdate
-				+ ", status=" + status + "]";
-	}
+	
+	
+	
 }

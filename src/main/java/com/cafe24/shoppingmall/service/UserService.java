@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cafe24.shoppingmall.repository.UserDAO;
-import com.cafe24.shoppingmall.vo.UserVO;
+import com.cafe24.shoppingmall.vo.api.UserApiVO;
 
 @Service
 public class UserService {
@@ -16,7 +16,7 @@ public class UserService {
 		return userDAO.get(id) != null;
 	}
 
-	public UserVO registerMember(UserVO vo) {
+	public Integer registerMember(UserApiVO vo) {
 		return userDAO.insert(vo);
 	}
 

@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shoppingmall.dto.JSONResult;
 import com.cafe24.shoppingmall.service.AdminService;
-import com.cafe24.shoppingmall.vo.AdminVO;
-import com.cafe24.shoppingmall.vo.ProductVO;
+import com.cafe24.shoppingmall.vo.LoginVO;
+import com.cafe24.shoppingmall.vo.api.ProductApiVO;
 
 @RestController
 @RequestMapping(value = "/api/admin")
@@ -26,7 +26,7 @@ public class AdminController {
 	private AdminService adminService;
 	
 	@PostMapping("/login")
-	public JSONResult login(@ModelAttribute AdminVO vo) {
+	public JSONResult login(@ModelAttribute LoginVO vo) {
 		return adminService.login(vo) ? JSONResult.success("로그인 성공"): JSONResult.fail("로그인 실패");
 	}
 	
@@ -37,7 +37,7 @@ public class AdminController {
 	
 	@PostMapping("/productRegister")
 	public JSONResult productRegister(
-			@ModelAttribute @Valid ProductVO vo,
+			@ModelAttribute @Valid ProductApiVO vo,
 			BindingResult result) {
 		
 		// 유효성 검사 실패시

@@ -1,45 +1,31 @@
-package com.cafe24.shoppingmall.vo;
+package com.cafe24.shoppingmall.vo.api;
 
 import java.util.List;
 
-import com.cafe24.shoppingmall.vo.api.ProductImgApiVO;
+import javax.validation.constraints.Pattern;
 
-public class ProductVO {
-	private Integer no;
-	private String code;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
+public class ProductApiVO {
+	@Length(min = 2)
 	private String name;
 	private String description;
+	@NotEmpty
 	private Integer price;
 	private Integer salePrice;
-	private String del;
-	private Integer categoryNo;
 	
-	private Integer productDetailNo;
 	private String optionCode;
 	private Integer addPrice;
 	private Integer stockNum;
 	private Integer stockAvail;
+	
+	@Pattern(regexp = "^[0-1]$")
 	private String stockUse;
+	@Pattern(regexp = "^[0-1]$")
 	private String display;
-	private String detailDel;
 	
 	List<ProductImgApiVO> productImgList;
-
-	public Integer getNo() {
-		return no;
-	}
-
-	public void setNo(Integer no) {
-		this.no = no;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
 
 	public String getName() {
 		return name;
@@ -71,30 +57,6 @@ public class ProductVO {
 
 	public void setSalePrice(Integer salePrice) {
 		this.salePrice = salePrice;
-	}
-
-	public String getDel() {
-		return del;
-	}
-
-	public void setDel(String del) {
-		this.del = del;
-	}
-
-	public Integer getCategoryNo() {
-		return categoryNo;
-	}
-
-	public void setCategoryNo(Integer categoryNo) {
-		this.categoryNo = categoryNo;
-	}
-
-	public Integer getProductDetailNo() {
-		return productDetailNo;
-	}
-
-	public void setProductDetailNo(Integer productDetailNo) {
-		this.productDetailNo = productDetailNo;
 	}
 
 	public String getOptionCode() {
@@ -145,14 +107,6 @@ public class ProductVO {
 		this.display = display;
 	}
 
-	public String getDetailDel() {
-		return detailDel;
-	}
-
-	public void setDetailDel(String detailDel) {
-		this.detailDel = detailDel;
-	}
-
 	public List<ProductImgApiVO> getProductImgList() {
 		return productImgList;
 	}
@@ -163,13 +117,12 @@ public class ProductVO {
 
 	@Override
 	public String toString() {
-		return "ProductVO [no=" + no + ", code=" + code + ", name=" + name + ", description=" + description + ", price="
-				+ price + ", salePrice=" + salePrice + ", del=" + del + ", categoryNo=" + categoryNo
-				+ ", productDetailNo=" + productDetailNo + ", optionCode=" + optionCode + ", addPrice=" + addPrice
-				+ ", stockNum=" + stockNum + ", stockAvail=" + stockAvail + ", stockUse=" + stockUse + ", display="
-				+ display + ", detailDel=" + detailDel + ", productImgList=" + productImgList + "]";
+		return "ProductApiVO [name=" + name + ", description=" + description + ", price=" + price + ", salePrice="
+				+ salePrice + ", optionCode=" + optionCode + ", addPrice=" + addPrice + ", stockNum=" + stockNum
+				+ ", stockAvail=" + stockAvail + ", stockUse=" + stockUse + ", display=" + display + ", productImgList="
+				+ productImgList + "]";
 	}
-	
+
 	
 
 	

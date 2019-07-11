@@ -7,6 +7,7 @@ public class ProductImgVO {
 	private String filename;
 	private String extension;
 	private String imgType;
+	
 	public Integer getImgNo() {
 		return imgNo;
 	}

@@ -6,8 +6,6 @@ import java.util.regex.Pattern;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -21,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shoppingmall.dto.JSONResult;
 import com.cafe24.shoppingmall.service.UserService;
-import com.cafe24.shoppingmall.vo.UserVO;
+import com.cafe24.shoppingmall.vo.api.UserApiVO;
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -46,16 +44,18 @@ public class UserController {
 		return userService.checkId(id)==true? JSONResult.fail("중복"):JSONResult.success("사용가능");
 	}
 	
-
+	// Bad request를 보내고 싶으면
+	// return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("중복 아이디"));
+	// 위처럼 리턴값을 지정한다.
 	@PostMapping(value = "/registerMember")
-	public ResponseEntity<JSONResult> registerMember(
-			@ModelAttribute @Valid UserVO vo,
+	public JSONResult registerMember(
+			@ModelAttribute @Valid UserApiVO vo,
 			BindingResult result,
 			Model model) {
-
+		
 		// 아이디 중복 한번 더 체크
 		if(userService.checkId(vo.getId())) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("중복 아이디"));
+			return JSONResult.fail("중복 아이디");
 		}
 		
 		// 유효성 검사 실패시
@@ -66,13 +66,13 @@ public class UserController {
 				errorMsg += error.getField() + "/";
 			}
 			errorMsg += "오류발생";
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(errorMsg));
+			return JSONResult.fail(errorMsg);
 		}
 		
 		model.addAllAttributes(result.getModel());
 		
-		UserVO vo2 = userService.registerMember(vo);
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("회원 등록 성공, no:" + vo2.getNo()));
+		Integer no = userService.registerMember(vo);
+		return JSONResult.success("회원 등록 성공, no:" + no);
 	}
 
 }

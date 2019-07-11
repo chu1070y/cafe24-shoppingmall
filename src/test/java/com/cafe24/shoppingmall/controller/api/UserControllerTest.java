@@ -57,7 +57,7 @@ public class UserControllerTest {
 	public void testUserRegisterMember() throws Exception{
 		mockMvc
 		.perform(post("/api/user/registerMember")
-		.param("id", "bbbbbb2")
+		.param("id", "bbbvv1")
 		.param("pw", "12345678z!")
 		.param("name", "chuchu")
 		.param("email", "aaaaa@naver.com")
