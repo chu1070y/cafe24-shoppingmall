@@ -11,8 +11,7 @@ public class UserVO {
 	private Integer no;
 	
 	@NotEmpty
-	@Length(min=4, max=18)
-	@Pattern(regexp = "^[a-zA-Z0-9]*$")
+	@Pattern(regexp = "^[a-zA-Z0-9] {4,18}$")
 	private String id;
 	
 	@NotEmpty

@@ -1,6 +1,7 @@
 package com.cafe24.shoppingmall.controller.api;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.validation.Valid;
 
@@ -33,8 +34,13 @@ public class UserController {
 	}
 	
 	@GetMapping(value = "/checkId")
-	public JSONResult checkId(@RequestParam("id") String id) {
-		System.out.println("id"+ id);
+	public JSONResult checkId(
+			@RequestParam("id") String id) {
+
+        if(!Pattern.matches("^[a-zA-Z0-9]{4,18}$", id)){
+        	return JSONResult.fail("입력형식이 잘못되었습니다");
+        }
+		
 		return userService.checkId(id)==true? JSONResult.fail("중복"):JSONResult.success("사용가능");
 	}
 	
@@ -64,7 +70,7 @@ public class UserController {
 				System.out.println(error);
 			}
 			
-			return JSONResult.fail("입력값 오류");
+			return JSONResult.fail("입력형식이 잘못되었습니다");
 		}
 		
 		model.addAllAttributes(result.getModel());
