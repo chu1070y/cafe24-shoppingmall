@@ -51,6 +51,8 @@ public class AdminController {
 			return JSONResult.fail(errorMsg);
 		}
 		
-		return JSONResult.success(null);
+		adminService.productRegister(vo);
+		
+		return JSONResult.success("상품 등록 성공");
 	}
 }
