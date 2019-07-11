@@ -8,7 +8,6 @@ import com.cafe24.shoppingmall.vo.AdminVO;
 public class AdminService {
 
 	public Boolean login(AdminVO adminVO) {
-		
 		// admin 로그인 프로세스
 		AdminVO vo = new AdminVO();
 		vo.setId("chu1070y");
@@ -17,5 +16,7 @@ public class AdminService {
 		return vo.equals(adminVO);
 	}
 
+	
+	
 	
 }

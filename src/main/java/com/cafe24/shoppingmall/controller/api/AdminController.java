@@ -1,6 +1,7 @@
 package com.cafe24.shoppingmall.controller.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,4 +23,8 @@ public class AdminController {
 		return adminService.login(vo) ? JSONResult.success("로그인 성공"): JSONResult.fail("로그인 실패");
 	}
 	
+	@GetMapping("/productAdmin")
+	public String adminPage() {
+		return "상품관리 페이지";
+	}
 }
