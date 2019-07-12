@@ -32,6 +32,18 @@ public class OrderService {
 		return "주문/결제 페이지";
 	}
 	
+	// @Transactional 처리
+	public Boolean paySuccess(String token) {
+		// 토큰 값으로 결제정보 확인
+		System.out.println(token);
+		// 캐시에서 저장된 사용자 주문 정보 불러옴
+		// DB에 접속하여 주문 insert
+		// 주문상세 insert
+		// 장바구니 update
+		return true;
+	}
+	
+	
 	
 	// 테스트용 판매가능수량 설정 - DB 구현시 삭제 예정
 	private Integer stockAvail = 0;
@@ -41,4 +53,6 @@ public class OrderService {
 	public Integer getStockAvailNum() {
 		return this.stockAvail;
 	}
+
+
 }

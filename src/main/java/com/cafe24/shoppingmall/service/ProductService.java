@@ -19,8 +19,8 @@ public class ProductService {
 		ProductVO vo1 = new ProductVO();
 		vo1.setNo(1);
 		vo1.setCode("p0000001");
-		vo1.setName("프렌즈 티셔츠");
-		vo1.setDescription("덕후들을 위한 티셔츠!");
+		vo1.setName("빅뱅이론 후드티");
+		vo1.setDescription("덕후들을 위한 후드티!");
 		vo1.setPrice(15000);
 		vo1.setSalePrice(12500);
 		vo1.setDel("0");

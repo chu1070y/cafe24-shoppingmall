@@ -104,4 +104,12 @@ public class OrderControllerTest {
 		resultActions
 			.andExpect(status().isOk()).andDo(print());
 	}
+	
+	@Test
+	public void testOrderPaySuccess() throws Exception{
+		
+		mockMvc
+		.perform(get("/api/order/paySuccess").param("token", "token 값"))
+		.andExpect(status().isOk()).andDo(print());
+	}
 }
