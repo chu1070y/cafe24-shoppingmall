@@ -28,4 +28,10 @@ public class CartController {
 	public String CartPage() {
 		return "장바구니 페이지";
 	}
+	
+	@PostMapping("update")
+	public JSONResult update(@RequestBody CartApiVO vo) {
+		
+		return cartService.updateCart(vo) ? JSONResult.success("장바구니 수량변경 성공") : JSONResult.fail("장바구니 수량변경 실패");
+	}
 }

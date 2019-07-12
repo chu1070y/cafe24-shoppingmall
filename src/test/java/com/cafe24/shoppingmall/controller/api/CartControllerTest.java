@@ -68,5 +68,23 @@ public class CartControllerTest {
 			.andExpect(jsonPath("$.result", is("success")));
 	}
 	
+	@Test
+	public void testCartUpdate() throws Exception{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("memberNo", "1");
+		map.put("nomemberNo", "null");
+		map.put("productDetailNo", "2");
+		map.put("quantity", "2");
+		
+		ResultActions resultActions = mockMvc
+				.perform(post("/api/cart/update")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(map)));
+		
+		resultActions
+			.andExpect(status().isOk()).andDo(print())
+			.andExpect(jsonPath("$.result", is("success")));
+	}
+	
 	
 }

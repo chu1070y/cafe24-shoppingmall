@@ -13,4 +13,10 @@ public class CartService {
 		return true;
 	}
 
+	public Boolean updateCart(CartApiVO vo) {
+		// DB 접속해 장바구니 수량 변경
+		System.out.println(vo);
+		return true;
+	}
+
 }
