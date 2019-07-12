@@ -24,8 +24,8 @@ public class CartController {
 		return cartService.insertCart(vo) ? JSONResult.success("장바구니 담기 성공") : JSONResult.fail("장바구니 담기 실패");
 	}
 	
-	@GetMapping(value="")
-	public String CartPage() {
+	@GetMapping("")
+	public String cartPage() {
 		return "장바구니 페이지";
 	}
 	
