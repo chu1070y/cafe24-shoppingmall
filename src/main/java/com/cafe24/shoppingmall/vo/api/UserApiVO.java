@@ -28,13 +28,12 @@ public class UserApiVO {
 	@Pattern(regexp = "^01(?:0|1|0)-\\d{4}-\\d{4}$")
 	private String tel_phone;
 	
-	private Integer point;
 	private String gender;
 	private String birthdate;
 	@Override
 	public String toString() {
 		return "UserApiVO [id=" + id + ", pw=" + pw + ", name=" + name + ", addr=" + addr + ", email=" + email
-				+ ", tel_home=" + tel_home + ", tel_phone=" + tel_phone + ", point=" + point + ", gender=" + gender
+				+ ", tel_home=" + tel_home + ", tel_phone=" + tel_phone + ", gender=" + gender
 				+ ", birthdate=" + birthdate + "]";
 	}
 	public String getId() {
@@ -78,12 +77,6 @@ public class UserApiVO {
 	}
 	public void setTel_phone(String tel_phone) {
 		this.tel_phone = tel_phone;
-	}
-	public Integer getPoint() {
-		return point;
-	}
-	public void setPoint(Integer point) {
-		this.point = point;
 	}
 	public String getGender() {
 		return gender;

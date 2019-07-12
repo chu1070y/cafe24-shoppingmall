@@ -18,9 +18,9 @@ public class UserDAO {
 		return sqlSession.selectOne("user.getById", id);
 	}
 
-	public Integer insert(UserApiVO vo) {
+	public UserVO insert(UserVO vo) {
 		sqlSession.insert("user.insert", vo);
-		return vo.getPoint();
+		return vo;
 	}
 
 	public Boolean deleteAll() {
