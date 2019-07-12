@@ -12,6 +12,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,7 +51,7 @@ public class UserController {
 	// 위처럼 리턴값을 지정한다.
 	@PostMapping(value = "/registerMember")
 	public JSONResult registerMember(
-			@ModelAttribute @Valid UserApiVO vo,
+			@RequestBody @Valid UserApiVO vo,
 			BindingResult result,
 			Model model) {
 		
@@ -77,7 +78,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
-	public JSONResult login(@ModelAttribute @Valid LoginVO vo, BindingResult result) {
+	public JSONResult login(@RequestBody @Valid LoginVO vo, BindingResult result) {
 		// 유효성 검사 실패시
 		if(result.hasErrors()) {
 			return JSONResult.fail("유효성검사로 인한 로그인 실패");

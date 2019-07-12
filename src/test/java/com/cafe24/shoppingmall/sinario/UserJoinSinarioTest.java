@@ -15,16 +15,19 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.shoppingmall.config.TestAppConfig;
 import com.cafe24.shoppingmall.config.TestWebConfig;
 import com.cafe24.shoppingmall.service.UserService;
+import com.google.gson.Gson;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes= {TestAppConfig.class, TestWebConfig.class})
@@ -175,15 +178,15 @@ public class UserJoinSinarioTest {
 	// 회원등록 신청
 	public void testProcess3(Map<String, String> map) throws Exception{
 		System.out.println("회원등록 신청");
-		mockMvc
-		.perform(post("/api/user/registerMember")
-		.param("id", map.get("id"))
-		.param("pw", map.get("pw"))
-		.param("name", map.get("name"))
-		.param("email", map.get("email"))
-		.param("tel_phone", map.get("tel_phone")))
-		.andExpect(status().isOk()).andDo(print())
-		.andExpect(jsonPath("$.result", is("success")));
+		
+		ResultActions resultActions = mockMvc
+				.perform(post("/api/user/registerMember")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(map)));
+		
+		resultActions
+			.andExpect(status().isOk()).andDo(print())
+			.andExpect(jsonPath("$.result", is("success")));
 	}
 
 }

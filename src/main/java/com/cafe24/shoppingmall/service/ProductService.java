@@ -50,4 +50,9 @@ public class ProductService {
 		return list;
 	}
 
+//	public Boolean insertCart(ProductVO vo) {
+//		// DB 접속해 장바구니에 상품담기
+//		console.log(vo);
+//		return true;
+//	}
 }

@@ -7,19 +7,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.shoppingmall.config.TestAppConfig;
 import com.cafe24.shoppingmall.config.TestWebConfig;
+import com.google.gson.Gson;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes= {TestAppConfig.class, TestWebConfig.class})
@@ -55,25 +61,37 @@ public class UserControllerTest {
 	
 	@Test
 	public void testUserRegisterMember() throws Exception{
-		mockMvc
-		.perform(post("/api/user/registerMember")
-		.param("id", "bbbvv1")
-		.param("pw", "12345678z!")
-		.param("name", "chuchu")
-		.param("email", "aaaaa@naver.com")
-		.param("tel_phone", "010-1234-1234"))
-		.andExpect(status().isOk()).andDo(print())
-		.andExpect(jsonPath("$.result", is("success")));
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", "bbbvv1");
+		map.put("pw", "12345678z!");
+		map.put("name", "chuchu");
+		map.put("email", "aaaaa@naver.com");
+		map.put("tel_phone", "010-1234-1234");
+		
+		ResultActions resultActions = mockMvc
+				.perform(post("/api/user/registerMember")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(map)));
+		
+		resultActions
+			.andExpect(status().isOk()).andDo(print())
+			.andExpect(jsonPath("$.result", is("success")));
 	}
 	
 	@Test
 	public void testUserLogin() throws Exception{
-		mockMvc
-		.perform(post("/api/user/login")
-		.param("id", "bbbvv1")
-		.param("pw", "12345678z!"))
-		.andExpect(status().isOk()).andDo(print())
-		.andExpect(jsonPath("$.result", is("success")));
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", "bbbvv1");
+		map.put("pw", "12345678z!");
+		
+		ResultActions resultActions = mockMvc
+				.perform(post("/api/user/login")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(map)));
+		
+		resultActions
+			.andExpect(status().isOk()).andDo(print())
+			.andExpect(jsonPath("$.result", is("success")));
 	}
 	
 	
