@@ -1,6 +1,7 @@
 package com.cafe24.shoppingmall.controller.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,5 +22,10 @@ public class CartController {
 	public JSONResult cart(@RequestBody CartApiVO vo) {
 		
 		return cartService.insertCart(vo) ? JSONResult.success("장바구니 담기 성공") : JSONResult.fail("장바구니 담기 실패");
+	}
+	
+	@GetMapping(value="")
+	public String CartPage() {
+		return "장바구니 페이지";
 	}
 }

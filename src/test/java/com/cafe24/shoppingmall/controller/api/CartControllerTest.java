@@ -42,6 +42,13 @@ public class CartControllerTest {
 				.webAppContextSetup(webApplicationContext)
 				.build();
 	}
+
+	@Test
+	public void testCartPage() throws Exception{
+		mockMvc
+		.perform(get("/api/cart"))
+		.andExpect(status().isOk()).andDo(print());
+	}
 	
 	@Test
 	public void testCartInsert() throws Exception{
@@ -60,4 +67,6 @@ public class CartControllerTest {
 			.andExpect(status().isOk()).andDo(print())
 			.andExpect(jsonPath("$.result", is("success")));
 	}
+	
+	
 }
