@@ -27,7 +27,7 @@ public class AdminController {
 	private AdminService adminService;
 	
 	@PostMapping("/login")
-	public JSONResult login(@ModelAttribute @Valid LoginVO vo, BindingResult result) {
+	public JSONResult login(@RequestBody @Valid LoginVO vo, BindingResult result) {
 		System.out.println(vo);
 		// 유효성 검사 실패시
 		if(result.hasErrors()) {

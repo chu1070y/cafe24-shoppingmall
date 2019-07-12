@@ -1,7 +1,10 @@
 package com.cafe24.shoppingmall.controller.api;
 
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
@@ -40,4 +43,15 @@ private MockMvc mockMvc;
 		.perform(get("/api/product/list"))
 		.andExpect(status().isOk()).andDo(print());
 	}
+	
+	@Test
+	public void testCartPost() {
+		mockMvc
+		.perform(post("/api/product/test")
+		.param("id", "chu1070y")
+		.param("pw", "12345678!z"))
+		.andExpect(status().isOk()).andDo(print())
+		.andExpect(jsonPath("$.result", is("success")));
+	}
+	
 }

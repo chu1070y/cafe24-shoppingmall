@@ -47,12 +47,18 @@ public class AdminControllerTest {
 	
 	@Test
 	public void testAdminLogin() throws Exception{
-		mockMvc
-		.perform(post("/api/admin/login")
-		.param("id", "chu1070y")
-		.param("pw", "12345678!z"))
-		.andExpect(status().isOk()).andDo(print())
-		.andExpect(jsonPath("$.result", is("success")));
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", "chu1070y");
+		map.put("pw", "12345678!z");
+		
+		ResultActions resultActions = mockMvc
+				.perform(post("/api/admin/productRegister")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(map)));
+		
+		resultActions
+			.andExpect(status().isOk()).andDo(print())
+			.andExpect(jsonPath("$.result", is("success")));
 	}
 
 	@Test

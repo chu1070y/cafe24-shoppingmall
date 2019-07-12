@@ -174,12 +174,19 @@ public class AdminProductSinario {
 	// 시나리오에 쓰일 함수들...
 	//
 	public void testProcess1(String id, String pw) throws Exception{
-		mockMvc
-		.perform(post("/api/admin/login")
-		.param("id", id)
-		.param("pw", pw))
-		.andExpect(status().isOk()).andDo(print())
-		.andExpect(jsonPath("$.result", is("success")));
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("pw", pw);
+		
+		ResultActions resultActions = mockMvc
+				.perform(post("/api/admin/productRegister")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(map)));
+		
+		resultActions
+			.andExpect(status().isOk()).andDo(print())
+			.andExpect(jsonPath("$.result", is("success")));
+
 	}
 
 	public void testProcess2() throws Exception{
