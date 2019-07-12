@@ -33,7 +33,7 @@ import com.google.gson.Gson;
 @ContextConfiguration(classes= {TestAppConfig.class, TestWebConfig.class})
 @WebAppConfiguration
 public class AdminControllerTest {
-private MockMvc mockMvc;
+	private MockMvc mockMvc;
 	
 	@Autowired
 	private WebApplicationContext webApplicationContext;
