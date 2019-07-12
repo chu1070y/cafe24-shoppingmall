@@ -17,6 +17,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.shoppingmall.config.TestAppConfig;
 import com.cafe24.shoppingmall.config.TestWebConfig;
+import com.cafe24.shoppingmall.service.OrderService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes= {TestAppConfig.class, TestWebConfig.class})
@@ -27,6 +28,9 @@ public class OrderControllerTest {
 	@Autowired
 	private WebApplicationContext webApplicationContext;
 	
+	@Autowired
+	private OrderService orderService;
+	
 	@Before
 	public void setup() {
 		mockMvc = MockMvcBuilders
@@ -36,6 +40,8 @@ public class OrderControllerTest {
 
 	@Test
 	public void testOrderPage() throws Exception{
+		orderService.setStockAvailNum(0);
+		
 		mockMvc
 		.perform(get("/api/order"))
 		.andExpect(status().isOk()).andDo(print());
