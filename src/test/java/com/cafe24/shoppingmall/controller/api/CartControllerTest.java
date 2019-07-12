@@ -72,7 +72,7 @@ public class CartControllerTest {
 	public void testCartUpdate() throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("memberNo", "1");
-		map.put("nomemberNo", "null");
+		map.put("nomemberNo", null);
 		map.put("productDetailNo", "2");
 		map.put("quantity", "2");
 		

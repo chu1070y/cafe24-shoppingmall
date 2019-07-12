@@ -31,35 +31,33 @@ import com.cafe24.shoppingmall.service.OrderService;
 import com.google.gson.Gson;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes= {TestAppConfig.class, TestWebConfig.class})
+@ContextConfiguration(classes = { TestAppConfig.class, TestWebConfig.class })
 @WebAppConfiguration
 public class OrderControllerTest {
 	private MockMvc mockMvc;
-	
+
 	@Autowired
 	private WebApplicationContext webApplicationContext;
-	
+
 	@Autowired
 	private OrderService orderService;
-	
+
 	@Before
 	public void setup() {
-		mockMvc = MockMvcBuilders
-				.webAppContextSetup(webApplicationContext)
-				.build();
+		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 	}
 
 	@Test
-	public void testOrderPage() throws Exception{
-		orderService.setStockAvailNum(0);
-		
-		mockMvc
-		.perform(get("/api/order"))
-		.andExpect(status().isOk()).andDo(print());
+	public void testOrderPage() throws Exception {
+		orderService.setStockAvailNum(1);
+
+		mockMvc.perform(get("/api/order"))
+			.andExpect(status().isOk()).andDo(print())
+			.andExpect(jsonPath("$", is("주문/결제 페이지")));
 	}
-	
+
 	@Test
-	public void testOrderPay() throws Exception{
+	public void testOrderPay() throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("memberNo", 1);
 		map.put("orderName", "추연훈");
@@ -77,39 +75,34 @@ public class OrderControllerTest {
 		map.put("payment", 420000);
 		map.put("payMethod", "카카오페이");
 		map.put("pw", "12345678z!");
-		
-		List<Map<String, Object>> ordersDetail = new ArrayList<Map<String,Object>>();
-		
+
+		List<Map<String, Object>> ordersDetail = new ArrayList<Map<String, Object>>();
+
 		Map<String, Object> map1 = new HashMap<String, Object>();
 		map1.put("productDetailNo", 2);
 		map1.put("price", 10000);
 		map1.put("quantity", 1);
-		
+
 		Map<String, Object> map2 = new HashMap<String, Object>();
 		map2.put("productDetailNo", 5);
 		map2.put("price", 15000);
 		map2.put("quantity", 2);
-		
+
 		ordersDetail.add(map1);
 		ordersDetail.add(map2);
-		
+
 		map.put("ordersDetail", ordersDetail);
 
-		
-		ResultActions resultActions = mockMvc
-				.perform(post("/api/order/pay")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(new Gson().toJson(map)));
-		
-		resultActions
-			.andExpect(status().isOk()).andDo(print());
+		ResultActions resultActions = mockMvc.perform(
+				post("/api/order/pay").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map)));
+
+		resultActions.andExpect(status().isOk()).andDo(print());
 	}
-	
+
 	@Test
-	public void testOrderPaySuccess() throws Exception{
-		
-		mockMvc
-		.perform(get("/api/order/paySuccess").param("token", "token 값"))
-		.andExpect(status().isOk()).andDo(print());
+	public void testOrderPaySuccess() throws Exception {
+
+		mockMvc.perform(get("/api/order/paySuccess").param("token", "token 값")).andExpect(status().isOk())
+				.andDo(print());
 	}
 }
