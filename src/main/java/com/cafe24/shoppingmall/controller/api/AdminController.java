@@ -27,7 +27,13 @@ public class AdminController {
 	private AdminService adminService;
 	
 	@PostMapping("/login")
-	public JSONResult login(@ModelAttribute LoginVO vo) {
+	public JSONResult login(@ModelAttribute @Valid LoginVO vo, BindingResult result) {
+		System.out.println(vo);
+		// 유효성 검사 실패시
+		if(result.hasErrors()) {
+			return JSONResult.fail("유효성검사로 인한 로그인 실패");
+		}
+		
 		return adminService.login(vo) ? JSONResult.success("로그인 성공"): JSONResult.fail("로그인 실패");
 	}
 	

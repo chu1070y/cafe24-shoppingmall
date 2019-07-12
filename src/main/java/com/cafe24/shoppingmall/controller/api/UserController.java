@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shoppingmall.dto.JSONResult;
 import com.cafe24.shoppingmall.service.UserService;
+import com.cafe24.shoppingmall.vo.LoginVO;
 import com.cafe24.shoppingmall.vo.api.UserApiVO;
 
 @RestController
@@ -73,6 +74,16 @@ public class UserController {
 		
 		Integer no = userService.registerMember(vo);
 		return JSONResult.success("회원 등록 성공, no:" + no);
+	}
+	
+	@PostMapping("/login")
+	public JSONResult login(@ModelAttribute @Valid LoginVO vo, BindingResult result) {
+		// 유효성 검사 실패시
+		if(result.hasErrors()) {
+			return JSONResult.fail("유효성검사로 인한 로그인 실패");
+		}
+		
+		return userService.login(vo) ? JSONResult.success("로그인 성공"): JSONResult.fail("로그인 실패");
 	}
 
 }

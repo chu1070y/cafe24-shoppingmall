@@ -2,15 +2,11 @@ package com.cafe24.shoppingmall.vo;
 
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 public class LoginVO {
 
-	@NotEmpty
-	@Pattern(regexp = "^[a-zA-Z0-9] {4,18}$")
+	@Pattern(regexp = "^[a-zA-Z0-9]{4,18}$")
 	private String id;
 	
-	@NotEmpty
 	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,}$")
 	private String pw;
 

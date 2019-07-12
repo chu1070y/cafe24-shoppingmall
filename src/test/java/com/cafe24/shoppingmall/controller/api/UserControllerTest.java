@@ -66,6 +66,16 @@ public class UserControllerTest {
 		.andExpect(jsonPath("$.result", is("success")));
 	}
 	
+	@Test
+	public void testUserLogin() throws Exception{
+		mockMvc
+		.perform(post("/api/user/login")
+		.param("id", "bbbvv1")
+		.param("pw", "12345678z!"))
+		.andExpect(status().isOk()).andDo(print())
+		.andExpect(jsonPath("$.result", is("success")));
+	}
+	
 	
 
 }

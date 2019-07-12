@@ -50,7 +50,7 @@ private MockMvc mockMvc;
 		mockMvc
 		.perform(post("/api/admin/login")
 		.param("id", "chu1070y")
-		.param("pw", "1234"))
+		.param("pw", "12345678!z"))
 		.andExpect(status().isOk()).andDo(print())
 		.andExpect(jsonPath("$.result", is("success")));
 	}

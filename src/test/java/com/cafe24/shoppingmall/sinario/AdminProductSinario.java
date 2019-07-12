@@ -61,7 +61,7 @@ public class AdminProductSinario {
 	@Test
 	public void testcase1() throws Exception{
 		// 관리자 로그인 요청
-		testProcess1("c","1234");
+		testProcess1("c","12345678!z");
 		// 상품관리 페이지 요청
 		testProcess2();
 		// 상품등록 요청
@@ -79,7 +79,7 @@ public class AdminProductSinario {
 	@Test
 	public void testcase2() throws Exception{
 		// 관리자 로그인 요청
-		testProcess1("chu1070y","1234");
+		testProcess1("chu1070y","12345678!z");
 		// 상품관리 페이지 요청
 		testProcess2();
 		// 상품등록 요청
@@ -97,7 +97,7 @@ public class AdminProductSinario {
 	@Test
 	public void testcase3() throws Exception{
 		// 관리자 로그인 요청
-		testProcess1("chu1070y","1234");
+		testProcess1("chu1070y","12345678!z");
 		// 상품관리 페이지 요청
 		testProcess2();
 		// 상품등록 요청
@@ -135,7 +135,7 @@ public class AdminProductSinario {
 	@Test
 	public void testcase4() throws Exception{
 		// 관리자 로그인 요청
-		testProcess1("chu1070y","1234");
+		testProcess1("chu1070y","12345678!z");
 		// 상품관리 페이지 요청
 		testProcess2();
 		// 상품등록 요청

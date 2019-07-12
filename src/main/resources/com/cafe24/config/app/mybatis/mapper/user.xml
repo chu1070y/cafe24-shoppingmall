@@ -28,4 +28,10 @@
 		delete from member;
 	</delete>
 	
+	<select id="login" parameterType="loginvo" resultType="uservo">
+		select * 
+		from member
+		where id = #{id} and pw = SHA2(#{pw}, 512)
+	</select>
+	
 </mapper>

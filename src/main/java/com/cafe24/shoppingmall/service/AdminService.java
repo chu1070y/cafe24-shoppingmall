@@ -12,7 +12,7 @@ public class AdminService {
 		// admin 로그인 프로세스
 		LoginVO vo = new LoginVO();
 		vo.setId("chu1070y");
-		vo.setPw("1234");
+		vo.setPw("12345678!z");
 		
 		return vo.equals(adminVO);
 	}
