@@ -7,9 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cafe24.shoppingmall.dto.JSONResult;
 import com.cafe24.shoppingmall.service.OrderService;
-import com.cafe24.shoppingmall.vo.api.CartApiVO;
+import com.cafe24.shoppingmall.vo.api.OrderApiVO;
 
 @RestController
 @RequestMapping(value = "/api/order")
@@ -24,7 +23,8 @@ public class OrderController {
 	}
 	
 	@PostMapping("pay")
-	public String pay(@RequestBody CartApiVO vo) {
-		return orderService.pay() + "로 리다이렉트";
+	public String pay(@RequestBody OrderApiVO vo) {
+		return orderService.pay(vo) + "로 리다이렉트";
 	}
+	
 }
