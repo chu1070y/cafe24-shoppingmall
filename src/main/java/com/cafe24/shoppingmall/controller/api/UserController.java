@@ -6,11 +6,9 @@ import java.util.regex.Pattern;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cafe24.shoppingmall.dto.JSONResult;
 import com.cafe24.shoppingmall.service.UserService;
 import com.cafe24.shoppingmall.vo.LoginVO;
+import com.cafe24.shoppingmall.vo.UserVO;
 import com.cafe24.shoppingmall.vo.api.UserApiVO;
 
 @RestController
@@ -52,8 +51,7 @@ public class UserController {
 	@PostMapping(value = "/registerMember")
 	public JSONResult registerMember(
 			@RequestBody @Valid UserApiVO vo,
-			BindingResult result,
-			Model model) {
+			BindingResult result) {
 		
 		// 아이디 중복 한번 더 체크
 		if(userService.checkId(vo.getId())) {
@@ -71,10 +69,8 @@ public class UserController {
 			return JSONResult.fail(errorMsg);
 		}
 		
-		model.addAllAttributes(result.getModel());
-		
-		Integer no = userService.registerMember(vo);
-		return JSONResult.success("회원 등록 성공, no:" + no);
+		UserVO userVO = userService.registerMember(vo);
+		return JSONResult.success("회원 등록 성공, User:" + userVO);
 	}
 	
 	@PostMapping("/login")

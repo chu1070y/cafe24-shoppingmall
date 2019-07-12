@@ -62,7 +62,7 @@ public class UserControllerTest {
 	@Test
 	public void testUserRegisterMember() throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("id", "bbbvv1");
+		map.put("id", "bbbvv2");
 		map.put("pw", "12345678z!");
 		map.put("name", "chuchu");
 		map.put("email", "aaaaa@naver.com");
