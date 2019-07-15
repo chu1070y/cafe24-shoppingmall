@@ -10,49 +10,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
-import com.cafe24.shoppingmall.config.TestAppConfig;
-import com.cafe24.shoppingmall.config.TestWebConfig;
 import com.cafe24.shoppingmall.service.OrderService;
 import com.google.gson.Gson;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { TestAppConfig.class, TestWebConfig.class })
-@WebAppConfiguration
-public class OrderControllerTest {
-	private MockMvc mockMvc;
-
-	@Autowired
-	private WebApplicationContext webApplicationContext;
+public class OrderControllerTest extends TemplateTest {
 
 	@Autowired
 	private OrderService orderService;
-
-	@Before
-	public void setup() {
-		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-	}
 
 	@Test
 	public void testOrderPage() throws Exception {
 		orderService.setStockAvailNum(1);
 
-		mockMvc.perform(get("/api/order"))
-			.andDo(print())
-			.andExpect(status().isOk())
-			;
+		mockMvc.perform(get("/api/order")).andDo(print()).andExpect(status().isOk());
 	}
 
 	@Test
@@ -95,18 +70,13 @@ public class OrderControllerTest {
 		ResultActions resultActions = mockMvc.perform(
 				post("/api/order/pay").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map)));
 
-		resultActions
-			.andDo(print())
-			.andExpect(status().isOk());
+		resultActions.andDo(print()).andExpect(status().isOk());
 	}
 
 	@Test
 	public void testOrderPaySuccess() throws Exception {
 
-		mockMvc.perform(get("/api/order/paySuccess")
-				.param("token", "token 값"))
-				.andDo(print())
-				.andExpect(status().isOk())
-				;
+		mockMvc.perform(get("/api/order/paySuccess").param("token", "token 값")).andDo(print())
+				.andExpect(status().isOk());
 	}
 }
