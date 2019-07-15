@@ -37,7 +37,7 @@ public class AdminController {
 		
 		return adminService.login(vo) ? 
 				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("로그인 성공")) : 
-					ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("로그인 실패(서버 에러)"));
+					ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("로그인 실패"));
 	}
 	
 	@GetMapping("/productAdmin")

@@ -83,7 +83,7 @@ public class UserController {
 		
 		return userService.login(vo) ? 
 				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("로그인 성공")) : 
-					ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("로그인 실패"));
+					ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("로그인 실패"));
 	}
 
 }
