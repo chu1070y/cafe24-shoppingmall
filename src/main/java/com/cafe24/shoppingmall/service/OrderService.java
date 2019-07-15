@@ -17,19 +17,12 @@ public class OrderService {
 	}
 
 	// @Transactional 처리
-	public String stockCheck() {
+	public Integer stockCheck() {
 		
 		// DB에 들어가 판매가능수량을 확인한다.
 		Integer stock = this.stockAvail;
 		
-		// 판매가능수량이 0인경우
-		if (stock == 0) {
-			return "장바구니 페이지(상품품절 표시)";
-		}
-		
-		// 판매가능수량이 1인경우
-		// DB에 들어가 판매가능수량 -1 업데이트
-		return "주문/결제 페이지";
+		return stock;
 	}
 	
 	// @Transactional 처리

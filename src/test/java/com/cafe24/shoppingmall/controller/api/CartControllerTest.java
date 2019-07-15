@@ -47,7 +47,8 @@ public class CartControllerTest {
 	public void testCartPage() throws Exception{
 		mockMvc
 		.perform(get("/api/cart"))
-		.andExpect(status().isOk()).andDo(print());
+		.andDo(print())
+		.andExpect(status().isOk());
 	}
 	
 	@Test
@@ -64,7 +65,8 @@ public class CartControllerTest {
 				.content(new Gson().toJson(map)));
 		
 		resultActions
-			.andExpect(status().isOk()).andDo(print())
+			.andDo(print())
+			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.result", is("success")));
 	}
 	
@@ -82,7 +84,8 @@ public class CartControllerTest {
 				.content(new Gson().toJson(map)));
 		
 		resultActions
-			.andExpect(status().isOk()).andDo(print())
+			.andDo(print())
+			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.result", is("success")));
 	}
 	

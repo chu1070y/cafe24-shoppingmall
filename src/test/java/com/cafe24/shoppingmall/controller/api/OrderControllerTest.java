@@ -52,8 +52,9 @@ public class OrderControllerTest {
 		orderService.setStockAvailNum(1);
 
 		mockMvc.perform(get("/api/order"))
-			.andExpect(status().isOk()).andDo(print())
-			.andExpect(jsonPath("$", is("주문/결제 페이지")));
+			.andDo(print())
+			.andExpect(status().isOk())
+			;
 	}
 
 	@Test
@@ -96,13 +97,18 @@ public class OrderControllerTest {
 		ResultActions resultActions = mockMvc.perform(
 				post("/api/order/pay").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map)));
 
-		resultActions.andExpect(status().isOk()).andDo(print());
+		resultActions
+			.andDo(print())
+			.andExpect(status().isOk());
 	}
 
 	@Test
 	public void testOrderPaySuccess() throws Exception {
 
-		mockMvc.perform(get("/api/order/paySuccess").param("token", "token 값")).andExpect(status().isOk())
-				.andDo(print());
+		mockMvc.perform(get("/api/order/paySuccess")
+				.param("token", "token 값"))
+				.andDo(print())
+				.andExpect(status().isOk())
+				;
 	}
 }

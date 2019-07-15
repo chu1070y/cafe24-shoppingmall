@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class ProductApiVO {
+	@NotEmpty
 	@Length(min = 2)
 	private String name;
 	private String description;

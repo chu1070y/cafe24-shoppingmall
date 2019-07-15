@@ -1,10 +1,8 @@
 package com.cafe24.shoppingmall.sinario;
 
-import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
@@ -23,6 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -61,16 +60,7 @@ public class AdminProductSinario {
 	@Test
 	public void testcase1() throws Exception{
 		// 관리자 로그인 요청
-		testProcess1("c","12345678!z");
-		// 상품관리 페이지 요청
-		testProcess2();
-		// 상품등록 요청
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("name", "프렌즈 티셔츠");
-		map.put("description", "덕후들을 위한 티셔츠!");
-		map.put("price", "15000");
-		
-		testProcess3(map);
+		testProcess1("c","12345678!z", status().isBadRequest());
 	}
 	
 	/*
@@ -79,16 +69,16 @@ public class AdminProductSinario {
 	@Test
 	public void testcase2() throws Exception{
 		// 관리자 로그인 요청
-		testProcess1("chu1070y","12345678!z");
+		testProcess1("chu1070y","12345678!z", status().isOk());
 		// 상품관리 페이지 요청
-		testProcess2();
+		testProcess2(status().isOk());
 		// 상품등록 요청
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("name", "프렌즈 티셔츠");
 		map.put("description", "덕후들을 위한 티셔츠!");
 		map.put("price", "15000");
 		
-		testProcess3(map);
+		testProcess3(map, status().isOk());
 	}
 	
 	/*
@@ -97,9 +87,9 @@ public class AdminProductSinario {
 	@Test
 	public void testcase3() throws Exception{
 		// 관리자 로그인 요청
-		testProcess1("chu1070y","12345678!z");
+		testProcess1("chu1070y","12345678!z", status().isOk());
 		// 상품관리 페이지 요청
-		testProcess2();
+		testProcess2(status().isOk());
 		// 상품등록 요청
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("name", "프렌즈 티셔츠");
@@ -126,7 +116,7 @@ public class AdminProductSinario {
 		
 		map.put("productImgList", list);
 		
-		testProcess3(map);
+		testProcess3(map, status().isOk());
 	}
 
 	/*
@@ -135,9 +125,9 @@ public class AdminProductSinario {
 	@Test
 	public void testcase4() throws Exception{
 		// 관리자 로그인 요청
-		testProcess1("chu1070y","12345678!z");
+		testProcess1("chu1070y","12345678!z", status().isOk());
 		// 상품관리 페이지 요청
-		testProcess2();
+		testProcess2(status().isOk());
 		// 상품등록 요청
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("name", "프렌즈 티셔츠");
@@ -166,43 +156,41 @@ public class AdminProductSinario {
 		
 		map.put("productImgList", list);
 		
-		testProcess3(map);
+		testProcess3(map, status().isOk());
 	}	
 	
 	
 	//
 	// 시나리오에 쓰일 함수들...
 	//
-	public void testProcess1(String id, String pw) throws Exception{
+	public void testProcess1(String id, String pw, ResultMatcher resultMatcher) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
 		map.put("pw", pw);
 		
 		ResultActions resultActions = mockMvc
-				.perform(post("/api/admin/productRegister")
+				.perform(post("/api/admin/login")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(map)));
 		
 		resultActions
-			.andExpect(status().isOk()).andDo(print())
-			.andExpect(jsonPath("$.result", is("success")));
-
+			.andDo(print())
+			.andExpect(resultMatcher);
 	}
 
-	public void testProcess2() throws Exception{
+	public void testProcess2(ResultMatcher resultMatcher) throws Exception{
 		mockMvc
 		.perform(get("/api/admin/productAdmin"))
-		.andExpect(status().isOk()).andDo(print());
+		.andExpect(resultMatcher).andDo(print());
 	}
 
-	public void testProcess3(Map<String, Object> map) throws Exception{
+	public void testProcess3(Map<String, Object> map, ResultMatcher resultMatcher) throws Exception{
 		ResultActions resultActions = mockMvc
 				.perform(post("/api/admin/productRegister")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(map)));
 		
 		resultActions
-			.andExpect(status().isOk()).andDo(print())
-			.andExpect(jsonPath("$.result", is("success")));
+			.andExpect(resultMatcher).andDo(print());
 	}
 }

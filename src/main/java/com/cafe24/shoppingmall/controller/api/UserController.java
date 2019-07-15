@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,32 +32,31 @@ public class UserController {
 	private UserService userService;
 	
 	@RequestMapping(value="/join", method = RequestMethod.GET)
-	public String joinPage() {
-		return "회원가입 페이지";
+	public ResponseEntity<JSONResult> joinPage() {
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("회원가입 페이지"));
 	}
 	
 	@GetMapping(value = "/checkId")
-	public JSONResult checkId(
+	public ResponseEntity<JSONResult> checkId(
 			@RequestParam("id") String id) {
 
         if(!Pattern.matches("^[a-zA-Z0-9]{4,18}$", id)){
-        	return JSONResult.fail("아이디 입력형식 오류");
+        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("아이디 입력형식 오류"));
         }
 		
-		return userService.checkId(id)==true? JSONResult.fail("중복"):JSONResult.success("사용가능");
+		return userService.checkId(id)==true? 
+				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("중복")) :
+					ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("사용가능"));
 	}
 	
-	// Bad request를 보내고 싶으면
-	// return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("중복 아이디"));
-	// 위처럼 리턴값을 지정한다.
 	@PostMapping(value = "/registerMember")
-	public JSONResult registerMember(
+	public ResponseEntity<JSONResult> registerMember(
 			@RequestBody @Valid UserApiVO vo,
 			BindingResult result) {
 		
 		// 아이디 중복 한번 더 체크
 		if(userService.checkId(vo.getId())) {
-			return JSONResult.fail("중복 아이디");
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("중복 아이디"));
 		}
 		
 		// 유효성 검사 실패시
@@ -66,21 +67,23 @@ public class UserController {
 				errorMsg += error.getField() + "/";
 			}
 			errorMsg += "오류발생";
-			return JSONResult.fail(errorMsg);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(errorMsg));
 		}
 		
 		UserVO userVO = userService.registerMember(vo);
-		return JSONResult.success("회원 등록 성공, User:" + userVO);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("회원 등록 성공, User:" + userVO));
 	}
 	
 	@PostMapping("/login")
-	public JSONResult login(@RequestBody @Valid LoginVO vo, BindingResult result) {
+	public ResponseEntity<JSONResult> login(@RequestBody @Valid LoginVO vo, BindingResult result) {
 		// 유효성 검사 실패시
 		if(result.hasErrors()) {
-			return JSONResult.fail("유효성검사로 인한 로그인 실패");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("유효성검사로 인한 로그인 실패"));
 		}
 		
-		return userService.login(vo) ? JSONResult.success("로그인 성공"): JSONResult.fail("로그인 실패");
+		return userService.login(vo) ? 
+				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("로그인 성공")) : 
+					ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("로그인 실패"));
 	}
 
 }

@@ -52,20 +52,21 @@ public class AdminControllerTest {
 		map.put("pw", "12345678!z");
 		
 		ResultActions resultActions = mockMvc
-				.perform(post("/api/admin/productRegister")
+				.perform(post("/api/admin/login")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new Gson().toJson(map)));
 		
 		resultActions
-			.andExpect(status().isOk()).andDo(print())
-			.andExpect(jsonPath("$.result", is("success")));
+			.andDo(print())
+			.andExpect(status().isOk());
 	}
 
 	@Test
 	public void testAdminPage() throws Exception{
 		mockMvc
 		.perform(get("/api/admin/productAdmin"))
-		.andExpect(status().isOk()).andDo(print());
+		.andDo(print())
+		.andExpect(status().isOk());
 	}
 
 	@Test
@@ -103,8 +104,8 @@ public class AdminControllerTest {
 				.content(new Gson().toJson(map)));
 		
 		resultActions
-			.andExpect(status().isOk()).andDo(print())
-			.andExpect(jsonPath("$.result", is("success")));
+			.andDo(print())
+			.andExpect(status().isOk());
 	}
 	
 	

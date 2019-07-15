@@ -1,6 +1,8 @@
 package com.cafe24.shoppingmall.controller.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,19 +21,22 @@ public class CartController {
 	private CartService cartService;
 	
 	@PostMapping("insert")
-	public JSONResult cart(@RequestBody CartApiVO vo) {
-		
-		return cartService.insertCart(vo) ? JSONResult.success("장바구니 담기 성공") : JSONResult.fail("장바구니 담기 실패");
+	public ResponseEntity<JSONResult> cart(@RequestBody CartApiVO vo) {
+		return cartService.insertCart(vo) ? 
+				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("장바구니 담기 성공")) : 
+					ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("장바구니 담기 실패"));
 	}
 	
 	@GetMapping("")
-	public String cartPage() {
-		return "장바구니 페이지";
+	public ResponseEntity<JSONResult> cartPage() {
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("장바구니 페이지"));
 	}
 	
 	@PostMapping("update")
-	public JSONResult update(@RequestBody CartApiVO vo) {
+	public ResponseEntity<JSONResult> update(@RequestBody CartApiVO vo) {
 		
-		return cartService.updateCart(vo) ? JSONResult.success("장바구니 수량변경 성공") : JSONResult.fail("장바구니 수량변경 실패");
+		return cartService.updateCart(vo) ? 
+				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("장바구니 수량변경 성공")) : 
+					ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("장바구니 수량변경 실패"));
 	}
 }

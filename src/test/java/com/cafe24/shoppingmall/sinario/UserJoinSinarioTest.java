@@ -21,6 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -55,7 +56,7 @@ public class UserJoinSinarioTest {
 
 
 	/*
-	 * 테스트케이스 1: 중복된 아이디 존재(실패)
+	 * 테스트케이스 1: 중복된 아이디 존재
 	 */
 	@Test
 	public void testcase1() throws Exception{
@@ -66,7 +67,7 @@ public class UserJoinSinarioTest {
 		map1.put("name", "추연훈");
 		map1.put("email", "chu1070y@naver.com");
 		map1.put("tel_phone", "010-5241-1430");
-		testProcess3(map1);
+		testProcess3(map1, status().isOk());
 		
 		// 중복 유저정보 입력
 		Map<String, String> map2 = new HashMap<String, String>();
@@ -76,9 +77,8 @@ public class UserJoinSinarioTest {
 		map2.put("email", "chu1070y@naver.com");
 		map2.put("tel_phone", "010-5241-1430");
 		
-		testProcess1();
-		testProcess2(map2.get("id"));
-		testProcess3(map2);
+		testProcess1(status().isOk());
+		testProcess2(map2.get("id"), status().isOk());
 	}
 
 	/*
@@ -94,9 +94,8 @@ public class UserJoinSinarioTest {
 		map.put("email", "chu1070y@naver.com");
 		map.put("tel_phone", "010-5241-1430");
 		
-		testProcess1();
-		testProcess2(map.get("id"));
-		testProcess3(map);
+		testProcess1(status().isOk());
+		testProcess2(map.get("id"), status().isBadRequest());
 	}
 	
 	/*
@@ -112,9 +111,9 @@ public class UserJoinSinarioTest {
 		map.put("email", "chu1070y@naver.com");
 		map.put("tel_phone", "010-5241-1430");
 		
-		testProcess1();
-		testProcess2(map.get("id"));
-		testProcess3(map);
+		testProcess1(status().isOk());
+		testProcess2(map.get("id"), status().isOk());
+		testProcess3(map, status().isBadRequest());
 	}
 	
 	/*
@@ -130,9 +129,9 @@ public class UserJoinSinarioTest {
 		map.put("email", "chu1070y");
 		map.put("tel_phone", "010-5241-1430");
 		
-		testProcess1();
-		testProcess2(map.get("id"));
-		testProcess3(map);
+		testProcess1(status().isOk());
+		testProcess2(map.get("id"), status().isOk());
+		testProcess3(map, status().isBadRequest());
 	}
 	
 	/*
@@ -148,9 +147,9 @@ public class UserJoinSinarioTest {
 		map.put("email", "chu1070y@naver.com");
 		map.put("tel_phone", "010-5241-1430");
 		
-		testProcess1();
-		testProcess2(map.get("id"));
-		testProcess3(map);
+		testProcess1(status().isOk());
+		testProcess2(map.get("id"), status().isOk());
+		testProcess3(map, status().isOk());
 	}
 	
 	//
@@ -158,25 +157,26 @@ public class UserJoinSinarioTest {
 	//
 	
 	// 회원가입 페이지 요청
-	public void testProcess1() throws Exception{
+	public void testProcess1(ResultMatcher resultMatcher) throws Exception{
 		System.out.println("회원가입 페이지 요청");
 		mockMvc
 		.perform(get("/api/user/join"))
-		.andExpect(status().isOk()).andDo(print());
+		.andDo(print())
+		.andExpect(resultMatcher);
 	}
 	
 	// 아이디 중복 체크 요청
-	public void testProcess2(String id) throws Exception{
+	public void testProcess2(String id, ResultMatcher resultMatcher) throws Exception{
 		System.out.println("아이디 중복 체크 요청");
 		mockMvc
 		.perform(get("/api/user/checkId")
 		.param("id", id))
-		.andExpect(status().isOk()).andDo(print())
-		.andExpect(jsonPath("$.result", is("success")));
+		.andDo(print())
+		.andExpect(resultMatcher);
 	}
 	
 	// 회원등록 신청
-	public void testProcess3(Map<String, String> map) throws Exception{
+	public void testProcess3(Map<String, String> map, ResultMatcher resultMatcher) throws Exception{
 		System.out.println("회원등록 신청");
 		
 		ResultActions resultActions = mockMvc
@@ -185,8 +185,8 @@ public class UserJoinSinarioTest {
 				.content(new Gson().toJson(map)));
 		
 		resultActions
-			.andExpect(status().isOk()).andDo(print())
-			.andExpect(jsonPath("$.result", is("success")));
+			.andDo(print())
+			.andExpect(resultMatcher);
 	}
 
 }

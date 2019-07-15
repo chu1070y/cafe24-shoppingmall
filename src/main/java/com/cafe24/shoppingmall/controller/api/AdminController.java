@@ -5,6 +5,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,26 +28,28 @@ public class AdminController {
 	private AdminService adminService;
 	
 	@PostMapping("/login")
-	public JSONResult login(@RequestBody @Valid LoginVO vo, BindingResult result) {
+	public ResponseEntity<JSONResult> login(@RequestBody @Valid LoginVO vo, BindingResult result) {
 		System.out.println(vo);
 		// 유효성 검사 실패시
 		if(result.hasErrors()) {
-			return JSONResult.fail("유효성검사로 인한 로그인 실패");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("유효성검사로 인한 로그인 실패"));
 		}
 		
-		return adminService.login(vo) ? JSONResult.success("로그인 성공"): JSONResult.fail("로그인 실패");
+		return adminService.login(vo) ? 
+				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("로그인 성공")) : 
+					ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("로그인 실패(서버 에러)"));
 	}
 	
 	@GetMapping("/productAdmin")
-	public String adminPage() {
-		return "상품관리 페이지";
+	public ResponseEntity<JSONResult> adminPage() {
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("상품관리 페이지"));
 	}
 	
 	@PostMapping("/productRegister")
-	public JSONResult productRegister(
+	public ResponseEntity<JSONResult> productRegister(
 			@RequestBody @Valid ProductApiVO vo,
 			BindingResult result) {
-		
+		System.out.println(vo);
 		// 유효성 검사 실패시
 		if(result.hasErrors()) {
 			List<FieldError> list = result.getFieldErrors();
@@ -54,11 +58,11 @@ public class AdminController {
 				errorMsg += error.getField() + "/";
 			}
 			errorMsg += "오류발생";
-			return JSONResult.fail(errorMsg);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(errorMsg));
 		}
 		
 		adminService.productRegister(vo);
 		
-		return JSONResult.success("상품 등록 성공");
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("상품 등록 성공"));
 	}
 }

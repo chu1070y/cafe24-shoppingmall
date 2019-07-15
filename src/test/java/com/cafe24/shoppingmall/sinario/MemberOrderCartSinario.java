@@ -23,6 +23,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -59,7 +60,7 @@ public class MemberOrderCartSinario {
 		map.put("name", "추연훈");
 		map.put("email", "chu1070y@naver.com");
 		map.put("tel_phone", "010-5241-1430");
-		testUserJoin(map);
+		testUserJoin(map, status().isOk());
 	}
 
 	// 테스트 끝난 뒤 DB정보 지우기
@@ -80,7 +81,7 @@ public class MemberOrderCartSinario {
 		map1.put("id", "chu1070y");
 		map1.put("pw", "12345678z!!");
 
-		testProcess1(map1);
+		testProcess1(map1, status().isOk());
 
 	}
 
@@ -94,32 +95,32 @@ public class MemberOrderCartSinario {
 		map1.put("id", "chu1070y");
 		map1.put("pw", "12345678z!");
 
-		testProcess1(map1);
+		testProcess1(map1, status().isOk());
 
 		// 상품목록 요청
-		testProcess2();
+		testProcess2(status().isOk());
 
 		// 상품 장바구니에 담기
 		Map<String, Object> map3 = new HashMap<String, Object>();
 		map3.put("memberNo", "1");
 		map3.put("productDetailNo", "2");
 		map3.put("quantity", "5");
-		testProcess3(map3);
+		testProcess3(map3, status().isOk());
 
 		// 장바구니 페이지 요청
-		testProcess4();
+		testProcess4(status().isOk());
 
 		// 장바구니 수량 변경
 		Map<String, Object> map5 = new HashMap<String, Object>();
 		map5.put("memberNo", "1");
 		map5.put("productDetailNo", "2");
 		map5.put("quantity", "2");
-		testProcess5(map5);
+		testProcess5(map5, status().isOk());
 
 		// 주문/결제 페이지 요청
 		// 판매가능수량 0 설정
 		orderService.setStockAvailNum(0);
-		testProcess6();
+		testProcess6(status().isOk());
 
 	}
 	
@@ -133,31 +134,31 @@ public class MemberOrderCartSinario {
 		map1.put("id", "chu1070y");
 		map1.put("pw", "12345678z!");
 
-		testProcess1(map1);
+		testProcess1(map1, status().isOk());
 
 		// 상품목록 요청
-		testProcess2();
+		testProcess2(status().isOk());
 
 		// 상품 장바구니에 담기
 		Map<String, Object> map3 = new HashMap<String, Object>();
 		map3.put("memberNo", "1");
 		map3.put("productDetailNo", "2");
 		map3.put("quantity", "5");
-		testProcess3(map3);
+		testProcess3(map3, status().isOk());
 
 		// 장바구니 페이지 요청
-		testProcess4();
+		testProcess4(status().isOk());
 
 		// 장바구니 수량 변경
 		Map<String, Object> map5 = new HashMap<String, Object>();
 		map5.put("memberNo", "1");
 		map5.put("productDetailNo", "2");
 		map5.put("quantity", "2");
-		testProcess5(map5);
+		testProcess5(map5, status().isOk());
 
 		// 주문/결제 페이지 요청
 		orderService.setStockAvailNum(1);
-		testProcess6();
+		testProcess6(status().isOk());
 
 		// 결제 요청
 		Map<String, Object> map7 = new HashMap<String, Object>();
@@ -194,10 +195,10 @@ public class MemberOrderCartSinario {
 		ordersDetail.add(map7_2);
 
 		map7.put("ordersDetail", ordersDetail);
-		testProcess7(map7);
+		testProcess7(map7, status().isOk());
 
 		// 결제 완료
-		testProcess8("token 값");
+		testProcess8("token 값", status().isOk());
 	}
 
 	//
@@ -205,84 +206,84 @@ public class MemberOrderCartSinario {
 	//
 
 	// 사용자 로그인 요청
-	public void testProcess1(Map<String, Object> map) throws Exception {
+	public void testProcess1(Map<String, Object> map, ResultMatcher resultMatcher) throws Exception {
 		System.out.println("사용자 로그인 요청");
 
 		ResultActions resultActions = mockMvc.perform(
 				post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map)));
 
-		resultActions.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.result", is("success")));
+		resultActions.andDo(print()).andExpect(resultMatcher);
 	}
 
 	// 상품목록 요청
-	public void testProcess2() throws Exception {
+	public void testProcess2(ResultMatcher resultMatcher) throws Exception {
 		System.out.println("상품목록 요청");
 
-		mockMvc.perform(get("/api/product/list")).andExpect(status().isOk()).andDo(print());
+		mockMvc.perform(get("/api/product/list")).andDo(print()).andExpect(resultMatcher);
 	}
 
 	// 상품 장바구니에 담기
-	public void testProcess3(Map<String, Object> map3) throws Exception {
+	public void testProcess3(Map<String, Object> map3, ResultMatcher resultMatcher) throws Exception {
 		System.out.println("상품 장바구니에 담기");
 
 		ResultActions resultActions = mockMvc.perform(
 				post("/api/cart/insert").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map3)));
 
-		resultActions.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.result", is("success")));
+		resultActions.andExpect(resultMatcher).andDo(print());
 	}
 
 	// 장바구니 페이지 요청
-	public void testProcess4() throws Exception {
+	public void testProcess4(ResultMatcher resultMatcher) throws Exception {
 		System.out.println("장바구니 페이지 요청");
 
-		mockMvc.perform(get("/api/cart")).andExpect(status().isOk()).andDo(print());
+		mockMvc.perform(get("/api/cart")).andDo(print()).andExpect(resultMatcher);
 	}
 
 	// 장바구니 수량 변경
-	public void testProcess5(Map<String, Object> map5) throws Exception {
+	public void testProcess5(Map<String, Object> map5, ResultMatcher resultMatcher) throws Exception {
 		System.out.println("장바구니 수량 변경");
 
 		ResultActions resultActions = mockMvc.perform(
 				post("/api/cart/update").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map5)));
 
-		resultActions.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.result", is("success")));
+		resultActions.andExpect(resultMatcher).andDo(print());
 	}
 
 	// 주문/결제 페이지 요청
-	public void testProcess6() throws Exception {
+	public void testProcess6(ResultMatcher resultMatcher) throws Exception {
 		System.out.println("주문/결제 페이지 요청");
 
 		mockMvc.perform(get("/api/order"))
-		.andExpect(status().isOk()).andDo(print())
-		.andExpect(jsonPath("$", is("주문/결제 페이지")));
+		.andDo(print())
+		.andExpect(resultMatcher);
 	}
 
 	// 결제 요청
-	public void testProcess7(Map<String, Object> map7) throws Exception {
+	public void testProcess7(Map<String, Object> map7, ResultMatcher resultMatcher) throws Exception {
 		System.out.println("결제 요청");
 
 		ResultActions resultActions = mockMvc.perform(
 				post("/api/order/pay").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map7)));
 
-		resultActions.andExpect(status().isOk()).andDo(print());
+		resultActions.andDo(print()).andExpect(resultMatcher);
 	}
 
 	// 결제 완료
-	public void testProcess8(String token) throws Exception {
+	public void testProcess8(String token, ResultMatcher resultMatcher) throws Exception {
 		System.out.println("결제 완료");
 
-		mockMvc.perform(get("/api/order/paySuccess").param("token", token)).andExpect(status().isOk()).andDo(print());
+		mockMvc.perform(get("/api/order/paySuccess").param("token", token)).andDo(print()).andExpect(resultMatcher);
 	}
 
 	// 테스트를 위해 사전 미리 해놔야 할 것들...
 	// 회원등록 신청
-	public void testUserJoin(Map<String, String> map) throws Exception {
+	public void testUserJoin(Map<String, String> map, ResultMatcher resultMatcher) throws Exception {
 		System.out.println("회원등록 신청");
 
 		ResultActions resultActions = mockMvc.perform(post("/api/user/registerMember")
 				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map)));
 
-		resultActions.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.result", is("success")));
+		resultActions.andDo(print()).andExpect(resultMatcher);
 	}
 
 }

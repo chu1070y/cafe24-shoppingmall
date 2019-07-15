@@ -47,7 +47,8 @@ public class UserControllerTest {
 	public void testUserPage() throws Exception{
 		mockMvc
 		.perform(get("/api/user/join"))
-		.andExpect(status().isOk()).andDo(print());
+		.andDo(print())
+		.andExpect(status().isOk());
 	}
 	
 	@Test
@@ -55,14 +56,15 @@ public class UserControllerTest {
 		mockMvc
 		.perform(get("/api/user/checkId")
 		.param("id", "bbbbbb"))
-		.andExpect(status().isOk()).andDo(print())
+		.andDo(print())
+		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result", is("success")));
 	}
 	
 	@Test
 	public void testUserRegisterMember() throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("id", "bbbvv2");
+		map.put("id", "bbbbbb");
 		map.put("pw", "12345678z!");
 		map.put("name", "chuchu");
 		map.put("email", "aaaaa@naver.com");
@@ -74,7 +76,8 @@ public class UserControllerTest {
 				.content(new Gson().toJson(map)));
 		
 		resultActions
-			.andExpect(status().isOk()).andDo(print())
+			.andDo(print())
+			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.result", is("success")));
 	}
 	
@@ -90,7 +93,8 @@ public class UserControllerTest {
 				.content(new Gson().toJson(map)));
 		
 		resultActions
-			.andExpect(status().isOk()).andDo(print())
+			.andDo(print())
+			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.result", is("success")));
 	}
 	

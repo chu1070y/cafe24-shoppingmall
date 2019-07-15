@@ -38,7 +38,8 @@ private MockMvc mockMvc;
 	public void testList() throws Exception{
 		mockMvc
 		.perform(get("/api/product/list"))
-		.andExpect(status().isOk()).andDo(print());
+		.andDo(print())
+		.andExpect(status().isOk());
 	}
 	
 }
