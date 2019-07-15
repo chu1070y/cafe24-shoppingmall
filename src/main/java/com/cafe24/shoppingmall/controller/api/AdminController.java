@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cafe24.shoppingmall.dto.JSONResult;
 import com.cafe24.shoppingmall.service.AdminService;
 import com.cafe24.shoppingmall.vo.LoginVO;
-import com.cafe24.shoppingmall.vo.api.ProductApiVO;
+import com.cafe24.shoppingmall.vo.ProductVO;
 
 @RestController
 @RequestMapping(value = "/api/admin")
@@ -47,7 +47,7 @@ public class AdminController {
 	
 	@PostMapping("/productRegister")
 	public ResponseEntity<JSONResult> productRegister(
-			@RequestBody @Valid ProductApiVO vo,
+			@RequestBody @Valid ProductVO vo,
 			BindingResult result) {
 		System.out.println(vo);
 		// 유효성 검사 실패시

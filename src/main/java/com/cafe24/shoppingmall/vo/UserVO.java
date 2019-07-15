@@ -9,12 +9,29 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class UserVO {
 	
 	private Integer no;
+	
+	@NotEmpty
+	@Pattern(regexp = "^[a-zA-Z0-9]{4,18}$")
 	private String id;
+	
+	@NotEmpty
+	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,}$")
 	private String pw;
+	
+	@NotEmpty
+	@Length(min=2, max=8)
 	private String name;
 	private String addr;
+	
+	@Email
+	@NotEmpty
 	private String email;
+	
+	@Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$")
 	private String tel_home;
+	
+	@NotEmpty
+	@Pattern(regexp = "^01(?:0|1|0)-\\d{4}-\\d{4}$")
 	private String tel_phone;
 	
 	private Integer point;

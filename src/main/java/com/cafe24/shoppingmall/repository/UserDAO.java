@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import com.cafe24.shoppingmall.vo.LoginVO;
 import com.cafe24.shoppingmall.vo.UserVO;
-import com.cafe24.shoppingmall.vo.api.UserApiVO;
 
 @Repository
 public class UserDAO {
@@ -14,7 +13,7 @@ public class UserDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public UserApiVO get(String id) {
+	public UserVO get(String id) {
 		return sqlSession.selectOne("user.getById", id);
 	}
 

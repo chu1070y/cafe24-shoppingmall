@@ -2,12 +2,12 @@ package com.cafe24.shoppingmall.service;
 
 import org.springframework.stereotype.Service;
 
-import com.cafe24.shoppingmall.vo.api.OrderApiVO;
+import com.cafe24.shoppingmall.vo.OrderVO;
 
 @Service
 public class OrderService {
 	
-	public String pay(OrderApiVO vo) {
+	public String pay(OrderVO vo) {
 		// 주문 정보 캐시에 저장해놓기
 		System.out.println(vo);
 		// 결제 API 준비

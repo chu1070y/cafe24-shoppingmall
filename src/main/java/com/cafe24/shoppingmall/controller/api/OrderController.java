@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shoppingmall.dto.JSONResult;
 import com.cafe24.shoppingmall.service.OrderService;
-import com.cafe24.shoppingmall.vo.api.OrderApiVO;
+import com.cafe24.shoppingmall.vo.OrderVO;
 
 @RestController
 @RequestMapping(value = "/api/order")
@@ -34,7 +34,7 @@ public class OrderController {
 	}
 	
 	@PostMapping("pay")
-	public ResponseEntity<JSONResult> pay(@RequestBody OrderApiVO vo) {
+	public ResponseEntity<JSONResult> pay(@RequestBody OrderVO vo) {
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(orderService.pay(vo) + "로 리다이렉트"));
 	}
 	

@@ -3,7 +3,7 @@ package com.cafe24.shoppingmall.service;
 import org.springframework.stereotype.Service;
 
 import com.cafe24.shoppingmall.vo.LoginVO;
-import com.cafe24.shoppingmall.vo.api.ProductApiVO;
+import com.cafe24.shoppingmall.vo.ProductVO;
 
 @Service
 public class AdminService {
@@ -17,7 +17,7 @@ public class AdminService {
 		return vo.equals(adminVO);
 	}
 
-	public void productRegister(ProductApiVO vo) {
+	public void productRegister(ProductVO vo) {
 		// 상품 등록 프로세스
 		// 1. 상품 등록 후 상품번호를 받아온다.
 		// 2. 상품번호를 이용해 상품 이미지를 등록한다.

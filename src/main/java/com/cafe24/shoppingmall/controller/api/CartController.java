@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shoppingmall.dto.JSONResult;
 import com.cafe24.shoppingmall.service.CartService;
-import com.cafe24.shoppingmall.vo.api.CartApiVO;
+import com.cafe24.shoppingmall.vo.CartVO;
 
 @RestController
 @RequestMapping(value = "/api/cart")
@@ -21,7 +21,7 @@ public class CartController {
 	private CartService cartService;
 	
 	@PostMapping("insert")
-	public ResponseEntity<JSONResult> cart(@RequestBody CartApiVO vo) {
+	public ResponseEntity<JSONResult> cart(@RequestBody CartVO vo) {
 		return cartService.insertCart(vo) ? 
 				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("장바구니 담기 성공")) : 
 					ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("장바구니 담기 실패"));
@@ -33,7 +33,7 @@ public class CartController {
 	}
 	
 	@PostMapping("update")
-	public ResponseEntity<JSONResult> update(@RequestBody CartApiVO vo) {
+	public ResponseEntity<JSONResult> update(@RequestBody CartVO vo) {
 		
 		return cartService.updateCart(vo) ? 
 				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("장바구니 수량변경 성공")) : 

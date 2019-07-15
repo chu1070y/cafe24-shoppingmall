@@ -22,7 +22,6 @@ import com.cafe24.shoppingmall.dto.JSONResult;
 import com.cafe24.shoppingmall.service.UserService;
 import com.cafe24.shoppingmall.vo.LoginVO;
 import com.cafe24.shoppingmall.vo.UserVO;
-import com.cafe24.shoppingmall.vo.api.UserApiVO;
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -51,7 +50,7 @@ public class UserController {
 	
 	@PostMapping(value = "/registerMember")
 	public ResponseEntity<JSONResult> registerMember(
-			@RequestBody @Valid UserApiVO vo,
+			@RequestBody @Valid UserVO vo,
 			BindingResult result) {
 		
 		// 아이디 중복 한번 더 체크

@@ -3,7 +3,7 @@
 
 <mapper namespace="user">
 	
-	<select id="getById" parameterType="string" resultType="userapivo">
+	<select id="getById" parameterType="string" resultType="uservo">
 		select * 
 		from member
 		where id = #{id}

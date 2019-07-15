@@ -2,11 +2,15 @@ package com.cafe24.shoppingmall.vo;
 
 import java.util.List;
 
-import com.cafe24.shoppingmall.vo.api.ProductImgApiVO;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class ProductVO {
 	private Integer no;
 	private String code;
+	
+	@NotEmpty
+	@Length(min = 2)
 	private String name;
 	private String description;
 	private Integer price;
@@ -23,7 +27,16 @@ public class ProductVO {
 	private String display;
 	private String detailDel;
 	
-	List<ProductImgApiVO> productImgList;
+	List<ProductImgVO> productImgList;
+
+	@Override
+	public String toString() {
+		return "ProductVO [no=" + no + ", code=" + code + ", name=" + name + ", description=" + description + ", price="
+				+ price + ", salePrice=" + salePrice + ", del=" + del + ", categoryNo=" + categoryNo
+				+ ", productDetailNo=" + productDetailNo + ", optionCode=" + optionCode + ", addPrice=" + addPrice
+				+ ", stockNum=" + stockNum + ", stockAvail=" + stockAvail + ", stockUse=" + stockUse + ", display="
+				+ display + ", detailDel=" + detailDel + ", productImgList=" + productImgList + "]";
+	}
 
 	public Integer getNo() {
 		return no;
@@ -153,24 +166,12 @@ public class ProductVO {
 		this.detailDel = detailDel;
 	}
 
-	public List<ProductImgApiVO> getProductImgList() {
+	public List<ProductImgVO> getProductImgList() {
 		return productImgList;
 	}
 
-	public void setProductImgList(List<ProductImgApiVO> productImgList) {
+	public void setProductImgList(List<ProductImgVO> productImgList) {
 		this.productImgList = productImgList;
 	}
-
-	@Override
-	public String toString() {
-		return "ProductVO [no=" + no + ", code=" + code + ", name=" + name + ", description=" + description + ", price="
-				+ price + ", salePrice=" + salePrice + ", del=" + del + ", categoryNo=" + categoryNo
-				+ ", productDetailNo=" + productDetailNo + ", optionCode=" + optionCode + ", addPrice=" + addPrice
-				+ ", stockNum=" + stockNum + ", stockAvail=" + stockAvail + ", stockUse=" + stockUse + ", display="
-				+ display + ", detailDel=" + detailDel + ", productImgList=" + productImgList + "]";
-	}
-	
-	
-
 	
 }
