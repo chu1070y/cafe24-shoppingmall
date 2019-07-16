@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="productDetail">
+	<insert id="insert" parameterType="productdetailvo">
+		insert into product_detail(product_no, option_code, add_price, 
+			stock_num, stock_available, stock_use, display, detail_del)
+		values(#{product_no}, #{option_code}, #{add_price}, #{stock_num},
+		 #{stock_available}, #{stock_use}, #{display}, '0')
+	</insert>
+
+</mapper>

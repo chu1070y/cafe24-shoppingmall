@@ -9,23 +9,18 @@ public class ProductVO {
 	private Integer no;
 	private String code;
 	
-	@NotEmpty
-	@Length(min = 2)
+	@NotEmpty(message="상품명을 입력해주세요.")
+	@Length(min = 2, message="상품명은 최소 2글자 이상이어야 합니다.")
 	private String name;
 	private String description;
+	
+	@NotEmpty(message="가격을 입력해주세요.")
 	private Integer price;
 	private Integer salePrice;
 	private String del;
 	private Integer categoryNo;
 	
-	private Integer productDetailNo;
-	private String optionCode;
-	private Integer addPrice;
-	private Integer stockNum;
-	private Integer stockAvail;
-	private String stockUse;
-	private String display;
-	private String detailDel;
+	List<ProductDetailVO> productDetailList;
 	
 	List<ProductImgVO> productImgList;
 
@@ -33,9 +28,7 @@ public class ProductVO {
 	public String toString() {
 		return "ProductVO [no=" + no + ", code=" + code + ", name=" + name + ", description=" + description + ", price="
 				+ price + ", salePrice=" + salePrice + ", del=" + del + ", categoryNo=" + categoryNo
-				+ ", productDetailNo=" + productDetailNo + ", optionCode=" + optionCode + ", addPrice=" + addPrice
-				+ ", stockNum=" + stockNum + ", stockAvail=" + stockAvail + ", stockUse=" + stockUse + ", display="
-				+ display + ", detailDel=" + detailDel + ", productImgList=" + productImgList + "]";
+				+ ", productDetailList=" + productDetailList + ", productImgList=" + productImgList + "]";
 	}
 
 	public Integer getNo() {
@@ -102,68 +95,12 @@ public class ProductVO {
 		this.categoryNo = categoryNo;
 	}
 
-	public Integer getProductDetailNo() {
-		return productDetailNo;
+	public List<ProductDetailVO> getProductDetailList() {
+		return productDetailList;
 	}
 
-	public void setProductDetailNo(Integer productDetailNo) {
-		this.productDetailNo = productDetailNo;
-	}
-
-	public String getOptionCode() {
-		return optionCode;
-	}
-
-	public void setOptionCode(String optionCode) {
-		this.optionCode = optionCode;
-	}
-
-	public Integer getAddPrice() {
-		return addPrice;
-	}
-
-	public void setAddPrice(Integer addPrice) {
-		this.addPrice = addPrice;
-	}
-
-	public Integer getStockNum() {
-		return stockNum;
-	}
-
-	public void setStockNum(Integer stockNum) {
-		this.stockNum = stockNum;
-	}
-
-	public Integer getStockAvail() {
-		return stockAvail;
-	}
-
-	public void setStockAvail(Integer stockAvail) {
-		this.stockAvail = stockAvail;
-	}
-
-	public String getStockUse() {
-		return stockUse;
-	}
-
-	public void setStockUse(String stockUse) {
-		this.stockUse = stockUse;
-	}
-
-	public String getDisplay() {
-		return display;
-	}
-
-	public void setDisplay(String display) {
-		this.display = display;
-	}
-
-	public String getDetailDel() {
-		return detailDel;
-	}
-
-	public void setDetailDel(String detailDel) {
-		this.detailDel = detailDel;
+	public void setProductDetailList(List<ProductDetailVO> productDetailList) {
+		this.productDetailList = productDetailList;
 	}
 
 	public List<ProductImgVO> getProductImgList() {
@@ -173,5 +110,6 @@ public class ProductVO {
 	public void setProductImgList(List<ProductImgVO> productImgList) {
 		this.productImgList = productImgList;
 	}
+	
 	
 }

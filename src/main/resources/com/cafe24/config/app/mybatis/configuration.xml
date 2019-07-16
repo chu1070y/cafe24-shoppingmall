@@ -3,9 +3,15 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="uservo" type="com.cafe24.shoppingmall.vo.UserVO" />
+		<typeAlias alias="productvo" type="com.cafe24.shoppingmall.vo.ProductVO" />
+		<typeAlias alias="productimgvo" type="com.cafe24.shoppingmall.vo.ProductImgVO" />
+		<typeAlias alias="productdetailvo" type="com.cafe24.shoppingmall.vo.ProductDetailVO" />
 		<typeAlias alias="pageinfo" type="com.cafe24.shoppingmall.dto.PageInfo" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/cafe24/config/app/mybatis/mapper/user.xml" />
+		<mapper resource="com/cafe24/config/app/mybatis/mapper/product.xml" />
+		<mapper resource="com/cafe24/config/app/mybatis/mapper/productDetail.xml" />
+		<mapper resource="com/cafe24/config/app/mybatis/mapper/productImg.xml" />
 	</mappers>
 </configuration>

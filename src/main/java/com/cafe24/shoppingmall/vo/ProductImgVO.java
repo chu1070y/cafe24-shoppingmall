@@ -2,23 +2,28 @@ package com.cafe24.shoppingmall.vo;
 
 public class ProductImgVO {
 
-	private Integer imgNo;
-	private Integer productNo;
+	private Integer product_img_no;
+	private Integer product_no;
 	private String filename;
 	private String extension;
 	private String imgType;
 	
-	public Integer getImgNo() {
-		return imgNo;
+	@Override
+	public String toString() {
+		return "ProductImgVO [product_img_no=" + product_img_no + ", product_no=" + product_no + ", filename="
+				+ filename + ", extension=" + extension + ", imgType=" + imgType + "]";
 	}
-	public void setImgNo(Integer imgNo) {
-		this.imgNo = imgNo;
+	public Integer getProduct_img_no() {
+		return product_img_no;
 	}
-	public Integer getProductNo() {
-		return productNo;
+	public void setProduct_img_no(Integer product_img_no) {
+		this.product_img_no = product_img_no;
 	}
-	public void setProductNo(Integer productNo) {
-		this.productNo = productNo;
+	public Integer getProduct_no() {
+		return product_no;
+	}
+	public void setProduct_no(Integer product_no) {
+		this.product_no = product_no;
 	}
 	public String getFilename() {
 		return filename;
@@ -38,11 +43,5 @@ public class ProductImgVO {
 	public void setImgType(String imgType) {
 		this.imgType = imgType;
 	}
-	@Override
-	public String toString() {
-		return "ProductImgVO [imgNo=" + imgNo + ", productNo=" + productNo + ", filename=" + filename + ", extension="
-				+ extension + ", imgType=" + imgType + "]";
-	}
-	
-	
+
 }
