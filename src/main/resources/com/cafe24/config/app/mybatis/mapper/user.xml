@@ -10,7 +10,7 @@
 		cast(AES_DECRYPT(email, 'cafe24') as char(100)) as email,
 		cast(AES_DECRYPT(tel_home, 'cafe24') as char(50)) as tel_home,
 		cast(AES_DECRYPT(tel_phone, 'cafe24') as char(50)) as tel_phone,
-		point, gender, updatedate, birthdate, regdate, status
+		point, gender, updatedate, birthdate, regdate, del
 		from member
 		limit #{start}, #{display}
 	</select>
@@ -40,7 +40,7 @@
 
 	<insert id="insert" parameterType="uservo">
 		insert into member(id, pw, name, addr, email, tel_home, tel_phone,
-		gender, birthdate, status)
+		gender, birthdate, del)
 		values(#{id},
 		SHA2(#{pw}, 512), #{name},
 		AES_ENCRYPT(#{addr}, 'cafe24'),
@@ -80,12 +80,12 @@
 		point, gender, updatedate, birthdate, regdate
 		from member
 		where id = #{id} and pw =
-		SHA2(#{pw}, 512) and status = '0'
+		SHA2(#{pw}, 512) and del = '0'
 	</select>
 	
 	<update id="delete">
 		update member
-		set status = '1'
+		set del = '1'
 		where id = #{id}
 	</update>
 

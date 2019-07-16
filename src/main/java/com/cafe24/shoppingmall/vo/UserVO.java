@@ -39,8 +39,14 @@ public class UserVO {
 	private String birthdate;
 	private String updatedate;
 	private String regdate;
-	private String status;
-	
+	private String del;
+	@Override
+	public String toString() {
+		return "UserVO [no=" + no + ", id=" + id + ", pw=" + pw + ", name=" + name + ", addr=" + addr + ", email="
+				+ email + ", tel_home=" + tel_home + ", tel_phone=" + tel_phone + ", point=" + point + ", gender="
+				+ gender + ", birthdate=" + birthdate + ", updatedate=" + updatedate + ", regdate=" + regdate + ", del="
+				+ del + "]";
+	}
 	public Integer getNo() {
 		return no;
 	}
@@ -119,17 +125,11 @@ public class UserVO {
 	public void setRegdate(String regdate) {
 		this.regdate = regdate;
 	}
-	public String getStatus() {
-		return status;
+	public String getDel() {
+		return del;
 	}
-	public void setStatus(String status) {
-		this.status = status;
+	public void setDel(String del) {
+		this.del = del;
 	}
-	@Override
-	public String toString() {
-		return "UserVO [no=" + no + ", id=" + id + ", pw=" + pw + ", name=" + name + ", addr=" + addr + ", email="
-				+ email + ", tel_home=" + tel_home + ", tel_phone=" + tel_phone + ", point=" + point + ", gender="
-				+ gender + ", birthdate=" + birthdate + ", updatedate=" + updatedate + ", regdate=" + regdate
-				+ ", status=" + status + "]";
-	}
+
 }
