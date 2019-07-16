@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shoppingmall.dto.JSONResult;
+import com.cafe24.shoppingmall.dto.PageInfo;
 import com.cafe24.shoppingmall.service.UserService;
-import com.cafe24.shoppingmall.vo.LoginVO;
 import com.cafe24.shoppingmall.vo.UserVO;
 
 @RestController
@@ -78,7 +79,7 @@ public class UserController {
 	
 	//로그인
 	@PostMapping("/login")
-	public ResponseEntity<JSONResult> login(@RequestBody LoginVO vo, BindingResult result) {
+	public ResponseEntity<JSONResult> login(@RequestBody UserVO vo, BindingResult result) {
         UserVO uservo = userService.login(vo);
 		
 		return uservo != null ? 
@@ -114,6 +115,15 @@ public class UserController {
 	@PostMapping("/delete")
 	public ResponseEntity<JSONResult> deleteMember(@RequestBody String id){
 		return userService.delete(id) ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("회원정보 삭제 성공")) : ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("해당 정보와 일치하는 회원이 없습니다."));
+	}
+	
+	//회원정보 리스트
+	@GetMapping("/list")
+	public ResponseEntity<JSONResult> memberList(
+			@ModelAttribute PageInfo page
+			){
+
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(userService.userList(page)));
 	}
 
 }

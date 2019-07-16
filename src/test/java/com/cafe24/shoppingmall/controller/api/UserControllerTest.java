@@ -75,7 +75,7 @@ public class UserControllerTest extends TemplateTest{
 		
 		registerMember(map, status().isOk());
 	}
-	
+
 	// 사용자 회원가입 Test Case 2. - 아이디 길이 3미만
 	@Test
 	public void registerMemberTest2() throws Exception{
@@ -261,6 +261,31 @@ public class UserControllerTest extends TemplateTest{
 		userInfoDelete("chu1070", status().isOk());
 	}
 	
+	// 회원정보 리스트 Test Case 1. - 회원정보 리스트(성공)
+	@Test
+	public void userInfoListTest1() throws Exception{
+		// 사전에 회원등록해놓긔
+		registerMemberTest1("chu1");
+		registerMemberTest1("chu2");
+		registerMemberTest1("chu3");
+		registerMemberTest1("chu4");
+		registerMemberTest1("chu5");
+		
+		userInfoList("1", status().isOk());
+	}
+	// 많은 유저 만들긔
+	public void registerMemberTest1(String id) throws Exception{
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("pw", "12345678z!");
+		map.put("name", "chuchu");
+		map.put("email", "aaaaa@naver.com");
+		map.put("tel_phone", "010-1234-1234");
+		
+		registerMember(map, status().isOk());
+	}
+	
+	
 	/*
 	 * 테스트케이스에 사용될 함수들..
 	 */
@@ -330,6 +355,15 @@ public class UserControllerTest extends TemplateTest{
 		resultActions
 			.andDo(print())
 			.andExpect(rm);
+	}
+	
+	// 회원정보 리스트
+	public void userInfoList(String page, ResultMatcher rm) throws Exception {
+		mockMvc
+		.perform(get("/api/user/list")
+		.param("page", page))
+		.andDo(print())
+		.andExpect(rm);
 	}
 
 	// 회원정보 페이지 for 시나리오용

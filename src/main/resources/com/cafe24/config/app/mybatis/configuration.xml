@@ -3,7 +3,7 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="uservo" type="com.cafe24.shoppingmall.vo.UserVO" />
-		<typeAlias alias="loginvo" type="com.cafe24.shoppingmall.vo.LoginVO" />
+		<typeAlias alias="pageinfo" type="com.cafe24.shoppingmall.dto.PageInfo" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/cafe24/config/app/mybatis/mapper/user.xml" />

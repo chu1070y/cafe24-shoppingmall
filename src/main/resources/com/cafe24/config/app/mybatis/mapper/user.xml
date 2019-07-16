@@ -3,6 +3,18 @@
 
 <mapper namespace="user">
 
+	<select id="getList" parameterType="pageinfo" resultType="uservo">
+		select 
+		no, id, name,
+		cast(AES_DECRYPT(addr, 'cafe24') as char(200)) as addr,
+		cast(AES_DECRYPT(email, 'cafe24') as char(100)) as email,
+		cast(AES_DECRYPT(tel_home, 'cafe24') as char(50)) as tel_home,
+		cast(AES_DECRYPT(tel_phone, 'cafe24') as char(50)) as tel_phone,
+		point, gender, updatedate, birthdate, regdate, status
+		from member
+		limit #{start}, #{display}
+	</select>
+
 	<select id="getById" parameterType="string" resultType="uservo">
 		select 
 		no, id, name,
@@ -10,7 +22,7 @@
 		cast(AES_DECRYPT(email, 'cafe24') as char(100)) as email,
 		cast(AES_DECRYPT(tel_home, 'cafe24') as char(50)) as tel_home,
 		cast(AES_DECRYPT(tel_phone, 'cafe24') as char(50)) as tel_phone,
-		point, updatedate, birthdate, regdate
+		point, gender, updatedate, birthdate, regdate
 		from member
 		where id = #{id}
 	</select>
@@ -22,7 +34,7 @@
 		cast(AES_DECRYPT(email, 'cafe24') as char(100)) as email,
 		cast(AES_DECRYPT(tel_home, 'cafe24') as char(50)) as tel_home,
 		cast(AES_DECRYPT(tel_phone, 'cafe24') as char(50)) as tel_phone,
-		point, updatedate, birthdate, regdate
+		point, gender, updatedate, birthdate, regdate
 		from member
 	</select>
 
@@ -58,14 +70,14 @@
 		where id = #{id}
 	</update>
 
-	<select id="login" parameterType="loginvo" resultType="uservo">
+	<select id="login" parameterType="uservo" resultType="uservo">
 		select
 		no, id, name,
 		cast(AES_DECRYPT(addr, 'cafe24') as char(200)) as addr,
 		cast(AES_DECRYPT(email, 'cafe24') as char(100)) as email,
 		cast(AES_DECRYPT(tel_home, 'cafe24') as char(50)) as tel_home,
 		cast(AES_DECRYPT(tel_phone, 'cafe24') as char(50)) as tel_phone,
-		point, updatedate, birthdate, regdate
+		point, gender, updatedate, birthdate, regdate
 		from member
 		where id = #{id} and pw =
 		SHA2(#{pw}, 512) and status = '0'

@@ -1,10 +1,12 @@
 package com.cafe24.shoppingmall.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cafe24.shoppingmall.dto.PageInfo;
 import com.cafe24.shoppingmall.repository.UserDAO;
-import com.cafe24.shoppingmall.vo.LoginVO;
 import com.cafe24.shoppingmall.vo.UserVO;
 
 @Service
@@ -26,7 +28,7 @@ public class UserService {
 		return userDAO.deleteAll();
 	}
 
-	public UserVO login(LoginVO vo) {
+	public UserVO login(UserVO vo) {
 		return userDAO.login(vo);
 	}
 
@@ -40,5 +42,9 @@ public class UserService {
 
 	public Boolean delete(String id) {
 		return userDAO.delete(id);
+	}
+
+	public List<UserVO> userList(PageInfo page) {
+		return userDAO.userList(page);
 	}
 }
