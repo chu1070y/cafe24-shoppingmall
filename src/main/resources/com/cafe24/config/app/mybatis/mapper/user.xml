@@ -34,19 +34,29 @@
 		AES_ENCRYPT(#{addr}, 'cafe24'),
 		AES_ENCRYPT(#{email}, 'cafe24'),
 		AES_ENCRYPT(#{tel_home}, 'cafe24'),
-		AES_ENCRYPT(#{tel_phone},
-		'cafe24'),
+		AES_ENCRYPT(#{tel_phone}, 'cafe24'),
 		#{gender}, #{birthdate}, '0')
 
 		<selectKey keyProperty="no" resultType="int" order="AFTER">
-			select
-			last_insert_id()
+			select last_insert_id()
 		</selectKey>
 	</insert>
 
 	<delete id="deleteAll">
 		delete from member;
 	</delete>
+	
+	<update id="update" parameterType="uservo">
+		update member
+		set pw = SHA2(#{pw}, 512),
+				 addr = AES_ENCRYPT(#{addr}, 'cafe24'),
+				 email = AES_ENCRYPT(#{email}, 'cafe24'),
+				 tel_home = AES_ENCRYPT(#{tel_home}, 'cafe24'),
+				 tel_phone = AES_ENCRYPT(#{tel_phone}, 'cafe24'),
+				 gender = #{gender},
+				 birthdate = #{birthdate}
+		where id = #{id}
+	</update>
 
 	<select id="login" parameterType="loginvo" resultType="uservo">
 		select

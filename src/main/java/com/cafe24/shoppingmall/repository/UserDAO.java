@@ -33,4 +33,8 @@ public class UserDAO {
 	public UserVO login(LoginVO vo) {
 		return sqlSession.selectOne("user.login", vo);
 	}
+
+	public Boolean update(UserVO vo) {
+		return 1 == sqlSession.update("user.update", vo);
+	}
 }

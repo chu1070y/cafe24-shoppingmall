@@ -33,4 +33,8 @@ public class UserService {
 	public UserVO getUser(String id) {
 		return userDAO.get(id);
 	}
+
+	public Boolean update(UserVO vo) {
+		return userDAO.update(vo);
+	}
 }

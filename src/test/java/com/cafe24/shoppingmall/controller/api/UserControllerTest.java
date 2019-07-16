@@ -14,15 +14,18 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 
+import com.cafe24.shoppingmall.vo.UserVO;
 import com.google.gson.Gson;
 
 public class UserControllerTest extends TemplateTest{
 	
-	@After
-	public void deleteAll() {
+	@Override
+	public void setup() {
+		super.setup();
 		userService.deleteAll();
 	}
-	
+
+
 	// 사용자 아이디 체크 Test Case 1. - 아이디 체크 결과 사용가능
 	@Test
 	public void checkIdTest1() throws Exception{
@@ -118,7 +121,7 @@ public class UserControllerTest extends TemplateTest{
 	@Test
 	public void registerMemberTest5() throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("id", "chuchu1070y");
+		map.put("id", "chu1070y");
 		map.put("pw", "12345678z!");
 		map.put("name", "추");
 		map.put("email", "aaaaa@naver.com");
@@ -131,7 +134,7 @@ public class UserControllerTest extends TemplateTest{
 	@Test
 	public void registerMemberTest6() throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("id", "chuchu1070y");
+		map.put("id", "chu1070y");
 		map.put("pw", "12345678z!");
 		map.put("name", "추연훈");
 		map.put("email", "aaaaa@");
@@ -144,7 +147,7 @@ public class UserControllerTest extends TemplateTest{
 	@Test
 	public void registerMemberTest7() throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("id", "chuchu1070y");
+		map.put("id", "chu1070y");
 		map.put("pw", "12345678z!");
 		map.put("name", "추연훈");
 		map.put("email", "aaaaa@naver.com");
@@ -209,6 +212,38 @@ public class UserControllerTest extends TemplateTest{
 		
 		userInfoRead("aaaa", status().isBadRequest());
 	}
+	
+	// 회원정보 수정 Test Case 1. - 회원정보 수정(성공)
+	@Test
+	public void userInfoUpdateTest1() throws Exception{
+		// 사전에 회원등록해놓긔
+		registerMemberTest1();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", "chu1070y");
+		map.put("pw", "12345678z!");
+		map.put("name", "추추추");
+		map.put("email", "chuchu@naver.com");
+		map.put("tel_phone", "010-1234-1111");
+		
+		userInfoUpdate(map, status().isOk());
+	}
+	
+	// 회원정보 수정 Test Case 2. - 비밀번호 문자 불포함, 이메일 형식 오류, 이름 길이 1글자
+	@Test
+	public void userInfoUpdateTest2() throws Exception{
+		// 사전에 회원등록해놓긔
+		registerMemberTest1();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", "chu1070y");
+		map.put("pw", "12345678!");
+		map.put("name", "추");
+		map.put("email", "chuchu@");
+		map.put("tel_phone", "010-1234-1111");
+		
+		userInfoUpdate(map, status().isBadRequest());
+	}
 
 	
 	/*
@@ -253,6 +288,17 @@ public class UserControllerTest extends TemplateTest{
 		resultActions
 		.andDo(print())
 		.andExpect(rm);
+	}
+	
+	public void userInfoUpdate(Map<String, Object> map, ResultMatcher rm) throws Exception {
+		ResultActions resultActions = mockMvc
+				.perform(post("/api/user/update")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(map)));
+		
+		resultActions
+			.andDo(print())
+			.andExpect(rm);
 	}
 
 	public void userPage() throws Exception{

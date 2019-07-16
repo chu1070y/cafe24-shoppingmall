@@ -88,6 +88,20 @@ public class UserController {
 		return vo == null? ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("회원 없음")): ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(vo));
 	}
 	
-	
+	@PostMapping("/update")
+	public ResponseEntity<JSONResult> updateMember(@RequestBody @Valid UserVO vo, BindingResult result){
+		// 유효성 검사 실패시
+		if(result.hasErrors()) {
+			List<FieldError> list = result.getFieldErrors();
+			String errorMsg = "";
+			for(FieldError error : list) {
+				errorMsg += error.getField() + "/";
+			}
+			errorMsg += "오류발생";
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(errorMsg));
+		}
+		
+		return userService.update(vo) ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("회원정보 수정 성공")) : ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("회원정보 수정 실패"));
+	}
 
 }
