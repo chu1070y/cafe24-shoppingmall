@@ -26,7 +26,11 @@ public class UserService {
 		return userDAO.deleteAll();
 	}
 
-	public Boolean login(LoginVO vo) {
-		return userDAO.login(vo) != null? true: false;
+	public UserVO login(LoginVO vo) {
+		return userDAO.login(vo);
+	}
+
+	public UserVO getUser(String id) {
+		return userDAO.get(id);
 	}
 }

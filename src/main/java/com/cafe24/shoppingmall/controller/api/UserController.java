@@ -74,15 +74,20 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<JSONResult> login(@RequestBody @Valid LoginVO vo, BindingResult result) {
-		// 유효성 검사 실패시
-		if(result.hasErrors()) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("유효성검사로 인한 로그인 실패"));
-		}
+	public ResponseEntity<JSONResult> login(@RequestBody LoginVO vo, BindingResult result) {
+        UserVO uservo = userService.login(vo);
 		
-		return userService.login(vo) ? 
-				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("로그인 성공")) : 
-					ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("로그인 실패"));
+		return uservo != null ? 
+				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(uservo)) : 
+					ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("해당 정보와 일치하는 값이 없습니다."));
 	}
+	
+	@GetMapping("/read")
+	public ResponseEntity<JSONResult> readMember(@RequestParam("id") String id){
+		UserVO vo = userService.getUser(id);
+		return vo == null? ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("회원 없음")): ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(vo));
+	}
+	
+	
 
 }

@@ -16,6 +16,10 @@ public class UserDAO {
 	public UserVO get(String id) {
 		return sqlSession.selectOne("user.getById", id);
 	}
+	
+	public UserVO get(Integer no) {
+		return sqlSession.selectOne("user.getByNo", no);
+	}
 
 	public UserVO insert(UserVO vo) {
 		sqlSession.insert("user.insert", vo);

@@ -2,36 +2,63 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="user">
-	
+
 	<select id="getById" parameterType="string" resultType="uservo">
-		select * 
+		select 
+		no, id, name,
+		cast(AES_DECRYPT(addr, 'cafe24') as char(200)) as addr,
+		cast(AES_DECRYPT(email, 'cafe24') as char(100)) as email,
+		cast(AES_DECRYPT(tel_home, 'cafe24') as char(50)) as tel_home,
+		cast(AES_DECRYPT(tel_phone, 'cafe24') as char(50)) as tel_phone,
+		point, updatedate, birthdate, regdate
 		from member
 		where id = #{id}
 	</select>
-	
+
+	<select id="getByNo" parameterType="integer" resultType="uservo">
+		select
+		no, id, name,
+		cast(AES_DECRYPT(addr, 'cafe24') as char(200)) as addr,
+		cast(AES_DECRYPT(email, 'cafe24') as char(100)) as email,
+		cast(AES_DECRYPT(tel_home, 'cafe24') as char(50)) as tel_home,
+		cast(AES_DECRYPT(tel_phone, 'cafe24') as char(50)) as tel_phone,
+		point, updatedate, birthdate, regdate
+		from member
+	</select>
+
 	<insert id="insert" parameterType="uservo">
-		insert into member(id, pw, name, addr, email, tel_home, tel_phone, gender, birthdate, status) 
-			values(#{id}, 
-			SHA2(#{pw}, 512), #{name}, 
-			AES_ENCRYPT(#{addr}, 'cafe24'), 
-			AES_ENCRYPT(#{email}, 'cafe24'), 
-			AES_ENCRYPT(#{tel_home}, 'cafe24'), 
-			AES_ENCRYPT(#{tel_phone}, 'cafe24'),
-			#{gender}, #{birthdate}, '0')
-			
+		insert into member(id, pw, name, addr, email, tel_home, tel_phone,
+		gender, birthdate, status)
+		values(#{id},
+		SHA2(#{pw}, 512), #{name},
+		AES_ENCRYPT(#{addr}, 'cafe24'),
+		AES_ENCRYPT(#{email}, 'cafe24'),
+		AES_ENCRYPT(#{tel_home}, 'cafe24'),
+		AES_ENCRYPT(#{tel_phone},
+		'cafe24'),
+		#{gender}, #{birthdate}, '0')
+
 		<selectKey keyProperty="no" resultType="int" order="AFTER">
-			select last_insert_id()
+			select
+			last_insert_id()
 		</selectKey>
 	</insert>
-	
+
 	<delete id="deleteAll">
 		delete from member;
 	</delete>
-	
+
 	<select id="login" parameterType="loginvo" resultType="uservo">
-		select * 
+		select
+		no, id, name,
+		cast(AES_DECRYPT(addr, 'cafe24') as char(200)) as addr,
+		cast(AES_DECRYPT(email, 'cafe24') as char(100)) as email,
+		cast(AES_DECRYPT(tel_home, 'cafe24') as char(50)) as tel_home,
+		cast(AES_DECRYPT(tel_phone, 'cafe24') as char(50)) as tel_phone,
+		point, updatedate, birthdate, regdate
 		from member
-		where id = #{id} and pw = SHA2(#{pw}, 512)
+		where id = #{id} and pw =
+		SHA2(#{pw}, 512)
 	</select>
-	
+
 </mapper>
