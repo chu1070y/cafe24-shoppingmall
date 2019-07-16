@@ -30,11 +30,13 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	//회원가입 페이지 for 시나리오용
 	@RequestMapping(value="/join", method = RequestMethod.GET)
 	public ResponseEntity<JSONResult> joinPage() {
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("회원가입 페이지"));
 	}
 	
+	//회원가입 전 아이디 중복여부 확인
 	@GetMapping(value = "/checkId")
 	public ResponseEntity<JSONResult> checkId(
 			@RequestParam("id") String id) {
@@ -48,6 +50,7 @@ public class UserController {
 					ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("사용가능"));
 	}
 	
+	//회원가입
 	@PostMapping(value = "/registerMember")
 	public ResponseEntity<JSONResult> registerMember(
 			@RequestBody @Valid UserVO vo,
@@ -73,6 +76,7 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("회원 등록 성공, User:" + userVO));
 	}
 	
+	//로그인
 	@PostMapping("/login")
 	public ResponseEntity<JSONResult> login(@RequestBody LoginVO vo, BindingResult result) {
         UserVO uservo = userService.login(vo);
@@ -82,12 +86,14 @@ public class UserController {
 					ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("해당 정보와 일치하는 값이 없습니다."));
 	}
 	
+	//회원정보 조회- 1명
 	@GetMapping("/read")
 	public ResponseEntity<JSONResult> readMember(@RequestParam("id") String id){
 		UserVO vo = userService.getUser(id);
 		return vo == null? ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("회원 없음")): ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(vo));
 	}
 	
+	//회원정보 수정
 	@PostMapping("/update")
 	public ResponseEntity<JSONResult> updateMember(@RequestBody @Valid UserVO vo, BindingResult result){
 		// 유효성 검사 실패시
@@ -101,7 +107,13 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(errorMsg));
 		}
 		
-		return userService.update(vo) ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("회원정보 수정 성공")) : ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("회원정보 수정 실패"));
+		return userService.update(vo) ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("회원정보 수정 성공")) : ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("해당 정보와 일치하는 회원이 없습니다."));
+	}
+	
+	//회원정보 삭제
+	@PostMapping("/delete")
+	public ResponseEntity<JSONResult> deleteMember(@RequestBody String id){
+		return userService.delete(id) ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("회원정보 삭제 성공")) : ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("해당 정보와 일치하는 회원이 없습니다."));
 	}
 
 }

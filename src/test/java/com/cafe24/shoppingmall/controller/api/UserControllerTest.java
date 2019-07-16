@@ -8,13 +8,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.After;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 
-import com.cafe24.shoppingmall.vo.UserVO;
 import com.google.gson.Gson;
 
 public class UserControllerTest extends TemplateTest{
@@ -245,10 +243,28 @@ public class UserControllerTest extends TemplateTest{
 		userInfoUpdate(map, status().isBadRequest());
 	}
 
+	// 회원정보 수정 Test Case 1. - 회원정보 삭제(성공)
+	@Test
+	public void userInfoDeleteTest1() throws Exception{
+		// 사전에 회원등록해놓긔
+		registerMemberTest1();
+		
+		userInfoDelete("chu1070y", status().isOk());
+	}
+	
+	// 회원정보 수정 Test Case 2. - 해당 회원 없음
+	@Test
+	public void userInfoDeleteTest2() throws Exception{
+		// 사전에 회원등록해놓긔
+		registerMemberTest1();
+		
+		userInfoDelete("chu1070", status().isOk());
+	}
 	
 	/*
 	 * 테스트케이스에 사용될 함수들..
 	 */
+	// 아이디 체크
 	public void checkId(String id, ResultMatcher rm) throws Exception{
 		mockMvc
 		.perform(get("/api/user/checkId")
@@ -257,7 +273,7 @@ public class UserControllerTest extends TemplateTest{
 		.andExpect(rm);
 	}
 	
-	
+	// 회원가입
 	public void registerMember(Map<String, Object> map, ResultMatcher rm) throws Exception{
 		ResultActions resultActions = mockMvc
 				.perform(post("/api/user/registerMember")
@@ -269,6 +285,7 @@ public class UserControllerTest extends TemplateTest{
 			.andExpect(rm);
 	}
 	
+	// 로그인
 	public void userLogin(Map<String, Object> map, ResultMatcher rm) throws Exception{
 		ResultActions resultActions = mockMvc
 				.perform(post("/api/user/login")
@@ -280,6 +297,7 @@ public class UserControllerTest extends TemplateTest{
 			.andExpect(rm);
 	}
 	
+	// 회원정보 조회 - 1명
 	public void userInfoRead(String id, ResultMatcher rm) throws Exception {
 		ResultActions resultActions = mockMvc
 		.perform(get("/api/user/read")
@@ -290,6 +308,7 @@ public class UserControllerTest extends TemplateTest{
 		.andExpect(rm);
 	}
 	
+	// 회원정보 수정
 	public void userInfoUpdate(Map<String, Object> map, ResultMatcher rm) throws Exception {
 		ResultActions resultActions = mockMvc
 				.perform(post("/api/user/update")
@@ -300,7 +319,20 @@ public class UserControllerTest extends TemplateTest{
 			.andDo(print())
 			.andExpect(rm);
 	}
+	
+	// 회원정보 삭제
+	public void userInfoDelete(String id, ResultMatcher rm) throws Exception {
+		ResultActions resultActions = mockMvc
+				.perform(post("/api/user/delete")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(id)));
+		
+		resultActions
+			.andDo(print())
+			.andExpect(rm);
+	}
 
+	// 회원정보 페이지 for 시나리오용
 	public void userPage() throws Exception{
 		mockMvc
 		.perform(get("/api/user/join"))

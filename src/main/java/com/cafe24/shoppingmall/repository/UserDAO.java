@@ -37,4 +37,8 @@ public class UserDAO {
 	public Boolean update(UserVO vo) {
 		return 1 == sqlSession.update("user.update", vo);
 	}
+
+	public Boolean delete(String id) {
+		return 1 == sqlSession.delete("user.delete", id);
+	}
 }

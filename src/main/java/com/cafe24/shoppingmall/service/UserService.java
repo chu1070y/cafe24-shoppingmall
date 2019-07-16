@@ -37,4 +37,8 @@ public class UserService {
 	public Boolean update(UserVO vo) {
 		return userDAO.update(vo);
 	}
+
+	public Boolean delete(String id) {
+		return userDAO.delete(id);
+	}
 }
