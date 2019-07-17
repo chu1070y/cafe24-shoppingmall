@@ -26,11 +26,13 @@ public class ProductController {
 	@Autowired
 	ProductService productService;
 	
+	// 상품 리스트 페이지
 	@GetMapping("/list")
 	public ResponseEntity<JSONResult> list() {
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(productService.getList()));
 	}
 	
+	// 상품 등록
 	@PostMapping("/add")
 	public ResponseEntity<JSONResult> addProduct(
 			@RequestBody @Valid ProductVO productVO, 

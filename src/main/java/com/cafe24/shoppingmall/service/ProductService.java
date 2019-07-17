@@ -38,15 +38,20 @@ public class ProductService {
 			return false;
 		}
 		
+		// 상품 등록
 		ProductVO vo = productDAO.insert(productVO);
 		
+		// 상품 상세 등록
 		for(ProductDetailVO detailVO: vo.getProductDetailList()) {
+			// 상품 등록 후 no 가져와 상품 상세 등록
 			detailVO.setProduct_no(vo.getNo());
 			productDetailDAO.insert(detailVO);
 		}
 		
+		// 상품 이미지 등록
 		if (vo.getProductImgList() != null) {
 			for(ProductImgVO imgVO : vo.getProductImgList()) {
+				// 상품 등록 후 no 가져와 상품 이미지 등록
 				imgVO.setProduct_no(vo.getNo());
 				productImgDAO.insert(imgVO);
 			}

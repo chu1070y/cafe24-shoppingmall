@@ -109,7 +109,7 @@ public class ProductControllerTest extends TemplateTest {
 		productAdd(productVO, status().isOk());
 	}
 	
-	// 상품 등록 Test Case 3. - 상품 정상 등록 - 이미지 없음, 상품상세 없음
+	// 상품 등록 Test Case 3. - 상품상세 없음
 	@Test
 	public void productAddTest3() throws Exception{
 		ProductVO productVO = new ProductVO();
