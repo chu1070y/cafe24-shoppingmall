@@ -29,7 +29,7 @@ public class ProductController {
 	@Autowired
 	ProductService productService;
 	
-	// 상품 리스트 조회
+	// 특정 상품 정보 조회
 	@GetMapping("/{no}")
 	public ResponseEntity<JSONResult> productRead(@PathVariable("no") Integer no) {		
 		ProductVO vo = productService.getProduct(no);

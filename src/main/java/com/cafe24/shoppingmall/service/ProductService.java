@@ -85,6 +85,7 @@ public class ProductService {
 		productDAO.deleteAll();
 	}
 
+	@Transactional
 	public ProductVO getProduct(Integer no) {
 		ProductVO vo = productDAO.getProduct(no);
 		
