@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 
+import com.cafe24.shoppingmall.dto.PageInfo;
 import com.cafe24.shoppingmall.vo.ProductDetailVO;
 import com.cafe24.shoppingmall.vo.ProductImgVO;
 import com.cafe24.shoppingmall.vo.ProductVO;
@@ -26,10 +27,18 @@ public class ProductControllerTest extends TemplateTest {
 		productService.deleteAll();
 	}
 	
-	// 리스트 페이지 호출(상품 리스트 조회)
+	// 상품 리스트 조회 Test Case 1. - 상품 리스트 조회(성공)
 	@Test
-	public void testList() throws Exception {
-		mockMvc.perform(get("/api/product/list")).andDo(print()).andExpect(status().isOk());
+	public void productListTest() throws Exception {
+		PageInfo pageInfo = new PageInfo();
+		pageInfo.setPage(1);
+		pageInfo.setDisplay(5);
+		
+		for(int i = 0; i < 20; i++) {
+			productAddTest2("빅뱅이론 티셔츠" + i);
+		}
+		
+		productList(pageInfo, status().isOk());
 	}
 	
 	// 상품 등록 Test Case 1. - 상품 정상 등록(성공)
@@ -160,6 +169,54 @@ public class ProductControllerTest extends TemplateTest {
 		resultActions
 			.andDo(print())
 			.andExpect(rm);
+	}
+	
+	// 상품 리스트
+	public void productList(PageInfo pageinfo, ResultMatcher rm) throws Exception {
+		mockMvc.perform(get("/api/product/list")
+				.param("page", pageinfo.getPage().toString())
+				.param("display", pageinfo.getDisplay().toString()))
+		.andDo(print()).andExpect(rm);
+	}
+	// 상품 리스트전 상품 등록
+	public void productAddTest2(String name) throws Exception{
+		ProductVO productVO = new ProductVO();
+		productVO.setCode("P0000001");
+		productVO.setName(name);
+		productVO.setDescription("버징가~~~ ㅎㅎ");
+		productVO.setPrice(15000);
+		productVO.setSale_price(15000);
+		
+		// 이미지 넣기
+		List<ProductImgVO> list1 = new ArrayList<ProductImgVO>();
+				
+		ProductImgVO productImgVO1 = new ProductImgVO();
+		productImgVO1.setFilename("tshirts_img1");
+		productImgVO1.setExtension(".png");
+		productImgVO1.setImg_type("대표이미지");
+				
+		ProductImgVO productImgVO2 = new ProductImgVO();
+		productImgVO2.setFilename("tshirts_img2");
+		productImgVO2.setExtension(".png");
+		productImgVO2.setImg_type("본문이미지");
+				
+		list1.add(productImgVO1);
+		list1.add(productImgVO2);
+				
+		productVO.setProductImgList(list1);
+		
+		// 상품상세 넣기
+		List<ProductDetailVO> list2 = new ArrayList<ProductDetailVO>();
+		
+		ProductDetailVO productDetailVO1 = new ProductDetailVO();
+		productDetailVO1.setStock_use("0");
+		productDetailVO1.setDisplay("1");
+		
+		list2.add(productDetailVO1);
+		
+		productVO.setProductDetailList(list2);
+		
+		productAdd(productVO, status().isOk());
 	}
 
 }

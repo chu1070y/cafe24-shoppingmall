@@ -3,6 +3,7 @@
 
 <mapper namespace="product">
 
+
 	<insert id="insert" parameterType="productvo">
 		insert into product(code, name, description, price, sale_price, del)
 		values(#{code}, #{name}, #{description}, #{price}, #{sale_price},'0')
@@ -11,9 +12,22 @@
 			select last_insert_id()
 		</selectKey>
 	</insert>
+	
+	<select id="getList" parameterType="pageinfo" resultType="productvo">
+		select *
+		from product
+		where del='0'
+		order by no desc
+		limit #{start}, #{display}
+	</select>
+
+	<select id="totalCount" resultType="int">
+		select count(*) from product;
+	</select>
 
 	<delete id="deleteAll">
 		delete from product;
 	</delete>
+	
 	
 </mapper>

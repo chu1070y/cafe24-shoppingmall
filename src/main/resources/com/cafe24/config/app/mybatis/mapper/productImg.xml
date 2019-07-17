@@ -8,6 +8,10 @@
 		values(#{product_no}, #{filename}, #{extension}, #{img_type})
 	</insert>
 	
+	<select id="selectList" parameterType="int" resultType="productimgvo">
+		select * from product_img where product_no = #{no}
+	</select>
+	
 	<delete id="deleteAll">
 		delete from product_img;
 	</delete>

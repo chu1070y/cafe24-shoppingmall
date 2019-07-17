@@ -1,11 +1,14 @@
 package com.cafe24.shoppingmall.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cafe24.shoppingmall.dto.PageInfo;
 import com.cafe24.shoppingmall.repository.ProductDAO;
 import com.cafe24.shoppingmall.repository.ProductDetailDAO;
 import com.cafe24.shoppingmall.repository.ProductImgDAO;
@@ -25,9 +28,24 @@ public class ProductService {
 	@Autowired
 	private ProductDetailDAO productDetailDAO;
 
-	public List<ProductVO> getList() {
+	@Transactional
+	public Map<String, Object> getList(PageInfo pageInfo) {
+		Integer cnt = productDAO.totalCount();
+
+		pageInfo.setTotalCount(cnt);
+
+		List<ProductVO> productList = productDAO.getList(pageInfo);
 		
-		return null;
+		for (ProductVO vo : productList) {
+			List<ProductImgVO> imgList = productImgDAO.getImgs(vo.getNo());
+			vo.setProductImgList(imgList);
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>(); 
+		map.put("pageInfo", pageInfo);
+		map.put("productList", productList);
+		
+		return map;
 	}
 
 	@Transactional

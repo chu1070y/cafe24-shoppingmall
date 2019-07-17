@@ -68,6 +68,11 @@ public class PageInfo {
 		return kwd;
 	}
 
+	public void setDisplay(Integer display) {
+		this.display = display;
+		setPage(this.page);
+	}
+
 	public void setKwd(String kwd) {
 		this.kwd = kwd;
 	}

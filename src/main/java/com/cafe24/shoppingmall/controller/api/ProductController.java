@@ -10,12 +10,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shoppingmall.dto.JSONResult;
+import com.cafe24.shoppingmall.dto.PageInfo;
 import com.cafe24.shoppingmall.service.ProductService;
 import com.cafe24.shoppingmall.vo.ProductVO;
 
@@ -26,10 +28,10 @@ public class ProductController {
 	@Autowired
 	ProductService productService;
 	
-	// 상품 리스트 페이지
+	// 상품 리스트 조회
 	@GetMapping("/list")
-	public ResponseEntity<JSONResult> list() {
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(productService.getList()));
+	public ResponseEntity<JSONResult> list(@ModelAttribute PageInfo pageInfo) {
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(productService.getList(pageInfo)));
 	}
 	
 	// 상품 등록
@@ -37,8 +39,6 @@ public class ProductController {
 	public ResponseEntity<JSONResult> addProduct(
 			@RequestBody @Valid ProductVO productVO, 
 			BindingResult result) {
-		
-		System.out.println(productVO);
 		
 		// 가입 오류시 에러 출력
 	      if (result.hasErrors()) {
