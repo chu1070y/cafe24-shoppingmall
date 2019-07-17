@@ -32,4 +32,8 @@ public class ProductDAO {
 		return sqlSession.selectList("product.getList", pageInfo);
 	}
 
+	public ProductVO getProduct(Integer no) {
+		return sqlSession.selectOne("product.getProduct", no);
+	}
+
 }

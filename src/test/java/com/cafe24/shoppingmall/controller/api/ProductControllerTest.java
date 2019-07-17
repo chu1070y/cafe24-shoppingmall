@@ -27,6 +27,19 @@ public class ProductControllerTest extends TemplateTest {
 		productService.deleteAll();
 	}
 	
+	// 특정 상품 정보 조회 Test Case 1. - 특정 상품 정보 조회(성공)
+	@Test
+	public void productReadTest1() throws Exception {
+		String no = productAddTest1("빅뱅이론 티셔츠z");
+		productRead(no, status().isOk());
+	}
+	
+	// 특정 상품 정보 조회 Test Case 2. - 잘못된 상품번호
+	@Test
+	public void productReadTest2() throws Exception {
+		productRead("-1", status().isBadRequest());
+	}
+	
 	// 상품 리스트 조회 Test Case 1. - 상품 리스트 조회(성공)
 	@Test
 	public void productListTest() throws Exception {
@@ -35,7 +48,7 @@ public class ProductControllerTest extends TemplateTest {
 		pageInfo.setDisplay(5);
 		
 		for(int i = 0; i < 20; i++) {
-			productAddTest2("빅뱅이론 티셔츠" + i);
+			productAddTest1("빅뱅이론 티셔츠" + i);
 		}
 		
 		productList(pageInfo, status().isOk());
@@ -179,7 +192,7 @@ public class ProductControllerTest extends TemplateTest {
 		.andDo(print()).andExpect(rm);
 	}
 	// 상품 리스트전 상품 등록
-	public void productAddTest2(String name) throws Exception{
+	public String productAddTest1(String name) throws Exception{
 		ProductVO productVO = new ProductVO();
 		productVO.setCode("P0000001");
 		productVO.setName(name);
@@ -216,7 +229,26 @@ public class ProductControllerTest extends TemplateTest {
 		
 		productVO.setProductDetailList(list2);
 		
-		productAdd(productVO, status().isOk());
+		return productAddGetNo(productVO, status().isOk());
+	}
+	
+	// 특정 상품 조회
+	public void productRead(String no, ResultMatcher rm) throws Exception {
+		mockMvc.perform(get("/api/product/" + no))
+		.andDo(print()).andExpect(rm);
+	}
+	// 상품 등록
+	public String productAddGetNo(ProductVO productVO, ResultMatcher rm) throws Exception{
+		ResultActions resultActions = mockMvc
+				.perform(post("/api/product/add")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(productVO)));
+		
+		resultActions
+			.andDo(print())
+			.andExpect(rm);
+		
+		return parsingNo(resultActions.andReturn().getResponse().getContentAsString());
 	}
 
 }

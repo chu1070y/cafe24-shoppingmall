@@ -24,6 +24,6 @@ public class ProductImgDAO {
 	}
 
 	public List<ProductImgVO> getImgs(Integer no) {
-		return sqlSession.selectList("productImg.selectList", no);
+		return sqlSession.selectList("productImg.getList", no);
 	}
 }

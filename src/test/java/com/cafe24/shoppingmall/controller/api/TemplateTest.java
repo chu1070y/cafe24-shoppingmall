@@ -36,4 +36,12 @@ public class TemplateTest {
 				.webAppContextSetup(webApplicationContext)
 				.build();
 	}
+	
+	public String parsingNo(String text) {
+		
+		Integer idx1 = text.lastIndexOf("<no>") + 4;
+		Integer idx2 = text.lastIndexOf("<no/>");
+		
+		return text.substring(idx1,idx2);
+	}
 }

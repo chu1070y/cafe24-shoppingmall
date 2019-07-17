@@ -6,9 +6,10 @@
 	<insert id="insert" parameterType="productimgvo">
 		insert into product_img(product_no, filename, extension, img_type)
 		values(#{product_no}, #{filename}, #{extension}, #{img_type})
+		
 	</insert>
 	
-	<select id="selectList" parameterType="int" resultType="productimgvo">
+	<select id="getList" parameterType="int" resultType="productimgvo">
 		select * from product_img where product_no = #{no}
 	</select>
 	

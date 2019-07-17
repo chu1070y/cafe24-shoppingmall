@@ -49,11 +49,11 @@ public class ProductService {
 	}
 
 	@Transactional
-	public Boolean insert(ProductVO productVO) {
+	public Integer insert(ProductVO productVO) {
 		
 		// 상품상세 없이 요청왔을시 false값 리턴
 		if (productVO.getProductDetailList() == null) {
-			return false;
+			return -1;
 		}
 		
 		// 상품 등록
@@ -75,7 +75,7 @@ public class ProductService {
 			}
 		}
 		
-		return true;
+		return vo.getNo();
 	}
 
 	@Transactional
@@ -83,6 +83,17 @@ public class ProductService {
 		productImgDAO.deleteAll();
 		productDetailDAO.deleteAll();
 		productDAO.deleteAll();
+	}
+
+	public ProductVO getProduct(Integer no) {
+		ProductVO vo = productDAO.getProduct(no);
+		
+		if(vo==null) { return null;}
+		
+		vo.setProductImgList(productImgDAO.getImgs(no));
+		vo.setProductDetailList(productDetailDAO.getDetails(no));
+		
+		return vo;
 	}
 
 }
