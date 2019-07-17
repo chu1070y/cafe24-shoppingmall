@@ -5,10 +5,10 @@ public class ProductDetailVO {
 	private Integer product_no;
 	private String option_code;
 	private Integer add_price;
-	private Integer stock_num;
-	private Integer stock_avail;
-	private String stock_use;
-	private String display;
+	private Integer stock_num;		// 재고개수
+	private Integer stock_avail;	// 판매가능수량
+	private String stock_use;		// 재고사용
+	private String display;			// 진열상태
 	private String detail_del;
 	
 	public ProductDetailVO() {

@@ -2,6 +2,8 @@ package com.cafe24.shoppingmall.vo;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -14,11 +16,11 @@ public class ProductVO {
 	private String name;
 	private String description;
 	
-	@NotEmpty(message="가격을 입력해주세요.")
+	@NotNull(message="가격을 입력해주세요.")
 	private Integer price;
-	private Integer salePrice;
+	private Integer sale_price;
 	private String del;
-	private Integer categoryNo;
+	private Integer category_no;
 	
 	List<ProductDetailVO> productDetailList;
 	
@@ -27,7 +29,7 @@ public class ProductVO {
 	@Override
 	public String toString() {
 		return "ProductVO [no=" + no + ", code=" + code + ", name=" + name + ", description=" + description + ", price="
-				+ price + ", salePrice=" + salePrice + ", del=" + del + ", categoryNo=" + categoryNo
+				+ price + ", sale_price=" + sale_price + ", del=" + del + ", category_no=" + category_no
 				+ ", productDetailList=" + productDetailList + ", productImgList=" + productImgList + "]";
 	}
 
@@ -71,12 +73,12 @@ public class ProductVO {
 		this.price = price;
 	}
 
-	public Integer getSalePrice() {
-		return salePrice;
+	public Integer getSale_price() {
+		return sale_price;
 	}
 
-	public void setSalePrice(Integer salePrice) {
-		this.salePrice = salePrice;
+	public void setSale_price(Integer sale_price) {
+		this.sale_price = sale_price;
 	}
 
 	public String getDel() {
@@ -87,12 +89,12 @@ public class ProductVO {
 		this.del = del;
 	}
 
-	public Integer getCategoryNo() {
-		return categoryNo;
+	public Integer getCategory_no() {
+		return category_no;
 	}
 
-	public void setCategoryNo(Integer categoryNo) {
-		this.categoryNo = categoryNo;
+	public void setCategory_no(Integer category_no) {
+		this.category_no = category_no;
 	}
 
 	public List<ProductDetailVO> getProductDetailList() {
@@ -110,6 +112,5 @@ public class ProductVO {
 	public void setProductImgList(List<ProductImgVO> productImgList) {
 		this.productImgList = productImgList;
 	}
-	
-	
+
 }

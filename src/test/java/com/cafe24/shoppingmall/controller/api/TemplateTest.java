@@ -12,6 +12,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.shoppingmall.config.TestAppConfig;
 import com.cafe24.shoppingmall.config.TestWebConfig;
+import com.cafe24.shoppingmall.service.ProductService;
 import com.cafe24.shoppingmall.service.UserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -25,6 +26,9 @@ public class TemplateTest {
 	
 	@Autowired
 	protected UserService userService;
+	
+	@Autowired
+	protected ProductService productService;
 	
 	@Before
 	public void setup() {

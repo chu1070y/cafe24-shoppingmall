@@ -4,9 +4,13 @@
 <mapper namespace="productDetail">
 	<insert id="insert" parameterType="productdetailvo">
 		insert into product_detail(product_no, option_code, add_price, 
-			stock_num, stock_available, stock_use, display, detail_del)
+			stock_num, stock_avail, stock_use, display, detail_del)
 		values(#{product_no}, #{option_code}, #{add_price}, #{stock_num},
-		 #{stock_available}, #{stock_use}, #{display}, '0')
+		 #{stock_avail}, #{stock_use}, #{display}, '0')
 	</insert>
+
+	<delete id="deleteAll">
+		delete from product_detail;
+	</delete>
 
 </mapper>

@@ -16,4 +16,8 @@ public class ProductImgDAO {
 		
 		return 1 == sqlSession.insert("productImg.insert", vo);
 	}
+	
+	public void deleteAll() {
+		sqlSession.delete("productImg.deleteAll");
+	}
 }

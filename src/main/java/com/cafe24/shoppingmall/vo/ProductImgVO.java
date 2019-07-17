@@ -6,12 +6,12 @@ public class ProductImgVO {
 	private Integer product_no;
 	private String filename;
 	private String extension;
-	private String imgType;
+	private String img_type;
 	
 	@Override
 	public String toString() {
 		return "ProductImgVO [product_img_no=" + product_img_no + ", product_no=" + product_no + ", filename="
-				+ filename + ", extension=" + extension + ", imgType=" + imgType + "]";
+				+ filename + ", extension=" + extension + ", img_type=" + img_type + "]";
 	}
 	public Integer getProduct_img_no() {
 		return product_img_no;
@@ -37,11 +37,13 @@ public class ProductImgVO {
 	public void setExtension(String extension) {
 		this.extension = extension;
 	}
-	public String getImgType() {
-		return imgType;
+	public String getImg_type() {
+		return img_type;
 	}
-	public void setImgType(String imgType) {
-		this.imgType = imgType;
+	public void setImg_type(String img_type) {
+		this.img_type = img_type;
 	}
+	
+
 
 }

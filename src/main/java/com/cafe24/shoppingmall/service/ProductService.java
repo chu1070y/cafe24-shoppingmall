@@ -32,19 +32,34 @@ public class ProductService {
 
 	@Transactional
 	public Boolean insert(ProductVO productVO) {
-		ProductVO vo = productDAO.insert(productVO);
 		
-		for(ProductImgVO imgVO : vo.getProductImgList()) {
-			imgVO.setProduct_no(vo.getNo());
-			productImgDAO.insert(imgVO);
+		// 상품상세 없이 요청왔을시 false값 리턴
+		if (productVO.getProductDetailList() == null) {
+			return false;
 		}
+		
+		ProductVO vo = productDAO.insert(productVO);
 		
 		for(ProductDetailVO detailVO: vo.getProductDetailList()) {
 			detailVO.setProduct_no(vo.getNo());
 			productDetailDAO.insert(detailVO);
 		}
 		
+		if (vo.getProductImgList() != null) {
+			for(ProductImgVO imgVO : vo.getProductImgList()) {
+				imgVO.setProduct_no(vo.getNo());
+				productImgDAO.insert(imgVO);
+			}
+		}
+		
 		return true;
+	}
+
+	@Transactional
+	public void deleteAll() {
+		productImgDAO.deleteAll();
+		productDetailDAO.deleteAll();
+		productDAO.deleteAll();
 	}
 
 }

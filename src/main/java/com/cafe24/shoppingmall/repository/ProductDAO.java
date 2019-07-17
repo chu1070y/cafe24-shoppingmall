@@ -17,4 +17,8 @@ public class ProductDAO {
 		return vo;
 	}
 
+	public void deleteAll() {
+		sqlSession.delete("product.deleteAll");
+	}
+
 }

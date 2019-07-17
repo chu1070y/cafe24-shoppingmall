@@ -16,4 +16,8 @@ public class ProductDetailDAO {
 		
 		return 1 == sqlSession.insert("productDetail.insert", vo);
 	}
+	
+	public void deleteAll() {
+		sqlSession.delete("productDetail.deleteAll");
+	}
 }

@@ -36,6 +36,8 @@ public class ProductController {
 			@RequestBody @Valid ProductVO productVO, 
 			BindingResult result) {
 		
+		System.out.println(productVO);
+		
 		// 가입 오류시 에러 출력
 	      if (result.hasErrors()) {
 	         List<ObjectError> list = result.getAllErrors();
@@ -44,8 +46,8 @@ public class ProductController {
 	         }
 	      }
 		
-		productService.insert(productVO);
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("상품 정상 등록"));
+		Boolean checkVO = productService.insert(productVO);
+		return checkVO ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("상품 정상 등록")) : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("상품 등록 실패"));
 	}
 	
 }
