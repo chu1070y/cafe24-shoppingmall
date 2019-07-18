@@ -36,4 +36,12 @@ public class ProductDAO {
 		return sqlSession.selectOne("product.getProduct", no);
 	}
 
+	public Boolean update(ProductVO productVO) {
+		return 1 == sqlSession.update("product.update", productVO);
+	}
+
+	public Boolean updateDel(Integer no) {
+		return 1 == sqlSession.update("product.updateDel", no);
+	}
+
 }

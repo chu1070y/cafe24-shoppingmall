@@ -26,4 +26,16 @@ public class ProductDetailDAO {
 	public List<ProductDetailVO> getDetails(Integer no) {
 		return sqlSession.selectList("productDetail.getList", no);
 	}
+
+	public Boolean updateDel(Integer no) {
+		return 1 == sqlSession.update("productDetail.updateDel", no);
+	}
+
+	public Boolean update(ProductDetailVO detailVO) {
+		return 1 == sqlSession.update("productDetail.update", detailVO);
+	}
+
+	public Boolean updateDetailDel(Integer product_detail_no) {
+		return 1 == sqlSession.update("productDetail.updateDetailDel", product_detail_no);
+	}
 }

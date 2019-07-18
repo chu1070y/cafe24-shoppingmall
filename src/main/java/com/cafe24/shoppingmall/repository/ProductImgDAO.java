@@ -26,4 +26,8 @@ public class ProductImgDAO {
 	public List<ProductImgVO> getImgs(Integer no) {
 		return sqlSession.selectList("productImg.getList", no);
 	}
+
+	public Boolean deleteByNo(Integer no) {
+		return 1 == sqlSession.delete("productImg.deleteByNo", no);
+	}
 }

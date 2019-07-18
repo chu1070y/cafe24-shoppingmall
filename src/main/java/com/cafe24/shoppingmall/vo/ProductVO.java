@@ -19,6 +19,7 @@ public class ProductVO {
 	@NotNull(message="가격을 입력해주세요.")
 	private Integer price;
 	private Integer sale_price;
+	private String show_product;
 	private String del;
 	private Integer category_no;
 	
@@ -26,11 +27,16 @@ public class ProductVO {
 	
 	List<ProductImgVO> productImgList;
 
+	public ProductVO() {
+		this.show_product = "0";
+	}
+
 	@Override
 	public String toString() {
 		return "ProductVO [no=" + no + ", code=" + code + ", name=" + name + ", description=" + description + ", price="
-				+ price + ", sale_price=" + sale_price + ", del=" + del + ", category_no=" + category_no
-				+ ", productDetailList=" + productDetailList + ", productImgList=" + productImgList + "]";
+				+ price + ", sale_price=" + sale_price + ", show_product=" + show_product + ", del=" + del
+				+ ", category_no=" + category_no + ", productDetailList=" + productDetailList + ", productImgList="
+				+ productImgList + "]";
 	}
 
 	public Integer getNo() {
@@ -79,6 +85,14 @@ public class ProductVO {
 
 	public void setSale_price(Integer sale_price) {
 		this.sale_price = sale_price;
+	}
+
+	public String getShow_product() {
+		return show_product;
+	}
+
+	public void setShow_product(String show_product) {
+		this.show_product = show_product;
 	}
 
 	public String getDel() {

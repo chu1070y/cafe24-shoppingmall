@@ -65,8 +65,38 @@ public class ProductController {
 		return checkVO != -1 ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("상품 정상 등록 <no>" + checkVO + "<no/>")) : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("상품 등록 실패"));
 	}
 	
+	// 상품 수정
+	@PostMapping("/update")
+	public ResponseEntity<JSONResult> updateProduct(
+			@RequestBody @Valid ProductVO productVO, 
+			BindingResult result) {
+		
+		// 가입 오류시 에러 출력
+	      if (result.hasErrors()) {
+	         List<ObjectError> list = result.getAllErrors();
+	         for (ObjectError error : list) {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(error.getDefaultMessage()));
+	         }
+	      }
+		
+		Boolean checkVO = productService.update(productVO);
+		return checkVO ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("상품 정상 수정")) : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("상품 수정 실패"));
+	}
 	
-	
-	
+	// 상품 삭제
+	@PostMapping("/delete")
+	public ResponseEntity<JSONResult> deleteProduct(@RequestBody String no) {
+		Integer productNo;
+		
+		try {
+			productNo = Integer.parseInt(no);
+		}
+		catch(NumberFormatException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("상품 삭제 실패"));
+		}
+
+		Boolean checkVO = productService.delete(productNo);
+		return checkVO ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("상품 정상 삭제")) : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("상품 삭제 실패"));
+	}
 	
 }

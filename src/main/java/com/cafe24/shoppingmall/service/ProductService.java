@@ -77,7 +77,8 @@ public class ProductService {
 		
 		return vo.getNo();
 	}
-
+	
+	// junit 테스트용 테이블 전부 삭제 로직
 	@Transactional
 	public void deleteAll() {
 		productImgDAO.deleteAll();
@@ -95,6 +96,66 @@ public class ProductService {
 		vo.setProductDetailList(productDetailDAO.getDetails(no));
 		
 		return vo;
+	}
+	
+	// 상품 수정
+	@Transactional
+	public Boolean update(ProductVO productVO){
+		// 상품상세 없이 요청왔을시 false값 리턴
+		if (productVO.getProductDetailList() == null) {
+			return false;
+		}
+		
+		// 상품번호 없을 시 false값 리턴
+		Integer no = productVO.getNo();
+		if(no == null) {
+			return false;
+		}
+		
+		// 상품 수정
+		productDAO.update(productVO);
+		
+		// 상품 상세 수정
+		for(ProductDetailVO detailVO: productVO.getProductDetailList()) {
+			
+			// 새로운 상품 상세 정보를 추가했을 경우
+			if (detailVO.getProduct_detail_no() == null) {
+				detailVO.setProduct_no(no);
+				productDetailDAO.updateDel(no);
+				productDetailDAO.insert(detailVO);
+				continue;
+			}
+			
+			// 기존 상품 상세 정보를 삭제한 경우
+			if (detailVO.getDetail_del() == "1") {
+				productDetailDAO.updateDetailDel(no);
+				continue;
+			}
+			
+			// 기존 상품 상세 정보를 수정한 경우
+			productDetailDAO.update(detailVO);		
+		}
+		
+		// 상품 이미지 수정
+		if (productVO.getProductImgList() != null) {
+			for(ProductImgVO imgVO: productVO.getProductImgList()) {
+				imgVO.setProduct_no(no);
+				productImgDAO.deleteByNo(no);
+				productImgDAO.insert(imgVO);
+			}
+		}
+		return true;
+	}
+
+	// 상품 삭제
+	@Transactional
+	public Boolean delete(Integer no) {
+		
+		productDAO.updateDel(no);
+		productDetailDAO.updateDel(no);
+		productImgDAO.deleteByNo(no);
+		
+		return true;
 	}
 
 }

@@ -27,6 +27,150 @@ public class ProductControllerTest extends TemplateTest {
 		productService.deleteAll();
 	}
 	
+	// 상품 삭제 Test Case 1. - 상품 삭제(성공)
+	@Test
+	public void productDeleteTest1() throws Exception {
+		String no = productAddTest1("빅뱅이론 티셔츠8282");
+		productDelete(no, status().isOk());
+	}
+	
+	// 상품 삭제 Test Case 2. - 숫자 아닌 값 입력
+	@Test
+	public void productDeleteTest2() throws Exception {
+		productDelete("가나", status().isBadRequest());
+	}
+	
+	// 상품 삭제 Test Case 3. - 상품번호 없이 삭제 호출
+	@Test
+	public void productDeleteTest3() throws Exception {
+		productDelete("", status().isBadRequest());
+	}
+
+	
+	// 상품 수정 Test Case 1. - 상품 수정(성공) + 이미지 + 상품상세
+	@Test
+	public void productUpdateTest1() throws Exception {
+		String no = productAddTest1("빅뱅이론 티셔츠xyz");
+		
+		ProductVO productVO = new ProductVO();
+		productVO.setNo(Integer.parseInt(no));
+		productVO.setName("빅뱅이론 티셔츠xxxxxxxxx");
+		productVO.setDescription("맘마미아----------");
+		productVO.setPrice(25000);
+		productVO.setSale_price(20000);
+		productVO.setShow_product("1");
+		
+		// 이미지 넣기
+		List<ProductImgVO> list1 = new ArrayList<ProductImgVO>();
+		
+		ProductImgVO productImgVO1 = new ProductImgVO();
+		productImgVO1.setFilename("tshirts_img1");
+		productImgVO1.setExtension(".png");
+		productImgVO1.setImg_type("대표이미지");
+		
+		ProductImgVO productImgVO2 = new ProductImgVO();
+		productImgVO2.setFilename("tshirts_img2");
+		productImgVO2.setExtension(".png");
+		productImgVO2.setImg_type("본문이미지");
+		
+		list1.add(productImgVO1);
+		list1.add(productImgVO2);
+		
+		productVO.setProductImgList(list1);
+		
+		// 상품상세 넣기
+		List<ProductDetailVO> list2 = new ArrayList<ProductDetailVO>();
+		
+		ProductDetailVO productDetailVO1 = new ProductDetailVO();
+		productDetailVO1.setOption_code("쉘든용/black/100");
+		productDetailVO1.setAdd_price(1000);
+		productDetailVO1.setStock_use("1");
+		productDetailVO1.setStock_num(100);
+		productDetailVO1.setStock_avail(100);
+		
+		ProductDetailVO productDetailVO2 = new ProductDetailVO();
+		productDetailVO2.setOption_code("레너드용/white/95");
+		productDetailVO2.setAdd_price(500);
+		productDetailVO2.setStock_use("0");
+		
+		list2.add(productDetailVO1);
+		list2.add(productDetailVO2);
+		
+		productVO.setProductDetailList(list2);
+		
+		productUpdate(productVO, status().isOk());
+	}
+	
+	// 상품 수정 Test Case 2. - 상품 수정(성공) + 이미지 미포함
+	@Test
+	public void productUpdateTest2() throws Exception {
+		String no = productAddTest1("빅뱅이론 티셔츠xyz");
+		
+		ProductVO productVO = new ProductVO();
+		productVO.setNo(Integer.parseInt(no));
+		productVO.setName("빅뱅이론 티셔츠xxxxxxxxx");
+		productVO.setDescription("맘마미아----------");
+		productVO.setPrice(25000);
+		productVO.setSale_price(20000);
+		productVO.setShow_product("1");
+		
+		// 상품상세 넣기
+		List<ProductDetailVO> list2 = new ArrayList<ProductDetailVO>();
+		
+		ProductDetailVO productDetailVO1 = new ProductDetailVO();
+		productDetailVO1.setOption_code("쉘든용/black/100");
+		productDetailVO1.setAdd_price(1000);
+		productDetailVO1.setStock_use("1");
+		productDetailVO1.setStock_num(100);
+		productDetailVO1.setStock_avail(100);
+		
+		ProductDetailVO productDetailVO2 = new ProductDetailVO();
+		productDetailVO2.setOption_code("레너드용/white/95");
+		productDetailVO2.setAdd_price(500);
+		productDetailVO2.setStock_use("0");
+		
+		list2.add(productDetailVO1);
+		list2.add(productDetailVO2);
+		
+		productVO.setProductDetailList(list2);
+		
+		productUpdate(productVO, status().isOk());
+	}
+	
+	// 상품 수정 Test Case 3. - 상품상세 미포함
+	@Test
+	public void productUpdateTest3() throws Exception {
+		String no = productAddTest1("빅뱅이론 티셔츠xyz");
+			
+		ProductVO productVO = new ProductVO();
+		productVO.setNo(Integer.parseInt(no));
+		productVO.setName("빅뱅이론 티셔츠xxxxxxxxx");
+		productVO.setDescription("맘마미아----------");
+		productVO.setPrice(25000);
+		productVO.setSale_price(20000);
+		productVO.setShow_product("1");
+			
+		// 이미지 넣기
+		List<ProductImgVO> list1 = new ArrayList<ProductImgVO>();
+			
+		ProductImgVO productImgVO1 = new ProductImgVO();
+		productImgVO1.setFilename("tshirts_img1");
+		productImgVO1.setExtension(".png");
+		productImgVO1.setImg_type("대표이미지");
+		
+		ProductImgVO productImgVO2 = new ProductImgVO();
+		productImgVO2.setFilename("tshirts_img2");
+		productImgVO2.setExtension(".png");
+		productImgVO2.setImg_type("본문이미지");
+		
+		list1.add(productImgVO1);
+		list1.add(productImgVO2);
+		
+		productVO.setProductImgList(list1);
+			
+		productUpdate(productVO, status().isBadRequest());
+	}
+	
 	// 특정 상품 정보 조회 Test Case 1. - 특정 상품 정보 조회(성공)
 	@Test
 	public void productReadTest1() throws Exception {
@@ -63,6 +207,7 @@ public class ProductControllerTest extends TemplateTest {
 		productVO.setDescription("버징가~~~ ㅎㅎ");
 		productVO.setPrice(15000);
 		productVO.setSale_price(15000);
+		productVO.setShow_product("1");
 		
 		// 이미지 넣기
 		List<ProductImgVO> list1 = new ArrayList<ProductImgVO>();
@@ -91,13 +236,11 @@ public class ProductControllerTest extends TemplateTest {
 		productDetailVO1.setStock_use("1");
 		productDetailVO1.setStock_num(100);
 		productDetailVO1.setStock_avail(100);
-		productDetailVO1.setDisplay("1");
 		
 		ProductDetailVO productDetailVO2 = new ProductDetailVO();
 		productDetailVO2.setOption_code("레너드용/white/95");
 		productDetailVO2.setAdd_price(500);
 		productDetailVO2.setStock_use("0");
-		productDetailVO2.setDisplay("1");
 		
 		list2.add(productDetailVO1);
 		list2.add(productDetailVO2);
@@ -116,13 +259,13 @@ public class ProductControllerTest extends TemplateTest {
 		productVO.setDescription("버징가~~~ ㅎㅎ");
 		productVO.setPrice(15000);
 		productVO.setSale_price(15000);
+		productVO.setShow_product("1");
 		
 		// 상품상세 넣기
 		List<ProductDetailVO> list2 = new ArrayList<ProductDetailVO>();
 		
 		ProductDetailVO productDetailVO1 = new ProductDetailVO();
 		productDetailVO1.setStock_use("0");
-		productDetailVO1.setDisplay("1");
 		
 		list2.add(productDetailVO1);
 		
@@ -140,6 +283,7 @@ public class ProductControllerTest extends TemplateTest {
 		productVO.setDescription("버징가~~~ ㅎㅎ");
 		productVO.setPrice(15000);
 		productVO.setSale_price(15000);
+		productVO.setShow_product("1");
 		
 		productAdd(productVO, status().isBadRequest());
 	}
@@ -153,6 +297,7 @@ public class ProductControllerTest extends TemplateTest {
 			productVO.setDescription("버징가~~~ ㅎㅎ");
 			productVO.setPrice(15000);
 			productVO.setSale_price(15000);
+			productVO.setShow_product("1");
 
 			productAdd(productVO, status().isBadRequest());
 		}
@@ -165,6 +310,7 @@ public class ProductControllerTest extends TemplateTest {
 			productVO.setName("빅뱅이론 티셔츠");
 			productVO.setDescription("버징가~~~ ㅎㅎ");
 			productVO.setSale_price(15000);
+			productVO.setShow_product("1");
 
 			productAdd(productVO, status().isBadRequest());
 		}
@@ -223,7 +369,6 @@ public class ProductControllerTest extends TemplateTest {
 		
 		ProductDetailVO productDetailVO1 = new ProductDetailVO();
 		productDetailVO1.setStock_use("0");
-		productDetailVO1.setDisplay("1");
 		
 		list2.add(productDetailVO1);
 		
@@ -251,4 +396,27 @@ public class ProductControllerTest extends TemplateTest {
 		return parsingNo(resultActions.andReturn().getResponse().getContentAsString());
 	}
 
+	// 상품 수정
+	public void productUpdate(ProductVO productVO, ResultMatcher rm) throws Exception{
+		ResultActions resultActions = mockMvc
+				.perform(post("/api/product/update")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(productVO)));
+		
+		resultActions
+			.andDo(print())
+			.andExpect(rm);
+	}
+	
+	// 상품 삭제
+	public void productDelete(String no, ResultMatcher rm) throws Exception{
+		ResultActions resultActions = mockMvc
+				.perform(post("/api/product/delete")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(no)));
+		
+		resultActions
+			.andDo(print())
+			.andExpect(rm);
+	}
 }

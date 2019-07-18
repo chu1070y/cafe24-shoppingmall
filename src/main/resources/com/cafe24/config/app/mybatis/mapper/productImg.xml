@@ -13,6 +13,10 @@
 		select * from product_img where product_no = #{no}
 	</select>
 	
+	<delete id="deleteByNo" parameterType="int">
+		delete from product_img where product_no = #{no}
+	</delete>
+	
 	<delete id="deleteAll">
 		delete from product_img;
 	</delete>

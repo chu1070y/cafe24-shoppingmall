@@ -5,8 +5,8 @@
 
 
 	<insert id="insert" parameterType="productvo">
-		insert into product(code, name, description, price, sale_price, del)
-		values(#{code}, #{name}, #{description}, #{price}, #{sale_price},'0')
+		insert into product(code, name, description, price, sale_price, del, category_no, show_product)
+		values(#{code}, #{name}, #{description}, #{price}, #{sale_price},'0', #{category_no}, #{show_product})
 
 		<selectKey keyProperty="no" resultType="int" order="AFTER">
 			select last_insert_id()
@@ -35,5 +35,17 @@
 		delete from product;
 	</delete>
 	
+	<update id="update" parameterType="productvo">
+		update product 
+		set name = #{name}, description = #{description}, 
+			price = #{price}, sale_price = #{sale_price}, category_no = #{category_no}, show_product = #{show_product}
+		where no = #{no}
+	</update>
+	
+	<update id="updateDel" parameterType="int">
+		update product 
+		set del = '1'
+		where no = #{no}
+	</update>
 	
 </mapper>
