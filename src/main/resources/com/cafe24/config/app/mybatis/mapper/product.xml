@@ -5,8 +5,8 @@
 
 
 	<insert id="insert" parameterType="productvo">
-		insert into product(code, name, description, price, sale_price, del, category_no, show_product)
-		values(#{code}, #{name}, #{description}, #{price}, #{sale_price},'0', #{category_no}, #{show_product})
+		insert into product(code, name, description, price, sale_price, del, categ_high_no, categ_low_no, show_product)
+		values(#{code}, #{name}, #{description}, #{price}, #{sale_price},'0', #{categ_high_no}, #{categ_low_no}, #{show_product})
 
 		<selectKey keyProperty="no" resultType="int" order="AFTER">
 			select last_insert_id()
@@ -38,7 +38,9 @@
 	<update id="update" parameterType="productvo">
 		update product 
 		set name = #{name}, description = #{description}, 
-			price = #{price}, sale_price = #{sale_price}, category_no = #{category_no}, show_product = #{show_product}
+			price = #{price}, sale_price = #{sale_price}, 
+			categ_high_no = #{categ_high_no},categ_low_no = #{categ_low_no}, 
+			show_product = #{show_product}
 		where no = #{no}
 	</update>
 	

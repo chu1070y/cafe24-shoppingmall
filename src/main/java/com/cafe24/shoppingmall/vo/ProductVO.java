@@ -21,7 +21,8 @@ public class ProductVO {
 	private Integer sale_price;
 	private String show_product;
 	private String del;
-	private Integer category_no;
+	private Integer categ_high_no;
+	private Integer categ_low_no;
 	
 	List<ProductDetailVO> productDetailList;
 	
@@ -35,8 +36,8 @@ public class ProductVO {
 	public String toString() {
 		return "ProductVO [no=" + no + ", code=" + code + ", name=" + name + ", description=" + description + ", price="
 				+ price + ", sale_price=" + sale_price + ", show_product=" + show_product + ", del=" + del
-				+ ", category_no=" + category_no + ", productDetailList=" + productDetailList + ", productImgList="
-				+ productImgList + "]";
+				+ ", categ_high_no=" + categ_high_no + ", categ_low_no=" + categ_low_no + ", productDetailList="
+				+ productDetailList + ", productImgList=" + productImgList + "]";
 	}
 
 	public Integer getNo() {
@@ -103,12 +104,20 @@ public class ProductVO {
 		this.del = del;
 	}
 
-	public Integer getCategory_no() {
-		return category_no;
+	public Integer getCateg_high_no() {
+		return categ_high_no;
 	}
 
-	public void setCategory_no(Integer category_no) {
-		this.category_no = category_no;
+	public void setCateg_high_no(Integer categ_high_no) {
+		this.categ_high_no = categ_high_no;
+	}
+
+	public Integer getCateg_low_no() {
+		return categ_low_no;
+	}
+
+	public void setCateg_low_no(Integer categ_low_no) {
+		this.categ_low_no = categ_low_no;
 	}
 
 	public List<ProductDetailVO> getProductDetailList() {
