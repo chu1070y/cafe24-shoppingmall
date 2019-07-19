@@ -1,8 +1,13 @@
 package com.cafe24.shoppingmall.vo;
 
-public class CategoryVO {
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotBlank;
+
+public class CategoryVO {
+	@NotNull
 	private Integer category_no;
+	@NotBlank
 	private String category_name;
 	private Integer category_high_no;
 	

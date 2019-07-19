@@ -13,6 +13,15 @@
 		</selectKey>		
 	</insert>
 	
+	<select id="getListByNo" parameterType="int", resultType="categoryvo">
+		select * from category where category_high_no = #{category_no}
+	</select>
+	
+	<update id="update" parameterType="categoryvo">
+		update category set category_name = #{category_name}, category_high_no = #{category_high_no}
+		where category_no = #{category_no}
+	</update>
+	
 	<select id="getList" resultType="categoryvo">
 		select * from category
 	</select>
@@ -20,5 +29,10 @@
 	<delete id="deleteAll">
 		delete from category
 	</delete>
+	
+	
+	<select id="checkCategoryNo" parameterType="int" resultType="int">
+		select count(*) as number from category where category_no = #{category_no}
+	</select>
 	
 </mapper>

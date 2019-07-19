@@ -5,13 +5,13 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
 public class ProductVO {
 	private Integer no;
 	private String code;
 	
-	@NotEmpty(message="상품명을 입력해주세요.")
+	@NotBlank(message="상품명을 입력해주세요.")
 	@Length(min = 2, message="상품명은 최소 2글자 이상이어야 합니다.")
 	private String name;
 	private String description;

@@ -14,9 +14,9 @@ public class CategoryDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public Integer insert(CategoryVO vo) {
+	public CategoryVO insert(CategoryVO vo) {
 		sqlSession.insert("category.insert", vo);
-		return vo.getCategory_no();
+		return vo;
 	}
 
 	public Boolean deleteAll() {
@@ -25,6 +25,19 @@ public class CategoryDAO {
 
 	public List<CategoryVO> getList() {
 		return sqlSession.selectList("category.getList");
+	}
+
+	public Boolean update(CategoryVO vo) {
+		return 1 == sqlSession.update("category.update", vo);
+	}
+
+	public Boolean checkCategoryNo(Integer category_high_no) {
+		Integer number = sqlSession.selectOne("category.checkCategoryNo", category_high_no);
+		return 0 == number;
+	}
+
+	public List<CategoryVO> getList(Integer category_no) {
+		return sqlSession.selectList("category.getLowCategList", category_no);
 	}
 
 }

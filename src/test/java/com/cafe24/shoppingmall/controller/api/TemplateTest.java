@@ -48,4 +48,18 @@ public class TemplateTest {
 		System.out.println(idx1 + ":" + idx2);
 		return text.substring(idx1,idx2);
 	}
+	
+	public String[] parsingNo2(String text) {
+		String[] result = new String[2];
+		
+		Integer idx1 = text.lastIndexOf("<no>") + 4;
+		Integer idx2 = text.lastIndexOf("</no>");
+		result[0] = text.substring(idx1,idx2);
+		
+		Integer idx3 = text.lastIndexOf("<no2>") + 5;
+		Integer idx4 = text.lastIndexOf("</no2>");
+		result[1] = text.substring(idx3,idx4);
+		
+		return result;
+	}
 }

@@ -21,6 +21,43 @@ public class CategoryControllerTest extends TemplateTest{
 		categoryService.deleteAll();
 	}
 	
+	// 카테고리 수정 Test Case 1. - 카테고리 수정 (성공)
+	@Test
+	public void categoryUpdateTest1() throws Exception{
+		String[] no = categoryAddGetNo2("상의", null, status().isOk());
+		
+		CategoryVO categoryVO = new CategoryVO();
+		categoryVO.setCategory_no(Integer.parseInt(no[0]));
+		categoryVO.setCategory_name("shirt");
+		categoryVO.setCategory_high_no("null".equals(no[1])? null : Integer.parseInt(no[1]));
+		
+		categoryUpdate(categoryVO, status().isOk());
+	}
+	
+	// 카테고리 수정 Test Case 2. - 잘못된 카테고리 번호
+	@Test
+	public void categoryUpdateTest2() throws Exception{
+		CategoryVO categoryVO = new CategoryVO();
+		categoryVO.setCategory_no(-1);
+		categoryVO.setCategory_name("shirt");
+		categoryVO.setCategory_high_no(null);
+		
+		categoryUpdate(categoryVO, status().isBadRequest());
+	}
+	
+	// 카테고리 수정 Test Case 3. - 해당 상위 카테고리 번호 없음
+	@Test
+	public void categoryUpdateTest3() throws Exception{
+		String[] no = categoryAddGetNo2("상의", null, status().isOk());
+		
+		CategoryVO categoryVO = new CategoryVO();
+		categoryVO.setCategory_no(Integer.parseInt(no[0]));
+		categoryVO.setCategory_name("shirt");
+		categoryVO.setCategory_high_no(-1);
+		
+		categoryUpdate(categoryVO, status().isBadRequest());
+	}
+	
 	// 카테고리 리스트 Test Case 1. - 카테고리 리스트 조회 (성공)
 	@Test
 	public void categoryListTest1() throws Exception{
@@ -110,6 +147,51 @@ public class CategoryControllerTest extends TemplateTest{
 		.perform(get("/api/category/list"))
 		.andDo(print())
 		.andExpect(status().isOk());
+	}
+	
+	// 카테고리 수정
+	public void categoryUpdate(CategoryVO categoryVO, ResultMatcher rm) throws Exception {
+			
+		ResultActions resultActions = mockMvc
+				.perform(post("/api/category/update")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(categoryVO)));
+			
+		resultActions
+			.andDo(print())
+		.andExpect(rm);
+	}
+	// 카테고리 등록 no 파싱하기 + 상위 카테고리 no
+	public String[] categoryAddGetNo2(String name, Integer no, ResultMatcher rm) throws Exception {
+		CategoryVO categoryVO = new CategoryVO();
+		categoryVO.setCategory_name(name);
+		categoryVO.setCategory_high_no(no);
+		
+		ResultActions resultActions = mockMvc
+				.perform(post("/api/category/add")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(categoryVO)));
+		
+		resultActions
+			.andDo(print())
+			.andExpect(rm);
+		
+		return parsingNo2(resultActions.andReturn().getResponse().getContentAsString());
+	}
+	
+	// 카테고리 삭제
+	public void categoryDelete(String category_no, ResultMatcher rm) throws Exception {
+		CategoryVO vo = new CategoryVO();
+		vo.setCategory_no(Integer.parseInt(category_no));
+			
+		ResultActions resultActions = mockMvc
+				.perform(post("/api/category/update")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(vo)));
+			
+		resultActions
+			.andDo(print())
+			.andExpect(rm);
 	}
 
 }

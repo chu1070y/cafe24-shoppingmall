@@ -4,33 +4,33 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
 public class UserVO {
 	
 	private Integer no;
 	
-	@NotEmpty
+	@NotBlank
 	@Pattern(regexp = "^[a-zA-Z0-9]{4,18}$")
 	private String id;
 	
-	@NotEmpty
+	@NotBlank
 	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,}$")
 	private String pw;
 	
-	@NotEmpty
+	@NotBlank
 	@Length(min=2, max=8)
 	private String name;
 	private String addr;
 	
 	@Email
-	@NotEmpty
+	@NotBlank
 	private String email;
 	
 	@Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}$")
 	private String tel_home;
 	
-	@NotEmpty
+	@NotBlank
 	@Pattern(regexp = "^01(?:0|1|0)-\\d{4}-\\d{4}$")
 	private String tel_phone;
 	
