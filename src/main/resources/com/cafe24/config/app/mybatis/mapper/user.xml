@@ -55,7 +55,7 @@
 	</insert>
 
 	<delete id="deleteAll">
-		delete from member;
+		delete from member
 	</delete>
 	
 	<update id="update" parameterType="uservo">

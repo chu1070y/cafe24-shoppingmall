@@ -14,7 +14,7 @@
 	</select>
 
 	<delete id="deleteAll">
-		delete from product_detail;
+		delete from product_detail
 	</delete>
 	
 	<update id="update" parameterType="productdetailvo">

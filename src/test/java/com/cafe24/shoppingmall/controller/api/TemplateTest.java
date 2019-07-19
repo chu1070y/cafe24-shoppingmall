@@ -12,6 +12,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.shoppingmall.config.TestAppConfig;
 import com.cafe24.shoppingmall.config.TestWebConfig;
+import com.cafe24.shoppingmall.service.CategoryService;
 import com.cafe24.shoppingmall.service.ProductService;
 import com.cafe24.shoppingmall.service.UserService;
 
@@ -30,6 +31,9 @@ public class TemplateTest {
 	@Autowired
 	protected ProductService productService;
 	
+	@Autowired
+	protected CategoryService categoryService;
+	
 	@Before
 	public void setup() {
 		mockMvc = MockMvcBuilders
@@ -40,8 +44,8 @@ public class TemplateTest {
 	public String parsingNo(String text) {
 		
 		Integer idx1 = text.lastIndexOf("<no>") + 4;
-		Integer idx2 = text.lastIndexOf("<no/>");
-		
+		Integer idx2 = text.lastIndexOf("</no>");
+		System.out.println(idx1 + ":" + idx2);
 		return text.substring(idx1,idx2);
 	}
 }

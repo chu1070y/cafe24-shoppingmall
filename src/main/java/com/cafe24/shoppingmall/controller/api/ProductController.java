@@ -62,7 +62,7 @@ public class ProductController {
 	      }
 		
 		Integer checkVO = productService.insert(productVO);
-		return checkVO != -1 ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("상품 정상 등록 <no>" + checkVO + "<no/>")) : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("상품 등록 실패"));
+		return checkVO != -1 ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("상품 정상 등록 <no>" + checkVO + "</no>")) : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("상품 등록 실패"));
 	}
 	
 	// 상품 수정

@@ -18,7 +18,7 @@
 	</delete>
 	
 	<delete id="deleteAll">
-		delete from product_img;
+		delete from product_img
 	</delete>
 	
 </mapper>
