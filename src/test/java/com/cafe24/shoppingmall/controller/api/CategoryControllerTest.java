@@ -1,6 +1,7 @@
 package com.cafe24.shoppingmall.controller.api;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -18,6 +19,19 @@ public class CategoryControllerTest extends TemplateTest{
 	public void setup() {
 		super.setup();
 		categoryService.deleteAll();
+	}
+	
+	// 카테고리 리스트 Test Case 1. - 카테고리 리스트 조회 (성공)
+	@Test
+	public void categoryListTest1() throws Exception{
+		String no1 = categoryAddGetNo("상의", null, status().isOk());
+		String no2 = categoryAddGetNo("티셔츠", Integer.parseInt(no1), status().isOk());
+		categoryAdd("반팔 티셔츠", Integer.parseInt(no2), status().isOk());
+		
+		String no3 = categoryAddGetNo("하의", null, status().isOk());
+		categoryAdd("청바지", Integer.parseInt(no3), status().isOk());
+		
+		categoryList(status().isOk());
 	}
 	
 	// 카테고리 등록 Test Case 1. - 카테고리 등록 (성공) - 대분류 카테고리 추가
@@ -88,6 +102,14 @@ public class CategoryControllerTest extends TemplateTest{
 			.andExpect(rm);
 		
 		return parsingNo(resultActions.andReturn().getResponse().getContentAsString());
+	}
+	
+	// 카테고리 리스트
+	public void categoryList(ResultMatcher rm) throws Exception {
+		mockMvc
+		.perform(get("/api/category/list"))
+		.andDo(print())
+		.andExpect(status().isOk());
 	}
 
 }

@@ -13,6 +13,10 @@
 		</selectKey>		
 	</insert>
 	
+	<select id="getList" resultType="categoryvo">
+		select * from category
+	</select>
+	
 	<delete id="deleteAll">
 		delete from category
 	</delete>

@@ -1,5 +1,7 @@
 package com.cafe24.shoppingmall.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -19,6 +21,10 @@ public class CategoryDAO {
 
 	public Boolean deleteAll() {
 		return 1 == sqlSession.delete("category.deleteAll");
+	}
+
+	public List<CategoryVO> getList() {
+		return sqlSession.selectList("category.getList");
 	}
 
 }
