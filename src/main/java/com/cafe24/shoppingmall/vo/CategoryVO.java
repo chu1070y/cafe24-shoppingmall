@@ -1,7 +1,5 @@
 package com.cafe24.shoppingmall.vo;
 
-import java.util.List;
-
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -13,46 +11,30 @@ public class CategoryVO {
 	private String category_name;
 	private Integer parent;
 	
-	private List<CategoryVO> categoryConnectList;
-
 	@Override
 	public String toString() {
 		return "CategoryVO [category_no=" + category_no + ", category_name=" + category_name + ", parent=" + parent
-				+ ", categoryConnectList=" + categoryConnectList + "]";
+				+ "]";
 	}
-
 	public Integer getCategory_no() {
 		return category_no;
 	}
-
 	public void setCategory_no(Integer category_no) {
 		this.category_no = category_no;
 	}
-
 	public String getCategory_name() {
 		return category_name;
 	}
-
 	public void setCategory_name(String category_name) {
 		this.category_name = category_name;
 	}
-
 	public Integer getParent() {
 		return parent;
 	}
-
 	public void setParent(Integer parent) {
 		this.parent = parent;
 	}
 
-	public List<CategoryVO> getCategoryConnectList() {
-		return categoryConnectList;
-	}
-
-	public void setCategoryConnectList(List<CategoryVO> categoryConnectList) {
-		this.categoryConnectList = categoryConnectList;
-	}
-	
 
 	
 	
