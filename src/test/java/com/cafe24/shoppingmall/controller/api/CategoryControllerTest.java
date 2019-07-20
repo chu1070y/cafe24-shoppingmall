@@ -21,6 +21,14 @@ public class CategoryControllerTest extends TemplateTest{
 		categoryService.deleteAll();
 	}
 	
+	// 카테고리 삭제 Test Case 1. - 카테고리 삭제 (성공)
+	@Test
+	public void categoryDeleteTest1() throws Exception{
+		String no = categoryAddGetNo("상의", null, status().isOk());
+		
+		categoryDelete(no, status().isOk());
+	}
+	
 	// 카테고리 수정 Test Case 1. - 카테고리 수정 (성공)
 	@Test
 	public void categoryUpdateTest1() throws Exception{
@@ -29,7 +37,7 @@ public class CategoryControllerTest extends TemplateTest{
 		CategoryVO categoryVO = new CategoryVO();
 		categoryVO.setCategory_no(Integer.parseInt(no[0]));
 		categoryVO.setCategory_name("shirt");
-		categoryVO.setCategory_high_no("null".equals(no[1])? null : Integer.parseInt(no[1]));
+		categoryVO.setParent("null".equals(no[1])? null : Integer.parseInt(no[1]));
 		
 		categoryUpdate(categoryVO, status().isOk());
 	}
@@ -40,7 +48,7 @@ public class CategoryControllerTest extends TemplateTest{
 		CategoryVO categoryVO = new CategoryVO();
 		categoryVO.setCategory_no(-1);
 		categoryVO.setCategory_name("shirt");
-		categoryVO.setCategory_high_no(null);
+		categoryVO.setParent(null);
 		
 		categoryUpdate(categoryVO, status().isBadRequest());
 	}
@@ -53,7 +61,7 @@ public class CategoryControllerTest extends TemplateTest{
 		CategoryVO categoryVO = new CategoryVO();
 		categoryVO.setCategory_no(Integer.parseInt(no[0]));
 		categoryVO.setCategory_name("shirt");
-		categoryVO.setCategory_high_no(-1);
+		categoryVO.setParent(-1);
 		
 		categoryUpdate(categoryVO, status().isBadRequest());
 	}
@@ -112,7 +120,7 @@ public class CategoryControllerTest extends TemplateTest{
 	public void categoryAdd(String name, Integer no, ResultMatcher rm) throws Exception {
 		CategoryVO categoryVO = new CategoryVO();
 		categoryVO.setCategory_name(name);
-		categoryVO.setCategory_high_no(no);
+		categoryVO.setParent(no);
 		
 		ResultActions resultActions = mockMvc
 				.perform(post("/api/category/add")
@@ -127,7 +135,7 @@ public class CategoryControllerTest extends TemplateTest{
 	public String categoryAddGetNo(String name, Integer no, ResultMatcher rm) throws Exception {
 		CategoryVO categoryVO = new CategoryVO();
 		categoryVO.setCategory_name(name);
-		categoryVO.setCategory_high_no(no);
+		categoryVO.setParent(no);
 		
 		ResultActions resultActions = mockMvc
 				.perform(post("/api/category/add")
@@ -165,7 +173,7 @@ public class CategoryControllerTest extends TemplateTest{
 	public String[] categoryAddGetNo2(String name, Integer no, ResultMatcher rm) throws Exception {
 		CategoryVO categoryVO = new CategoryVO();
 		categoryVO.setCategory_name(name);
-		categoryVO.setCategory_high_no(no);
+		categoryVO.setParent(no);
 		
 		ResultActions resultActions = mockMvc
 				.perform(post("/api/category/add")
@@ -181,13 +189,10 @@ public class CategoryControllerTest extends TemplateTest{
 	
 	// 카테고리 삭제
 	public void categoryDelete(String category_no, ResultMatcher rm) throws Exception {
-		CategoryVO vo = new CategoryVO();
-		vo.setCategory_no(Integer.parseInt(category_no));
-			
 		ResultActions resultActions = mockMvc
-				.perform(post("/api/category/update")
+				.perform(post("/api/category/delete")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(new Gson().toJson(vo)));
+				.content(new Gson().toJson(category_no)));
 			
 		resultActions
 			.andDo(print())

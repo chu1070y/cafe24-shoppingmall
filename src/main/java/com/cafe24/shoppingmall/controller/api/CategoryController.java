@@ -43,14 +43,14 @@ public class CategoryController {
 		}
 		
 		// 상위 카테고리 존재 검사
-		if (categoryService.checkCategoryNo(vo.getCategory_high_no())) {
+		if (categoryService.checkCategoryNo(vo.getParent())) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("상위 카테고리 없음"));
 		}
 		
 		CategoryVO categoryVO = categoryService.insert(vo);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(
-				JSONResult.success("카테고리 추가 성공 <no>" + categoryVO.getCategory_no() + "</no> " + "<no2>" + categoryVO.getCategory_high_no() + "</no2>"));
+				JSONResult.success("카테고리 추가 성공 <no>" + categoryVO.getCategory_no() + "</no> " + "<no2>" + categoryVO.getParent() + "</no2>"));
 	}
 	
 	// 카테고리 조회
@@ -67,7 +67,7 @@ public class CategoryController {
 			){
 		
 		// 상위 카테고리 존재 검사
-		if (categoryService.checkCategoryNo(vo.getCategory_high_no())) {
+		if (categoryService.checkCategoryNo(vo.getParent())) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("상위 카테고리 없음"));
 		}
 		
@@ -91,9 +91,9 @@ public class CategoryController {
 	// 카테고리 삭제
 	@PostMapping("delete")
 	public ResponseEntity<JSONResult> categoryDelete(
-			@RequestBody CategoryVO vo, BindingResult result
+			@RequestBody Integer no, BindingResult result
 			){
-		categoryService.delete(vo);
+		categoryService.delete(no);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("카테고리 삭제 성공"));
 	}

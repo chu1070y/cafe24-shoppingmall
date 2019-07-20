@@ -5,20 +5,20 @@
 
 
 	<insert id="insert" parameterType="categoryvo">
-		insert into category(category_name, category_high_no)
-			values( #{category_name}, #{category_high_no})
+		insert into category(category_name, parent)
+			values( #{category_name}, #{parent})
 		
 		<selectKey keyProperty="category_no" resultType="int" order="AFTER">
 			select last_insert_id()
 		</selectKey>		
 	</insert>
 	
-	<select id="getListByNo" parameterType="int", resultType="categoryvo">
-		select * from category where category_high_no = #{category_no}
+	<select id="getListByNo" parameterType="int" resultType="categoryvo">
+		select * from category where parent = #{category_no}
 	</select>
 	
 	<update id="update" parameterType="categoryvo">
-		update category set category_name = #{category_name}, category_high_no = #{category_high_no}
+		update category set category_name = #{category_name}, parent = #{parent}
 		where category_no = #{category_no}
 	</update>
 	
@@ -34,5 +34,13 @@
 	<select id="checkCategoryNo" parameterType="int" resultType="int">
 		select count(*) as number from category where category_no = #{category_no}
 	</select>
+	
+	<delete id="delete" parameterType="int">
+		delete from category where category_no = #{category_no}
+	</delete>
+	
+	<delete id="deleteCategoryProduct" parameterType="int">
+		delete from category_product where category_no = #{category_no} 
+	</delete>
 	
 </mapper>

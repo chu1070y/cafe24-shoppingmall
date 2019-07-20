@@ -36,8 +36,9 @@ public class CategoryDAO {
 		return 0 == number;
 	}
 
-	public List<CategoryVO> getList(Integer category_no) {
-		return sqlSession.selectList("category.getLowCategList", category_no);
+	public Boolean delete(Integer category_no) {
+		sqlSession.delete("category.deleteCategoryProduct", category_no);
+		return 1 == sqlSession.delete("category.delete", category_no);
 	}
 
 }

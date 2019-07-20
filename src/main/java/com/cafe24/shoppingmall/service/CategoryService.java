@@ -41,11 +41,8 @@ public class CategoryService {
 	}
 
 	@Transactional
-	public Boolean delete(CategoryVO vo) {
-		
-		List<CategoryVO> categoryVOList = categoryDAO.getList(vo.getCategory_no());
-		
-		return null;
+	public Boolean delete(Integer no) {
+		return categoryDAO.delete(no);
 	}
 
 }

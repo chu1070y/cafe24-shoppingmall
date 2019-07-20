@@ -21,14 +21,16 @@ public class ProductVO {
 	private Integer sale_price;
 	private String show_product;
 	private String del;
-	private Integer category_no;
 	
 	List<ProductDetailVO> productDetailList;
 	
 	List<ProductImgVO> productImgList;
 
-	public ProductVO() {
-		this.show_product = "0";
+	@Override
+	public String toString() {
+		return "ProductVO [no=" + no + ", code=" + code + ", name=" + name + ", description=" + description + ", price="
+				+ price + ", sale_price=" + sale_price + ", show_product=" + show_product + ", del=" + del
+				+ ", productDetailList=" + productDetailList + ", productImgList=" + productImgList + "]";
 	}
 
 	public Integer getNo() {
@@ -95,14 +97,6 @@ public class ProductVO {
 		this.del = del;
 	}
 
-	public Integer getCategory_no() {
-		return category_no;
-	}
-
-	public void setCategory_no(Integer category_no) {
-		this.category_no = category_no;
-	}
-
 	public List<ProductDetailVO> getProductDetailList() {
 		return productDetailList;
 	}
@@ -119,12 +113,6 @@ public class ProductVO {
 		this.productImgList = productImgList;
 	}
 
-	@Override
-	public String toString() {
-		return "ProductVO [no=" + no + ", code=" + code + ", name=" + name + ", description=" + description + ", price="
-				+ price + ", sale_price=" + sale_price + ", show_product=" + show_product + ", del=" + del
-				+ ", category_no=" + category_no + ", productDetailList=" + productDetailList + ", productImgList="
-				+ productImgList + "]";
-	}
+	
 
 }
