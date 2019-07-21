@@ -25,6 +25,7 @@ public class ProductControllerTest extends TemplateTest {
 	@Override
 	public void setup() {
 		super.setup();
+		categoryService.deleteAll();
 		productService.deleteAll();
 	}
 	
@@ -48,7 +49,7 @@ public class ProductControllerTest extends TemplateTest {
 	}
 
 	
-	// 상품 수정 Test Case 1. - 상품 수정(성공) + 이미지 + 상품상세
+	// 상품 수정 Test Case 1. - 상품 수정(성공) + 이미지 + 상품상세 + 카테고리
 	@Test
 	public void productUpdateTest1() throws Exception {
 		String no = productAddTest1("빅뱅이론 티셔츠xyz");
@@ -98,6 +99,22 @@ public class ProductControllerTest extends TemplateTest {
 		list2.add(productDetailVO2);
 		
 		productVO.setProductDetailList(list2);
+		
+		// 상품카테고리 등록
+		String categNo1 = categoryAddGetNo("shirts", null, status().isOk());
+		String categNo2 = categoryAddGetNo("t-shirts", Integer.parseInt(categNo1), status().isOk());
+		
+		List<CategoryVO> list3 = new ArrayList<CategoryVO>();
+		
+		CategoryVO categoryVO1 = new CategoryVO();
+		categoryVO1.setCategory_no(Integer.parseInt(categNo1));
+		CategoryVO categoryVO2 = new CategoryVO();
+		categoryVO2.setCategory_no(Integer.parseInt(categNo2));
+		
+		list3.add(categoryVO1);
+		list3.add(categoryVO2);
+		
+		productVO.setCategoryList(list3);
 		
 		productUpdate(productVO, status().isOk());
 	}
@@ -257,7 +274,7 @@ public class ProductControllerTest extends TemplateTest {
 		CategoryVO categoryVO1 = new CategoryVO();
 		categoryVO1.setCategory_no(Integer.parseInt(categNo1));
 		CategoryVO categoryVO2 = new CategoryVO();
-		categoryVO1.setCategory_no(Integer.parseInt(categNo2));
+		categoryVO2.setCategory_no(Integer.parseInt(categNo2));
 		
 		list3.add(categoryVO1);
 		list3.add(categoryVO2);
@@ -391,6 +408,22 @@ public class ProductControllerTest extends TemplateTest {
 		list2.add(productDetailVO1);
 		
 		productVO.setProductDetailList(list2);
+		
+		// 상품카테고리 등록
+		String categNo1 = categoryAddGetNo("상의", null, status().isOk());
+		String categNo2 = categoryAddGetNo("티셔츠", Integer.parseInt(categNo1), status().isOk());
+		
+		List<CategoryVO> list3 = new ArrayList<CategoryVO>();
+		
+		CategoryVO categoryVO1 = new CategoryVO();
+		categoryVO1.setCategory_no(Integer.parseInt(categNo1));
+		CategoryVO categoryVO2 = new CategoryVO();
+		categoryVO2.setCategory_no(Integer.parseInt(categNo2));
+		
+		list3.add(categoryVO1);
+		list3.add(categoryVO2);
+		
+		productVO.setCategoryList(list3);
 		
 		return productAddGetNo(productVO, status().isOk());
 	}

@@ -151,12 +151,22 @@ public class ProductService {
 		
 		// 상품 이미지 수정
 		if (productVO.getProductImgList() != null) {
+			productImgDAO.deleteByNo(no);
 			for(ProductImgVO imgVO: productVO.getProductImgList()) {
 				imgVO.setProduct_no(no);
-				productImgDAO.deleteByNo(no);
 				productImgDAO.insert(imgVO);
 			}
 		}
+		
+		// 상품 카테고리 수정
+		if (productVO.getCategoryList() != null) {
+			categoryDAO.deleteCategProductByProductNo(no);
+			for(CategoryVO categVO: productVO.getCategoryList()) {
+				categVO.setProduct_no(no);
+				categoryDAO.insertCategoryProduct(categVO);
+			}
+		}
+		
 		return true;
 	}
 

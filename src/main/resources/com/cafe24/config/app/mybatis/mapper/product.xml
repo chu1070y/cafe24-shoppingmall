@@ -39,7 +39,6 @@
 		update product 
 		set name = #{name}, description = #{description}, 
 			price = #{price}, sale_price = #{sale_price}, 
-			category_no = #{category_no}, 
 			show_product = #{show_product}
 		where no = #{no}
 	</update>

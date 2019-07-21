@@ -20,6 +20,7 @@ public class CategoryDAO {
 	}
 
 	public Boolean deleteAll() {
+		sqlSession.delete("category.deleteAllProduct");
 		return 1 == sqlSession.delete("category.deleteAll");
 	}
 
@@ -43,6 +44,10 @@ public class CategoryDAO {
 
 	public Boolean insertCategoryProduct(CategoryVO categVO) {
 		return 1 == sqlSession.insert("category.insertCategoryProduct", categVO);
+	}
+
+	public Boolean deleteCategProductByProductNo(Integer no) {
+		return 1 == sqlSession.delete("category.deleteCategProductByProductNo", no);
 	}
 
 }

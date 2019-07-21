@@ -30,6 +30,14 @@
 		delete from category
 	</delete>
 	
+	<delete id="deleteAllProduct">
+		delete from category_product
+	</delete>
+	
+	<delete id="deleteCategProductByProductNo" parameterType="int">
+		delete from category_product where product_no = #{no}
+	</delete>
+	
 	
 	<select id="checkCategoryNo" parameterType="int" resultType="int">
 		select count(*) as number from category where category_no = #{category_no}
