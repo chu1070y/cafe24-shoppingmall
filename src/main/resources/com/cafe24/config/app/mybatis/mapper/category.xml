@@ -43,4 +43,9 @@
 		delete from category_product where category_no = #{category_no} 
 	</delete>
 	
+	<insert id="insertCategoryProduct" parameterType="categoryvo">
+		insert into category_product(product_no, category_no)
+			values(#{product_no}, #{category_no})
+	</insert>
+	
 </mapper>

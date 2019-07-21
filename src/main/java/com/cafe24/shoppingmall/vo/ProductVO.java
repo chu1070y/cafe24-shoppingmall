@@ -25,12 +25,15 @@ public class ProductVO {
 	List<ProductDetailVO> productDetailList;
 	
 	List<ProductImgVO> productImgList;
+	
+	List<CategoryVO> categoryList;
 
 	@Override
 	public String toString() {
 		return "ProductVO [no=" + no + ", code=" + code + ", name=" + name + ", description=" + description + ", price="
 				+ price + ", sale_price=" + sale_price + ", show_product=" + show_product + ", del=" + del
-				+ ", productDetailList=" + productDetailList + ", productImgList=" + productImgList + "]";
+				+ ", productDetailList=" + productDetailList + ", productImgList=" + productImgList + ", categoryList="
+				+ categoryList + "]";
 	}
 
 	public Integer getNo() {
@@ -113,6 +116,12 @@ public class ProductVO {
 		this.productImgList = productImgList;
 	}
 
-	
+	public List<CategoryVO> getCategoryList() {
+		return categoryList;
+	}
+
+	public void setCategoryList(List<CategoryVO> categoryList) {
+		this.categoryList = categoryList;
+	}
 
 }

@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 
 import com.cafe24.shoppingmall.dto.PageInfo;
+import com.cafe24.shoppingmall.vo.CategoryVO;
 import com.cafe24.shoppingmall.vo.ProductDetailVO;
 import com.cafe24.shoppingmall.vo.ProductImgVO;
 import com.cafe24.shoppingmall.vo.ProductVO;
@@ -247,10 +248,26 @@ public class ProductControllerTest extends TemplateTest {
 		
 		productVO.setProductDetailList(list2);
 		
+		// 상품카테고리 등록
+		String categNo1 = categoryAddGetNo("상의", null, status().isOk());
+		String categNo2 = categoryAddGetNo("티셔츠", Integer.parseInt(categNo1), status().isOk());
+		
+		List<CategoryVO> list3 = new ArrayList<CategoryVO>();
+		
+		CategoryVO categoryVO1 = new CategoryVO();
+		categoryVO1.setCategory_no(Integer.parseInt(categNo1));
+		CategoryVO categoryVO2 = new CategoryVO();
+		categoryVO1.setCategory_no(Integer.parseInt(categNo2));
+		
+		list3.add(categoryVO1);
+		list3.add(categoryVO2);
+		
+		productVO.setCategoryList(list3);
+		
 		productAdd(productVO, status().isOk());
 	}
 	
-	// 상품 등록 Test Case 2. - 상품 정상 등록(성공) - 이미지 없음, 재고 사용안함, 옵션 없음
+	// 상품 등록 Test Case 2. - 상품 정상 등록(성공) - 이미지 없음, 재고 사용안함, 옵션 없음, 카테고리 없음
 	@Test
 	public void productAddTest2() throws Exception{
 		ProductVO productVO = new ProductVO();
@@ -345,6 +362,7 @@ public class ProductControllerTest extends TemplateTest {
 		productVO.setDescription("버징가~~~ ㅎㅎ");
 		productVO.setPrice(15000);
 		productVO.setSale_price(15000);
+		productVO.setShow_product("1");
 		
 		// 이미지 넣기
 		List<ProductImgVO> list1 = new ArrayList<ProductImgVO>();

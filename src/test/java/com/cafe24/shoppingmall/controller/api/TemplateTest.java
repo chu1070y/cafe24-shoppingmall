@@ -1,12 +1,18 @@
 package com.cafe24.shoppingmall.controller.api;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -15,6 +21,8 @@ import com.cafe24.shoppingmall.config.TestWebConfig;
 import com.cafe24.shoppingmall.service.CategoryService;
 import com.cafe24.shoppingmall.service.ProductService;
 import com.cafe24.shoppingmall.service.UserService;
+import com.cafe24.shoppingmall.vo.CategoryVO;
+import com.google.gson.Gson;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes= {TestAppConfig.class, TestWebConfig.class})
@@ -61,5 +69,23 @@ public class TemplateTest {
 		result[1] = text.substring(idx3,idx4);
 		
 		return result;
+	}
+	
+	// 카테고리 등록 no 파싱하기
+	public String categoryAddGetNo(String name, Integer no, ResultMatcher rm) throws Exception {
+		CategoryVO categoryVO = new CategoryVO();
+		categoryVO.setCategory_name(name);
+		categoryVO.setParent(no);
+		
+		ResultActions resultActions = mockMvc
+				.perform(post("/api/category/add")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(categoryVO)));
+		
+		resultActions
+			.andDo(print())
+			.andExpect(rm);
+		
+		return parsingNo(resultActions.andReturn().getResponse().getContentAsString());
 	}
 }

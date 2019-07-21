@@ -41,4 +41,8 @@ public class CategoryDAO {
 		return 1 == sqlSession.delete("category.delete", category_no);
 	}
 
+	public Boolean insertCategoryProduct(CategoryVO categVO) {
+		return 1 == sqlSession.insert("category.insertCategoryProduct", categVO);
+	}
+
 }

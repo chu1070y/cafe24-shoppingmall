@@ -131,23 +131,6 @@ public class CategoryControllerTest extends TemplateTest{
 			.andDo(print())
 			.andExpect(rm);
 	}
-	// 카테고리 등록 no 파싱하기
-	public String categoryAddGetNo(String name, Integer no, ResultMatcher rm) throws Exception {
-		CategoryVO categoryVO = new CategoryVO();
-		categoryVO.setCategory_name(name);
-		categoryVO.setParent(no);
-		
-		ResultActions resultActions = mockMvc
-				.perform(post("/api/category/add")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(new Gson().toJson(categoryVO)));
-		
-		resultActions
-			.andDo(print())
-			.andExpect(rm);
-		
-		return parsingNo(resultActions.andReturn().getResponse().getContentAsString());
-	}
 	
 	// 카테고리 리스트
 	public void categoryList(ResultMatcher rm) throws Exception {

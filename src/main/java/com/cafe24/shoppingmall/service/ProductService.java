@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.shoppingmall.dto.PageInfo;
+import com.cafe24.shoppingmall.repository.CategoryDAO;
 import com.cafe24.shoppingmall.repository.ProductDAO;
 import com.cafe24.shoppingmall.repository.ProductDetailDAO;
 import com.cafe24.shoppingmall.repository.ProductImgDAO;
+import com.cafe24.shoppingmall.vo.CategoryVO;
 import com.cafe24.shoppingmall.vo.ProductDetailVO;
 import com.cafe24.shoppingmall.vo.ProductImgVO;
 import com.cafe24.shoppingmall.vo.ProductVO;
@@ -27,6 +29,9 @@ public class ProductService {
 	
 	@Autowired
 	private ProductDetailDAO productDetailDAO;
+	
+	@Autowired
+	private CategoryDAO categoryDAO;
 
 	@Transactional
 	public Map<String, Object> getList(PageInfo pageInfo) {
@@ -72,6 +77,14 @@ public class ProductService {
 				// 상품 등록 후 no 가져와 상품 이미지 등록
 				imgVO.setProduct_no(vo.getNo());
 				productImgDAO.insert(imgVO);
+			}
+		}
+		
+		// 상품 카테고리 등록
+		if (vo.getCategoryList() != null) {
+			for(CategoryVO categVO : vo.getCategoryList()) {
+				categVO.setProduct_no(vo.getNo());
+				categoryDAO.insertCategoryProduct(categVO);
 			}
 		}
 		
