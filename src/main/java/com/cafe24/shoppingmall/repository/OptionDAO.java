@@ -27,4 +27,9 @@ public class OptionDAO {
 		sqlSession.delete("option.deleteAllDetail");
 		return 1 == sqlSession.delete("option.deleteAll");
 	}
+
+	public Boolean deleteByOptionVO(OptionVO optionVO) {
+		sqlSession.delete("option.deleteDetail", optionVO.getOption_no());
+		return 1 == sqlSession.delete("option.delete", optionVO.getProduct_no());
+	}
 }

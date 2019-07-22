@@ -191,6 +191,22 @@ public class ProductService {
 			}
 		}
 		
+		// 옵션 수정
+		if (productVO.getOptionList() != null) {
+			for(OptionVO optionVO : productVO.getOptionList()) {
+				optionVO.setProduct_no(no);
+				optionDAO.deleteByOptionVO(optionVO);
+				
+				if(optionVO.getOptionDetailList() == null) {continue;}
+				
+				for(OptionDetailVO detailVO : optionVO.getOptionDetailList()) {
+					detailVO.setOption_no(optionVO.getOption_no());
+					optionDAO.insertDetail(detailVO);
+				}
+			}
+			
+		}
+		
 		return true;
 	}
 

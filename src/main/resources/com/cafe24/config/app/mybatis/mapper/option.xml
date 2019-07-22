@@ -25,4 +25,11 @@
 		delete from option_detail
 	</delete>
 	
+	<delete id="deleteDetail" parameterType="int">
+		delete from option_detail where option_no #{option_no}
+	</delete>
+	
+	<delete id="delete">
+		delete from option where product_no = #{product_no}
+	</delete>
 </mapper>
