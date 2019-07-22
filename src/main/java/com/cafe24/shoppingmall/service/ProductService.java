@@ -10,10 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.shoppingmall.dto.PageInfo;
 import com.cafe24.shoppingmall.repository.CategoryDAO;
+import com.cafe24.shoppingmall.repository.OptionDAO;
 import com.cafe24.shoppingmall.repository.ProductDAO;
 import com.cafe24.shoppingmall.repository.ProductDetailDAO;
 import com.cafe24.shoppingmall.repository.ProductImgDAO;
 import com.cafe24.shoppingmall.vo.CategoryVO;
+import com.cafe24.shoppingmall.vo.OptionDetailVO;
+import com.cafe24.shoppingmall.vo.OptionVO;
 import com.cafe24.shoppingmall.vo.ProductDetailVO;
 import com.cafe24.shoppingmall.vo.ProductImgVO;
 import com.cafe24.shoppingmall.vo.ProductVO;
@@ -32,6 +35,9 @@ public class ProductService {
 	
 	@Autowired
 	private CategoryDAO categoryDAO;
+	
+	@Autowired
+	private OptionDAO optionDAO;
 
 	@Transactional
 	public Map<String, Object> getList(PageInfo pageInfo) {
@@ -63,11 +69,12 @@ public class ProductService {
 		
 		// 상품 등록
 		ProductVO vo = productDAO.insert(productVO);
+		Integer productNo = vo.getNo();
 		
 		// 상품 상세 등록
 		for(ProductDetailVO detailVO: vo.getProductDetailList()) {
 			// 상품 등록 후 no 가져와 상품 상세 등록
-			detailVO.setProduct_no(vo.getNo());
+			detailVO.setProduct_no(productNo);
 			productDetailDAO.insert(detailVO);
 		}
 		
@@ -75,7 +82,7 @@ public class ProductService {
 		if (vo.getProductImgList() != null) {
 			for(ProductImgVO imgVO : vo.getProductImgList()) {
 				// 상품 등록 후 no 가져와 상품 이미지 등록
-				imgVO.setProduct_no(vo.getNo());
+				imgVO.setProduct_no(productNo);
 				productImgDAO.insert(imgVO);
 			}
 		}
@@ -83,8 +90,23 @@ public class ProductService {
 		// 상품 카테고리 등록
 		if (vo.getCategoryList() != null) {
 			for(CategoryVO categVO : vo.getCategoryList()) {
-				categVO.setProduct_no(vo.getNo());
+				categVO.setProduct_no(productNo);
 				categoryDAO.insertCategoryProduct(categVO);
+			}
+		}
+		
+		// 상품 옵션 등록
+		if (vo.getOptionList() != null) {
+			for(OptionVO optionVO : vo.getOptionList()) {
+				optionVO.setProduct_no(productNo);
+				optionVO = optionDAO.insert(optionVO);
+				
+				if(optionVO.getOptionDetailList() == null) {continue;}
+				
+				for(OptionDetailVO detailVO : optionVO.getOptionDetailList()) {
+					detailVO.setOption_no(optionVO.getOption_no());
+					optionDAO.insertDetail(detailVO);
+				}
 			}
 		}
 		
@@ -96,6 +118,8 @@ public class ProductService {
 	public void deleteAll() {
 		productImgDAO.deleteAll();
 		productDetailDAO.deleteAll();
+		categoryDAO.deleteAllCategoryProduct();
+		optionDAO.deleteAll();
 		productDAO.deleteAll();
 	}
 
@@ -173,7 +197,6 @@ public class ProductService {
 	// 상품 삭제
 	@Transactional
 	public Boolean delete(Integer no) {
-		
 		productDAO.updateDel(no);
 		productDetailDAO.updateDel(no);
 		productImgDAO.deleteByNo(no);

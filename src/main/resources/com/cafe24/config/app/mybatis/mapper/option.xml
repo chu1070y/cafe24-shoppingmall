@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="option">
+
+	<insert id="insert" parameterType="optionvo">
+		insert into product_option(product_no, name, necessary)
+			values( #{product_no}, #{name}, #{necessary})
+		
+		<selectKey keyProperty="option_no" resultType="int" order="AFTER">
+			select last_insert_id()
+		</selectKey>		
+	</insert>
+	
+	<insert id="insertDetail" parameterType="optiondetailvo">
+		insert into option_detail(option_no, detail_name)
+			values( #{option_no}, #{detail_name})
+	</insert>
+	
+	<delete id="deleteAll">
+		delete from product_option
+	</delete>
+	
+	<delete id="deleteAllDetail">
+		delete from option_detail
+	</delete>
+	
+</mapper>

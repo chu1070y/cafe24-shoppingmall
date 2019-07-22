@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
@@ -15,6 +16,8 @@ import org.springframework.test.web.servlet.ResultMatcher;
 
 import com.cafe24.shoppingmall.dto.PageInfo;
 import com.cafe24.shoppingmall.vo.CategoryVO;
+import com.cafe24.shoppingmall.vo.OptionDetailVO;
+import com.cafe24.shoppingmall.vo.OptionVO;
 import com.cafe24.shoppingmall.vo.ProductDetailVO;
 import com.cafe24.shoppingmall.vo.ProductImgVO;
 import com.cafe24.shoppingmall.vo.ProductVO;
@@ -25,7 +28,6 @@ public class ProductControllerTest extends TemplateTest {
 	@Override
 	public void setup() {
 		super.setup();
-		categoryService.deleteAll();
 		productService.deleteAll();
 	}
 	
@@ -49,7 +51,7 @@ public class ProductControllerTest extends TemplateTest {
 	}
 
 	
-	// 상품 수정 Test Case 1. - 상품 수정(성공) + 이미지 + 상품상세 + 카테고리
+	// 상품 수정 Test Case 1. - 상품 수정(성공) + 이미지 + 상품상세 + 카테고리 + 옵션
 	@Test
 	public void productUpdateTest1() throws Exception {
 		String no = productAddTest1("빅뱅이론 티셔츠xyz");
@@ -84,14 +86,14 @@ public class ProductControllerTest extends TemplateTest {
 		List<ProductDetailVO> list2 = new ArrayList<ProductDetailVO>();
 		
 		ProductDetailVO productDetailVO1 = new ProductDetailVO();
-		productDetailVO1.setOption_code("쉘든용/black/100");
+		productDetailVO1.setOption_code("블랙/S");
 		productDetailVO1.setAdd_price(1000);
 		productDetailVO1.setStock_use("1");
 		productDetailVO1.setStock_num(100);
 		productDetailVO1.setStock_avail(100);
 		
 		ProductDetailVO productDetailVO2 = new ProductDetailVO();
-		productDetailVO2.setOption_code("레너드용/white/95");
+		productDetailVO2.setOption_code("화이트/M");
 		productDetailVO2.setAdd_price(500);
 		productDetailVO2.setStock_use("0");
 		
@@ -116,10 +118,37 @@ public class ProductControllerTest extends TemplateTest {
 		
 		productVO.setCategoryList(list3);
 		
+		// 상품 옵션 등록
+		OptionVO optionVO1 = new OptionVO();
+		optionVO1.setName("색상");
+		optionVO1.setNecessary("1");
+		
+		OptionDetailVO optionDetailVO1 = new OptionDetailVO();
+		optionDetailVO1.setDetail_name("블랙");
+		OptionDetailVO optionDetailVO2 = new OptionDetailVO();
+		optionDetailVO2.setDetail_name("화이트");
+		
+		optionVO1.setOptionDetailList(Arrays.asList(optionDetailVO1, optionDetailVO2));
+		
+		OptionVO optionVO2 = new OptionVO();
+		optionVO2.setName("크기");
+		optionVO2.setNecessary("1");
+		
+		OptionDetailVO optionDetailVO3 = new OptionDetailVO();
+		optionDetailVO3.setDetail_name("S");
+		OptionDetailVO optionDetailVO4 = new OptionDetailVO();
+		optionDetailVO4.setDetail_name("M");
+		OptionDetailVO optionDetailVO5 = new OptionDetailVO();
+		optionDetailVO5.setDetail_name("L");
+		
+		optionVO2.setOptionDetailList(Arrays.asList(optionDetailVO3, optionDetailVO4, optionDetailVO5));
+		
+		productVO.setOptionList(Arrays.asList(optionVO1, optionVO2));
+		
 		productUpdate(productVO, status().isOk());
 	}
 	
-	// 상품 수정 Test Case 2. - 상품 수정(성공) + 이미지 미포함
+	// 상품 수정 Test Case 2. - 상품 수정(성공) + 이미지 미포함 + 카테고리 미포함 + 옵션 미포함
 	@Test
 	public void productUpdateTest2() throws Exception {
 		String no = productAddTest1("빅뱅이론 티셔츠xyz");
@@ -136,14 +165,12 @@ public class ProductControllerTest extends TemplateTest {
 		List<ProductDetailVO> list2 = new ArrayList<ProductDetailVO>();
 		
 		ProductDetailVO productDetailVO1 = new ProductDetailVO();
-		productDetailVO1.setOption_code("쉘든용/black/100");
 		productDetailVO1.setAdd_price(1000);
 		productDetailVO1.setStock_use("1");
 		productDetailVO1.setStock_num(100);
 		productDetailVO1.setStock_avail(100);
 		
 		ProductDetailVO productDetailVO2 = new ProductDetailVO();
-		productDetailVO2.setOption_code("레너드용/white/95");
 		productDetailVO2.setAdd_price(500);
 		productDetailVO2.setStock_use("0");
 		
@@ -155,7 +182,7 @@ public class ProductControllerTest extends TemplateTest {
 		productUpdate(productVO, status().isOk());
 	}
 	
-	// 상품 수정 Test Case 3. - 상품상세 미포함
+	// 상품 수정 Test Case 3. - 상품상세, 카테고리, 옵션 미포함
 	@Test
 	public void productUpdateTest3() throws Exception {
 		String no = productAddTest1("빅뱅이론 티셔츠xyz");
@@ -280,6 +307,33 @@ public class ProductControllerTest extends TemplateTest {
 		list3.add(categoryVO2);
 		
 		productVO.setCategoryList(list3);
+		
+		// 상품 옵션 등록
+		OptionVO optionVO1 = new OptionVO();
+		optionVO1.setName("색상");
+		optionVO1.setNecessary("1");
+				
+		OptionDetailVO optionDetailVO1 = new OptionDetailVO();
+		optionDetailVO1.setDetail_name("블랙");
+		OptionDetailVO optionDetailVO2 = new OptionDetailVO();
+		optionDetailVO2.setDetail_name("화이트");
+				
+		optionVO1.setOptionDetailList(Arrays.asList(optionDetailVO1, optionDetailVO2));
+		
+		OptionVO optionVO2 = new OptionVO();
+		optionVO2.setName("크기");
+		optionVO2.setNecessary("1");
+				
+		OptionDetailVO optionDetailVO3 = new OptionDetailVO();
+		optionDetailVO3.setDetail_name("S");
+		OptionDetailVO optionDetailVO4 = new OptionDetailVO();
+		optionDetailVO4.setDetail_name("M");
+		OptionDetailVO optionDetailVO5 = new OptionDetailVO();
+		optionDetailVO5.setDetail_name("L");
+				
+		optionVO2.setOptionDetailList(Arrays.asList(optionDetailVO3, optionDetailVO4, optionDetailVO5));
+		
+		productVO.setOptionList(Arrays.asList(optionVO1, optionVO2));
 		
 		productAdd(productVO, status().isOk());
 	}
@@ -424,6 +478,33 @@ public class ProductControllerTest extends TemplateTest {
 		list3.add(categoryVO2);
 		
 		productVO.setCategoryList(list3);
+		
+		// 상품 옵션 등록
+		OptionVO optionVO1 = new OptionVO();
+		optionVO1.setName("색상");
+		optionVO1.setNecessary("1");
+					
+		OptionDetailVO optionDetailVO1 = new OptionDetailVO();
+		optionDetailVO1.setDetail_name("블랙");
+		OptionDetailVO optionDetailVO2 = new OptionDetailVO();
+		optionDetailVO2.setDetail_name("화이트");
+						
+		optionVO1.setOptionDetailList(Arrays.asList(optionDetailVO1, optionDetailVO2));
+				
+		OptionVO optionVO2 = new OptionVO();
+		optionVO2.setName("크기");
+		optionVO2.setNecessary("1");
+						
+		OptionDetailVO optionDetailVO3 = new OptionDetailVO();
+		optionDetailVO3.setDetail_name("S");
+		OptionDetailVO optionDetailVO4 = new OptionDetailVO();
+		optionDetailVO4.setDetail_name("M");
+		OptionDetailVO optionDetailVO5 = new OptionDetailVO();
+		optionDetailVO5.setDetail_name("L");
+						
+		optionVO2.setOptionDetailList(Arrays.asList(optionDetailVO3, optionDetailVO4, optionDetailVO5));
+				
+		productVO.setOptionList(Arrays.asList(optionVO1, optionVO2));
 		
 		return productAddGetNo(productVO, status().isOk());
 	}

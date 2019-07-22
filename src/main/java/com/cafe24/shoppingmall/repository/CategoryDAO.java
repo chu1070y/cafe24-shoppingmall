@@ -23,6 +23,10 @@ public class CategoryDAO {
 		sqlSession.delete("category.deleteAllProduct");
 		return 1 == sqlSession.delete("category.deleteAll");
 	}
+	
+	public Boolean deleteAllCategoryProduct() {
+		return 1 == sqlSession.delete("category.deleteAllProduct");
+	}
 
 	public List<CategoryVO> getList() {
 		return sqlSession.selectList("category.getList");
