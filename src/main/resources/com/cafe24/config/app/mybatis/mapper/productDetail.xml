@@ -19,7 +19,7 @@
 	
 	<update id="update" parameterType="productdetailvo">
 		update product_detail 
-		set detail_del = '1',  add_price = #{add_price}, stock_num = #{stock_num},
+		set detail_del = '0',  add_price = #{add_price}, stock_num = #{stock_num},
 			stock_use = #{stock_use}, stock_avail = #{stock_avail}, 
 		where product_detail_no = #{product_detail_no}
 	</update>

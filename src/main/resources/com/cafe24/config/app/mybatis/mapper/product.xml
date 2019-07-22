@@ -16,7 +16,7 @@
 	<select id="getProduct" parameterType="int" resultType="productvo">
 		select *
 		from product
-		where no = #{no} and del='0'
+		where no = #{no}
 	</select>
 	
 	<select id="getList" parameterType="pageinfo" resultType="productvo">
