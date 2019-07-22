@@ -5,8 +5,8 @@
 
 
 	<insert id="insert" parameterType="categoryvo">
-		insert into category(category_name, parent)
-			values( #{category_name}, #{parent})
+		insert into category(category_name, parent, ord)
+			values( #{category_name}, #{parent}, #{ord})
 		
 		<selectKey keyProperty="category_no" resultType="int" order="AFTER">
 			select last_insert_id()
@@ -22,7 +22,7 @@
 	</select>
 	
 	<update id="update" parameterType="categoryvo">
-		update category set category_name = #{category_name}, parent = #{parent}
+		update category set category_name = #{category_name}, parent = #{parent}, ord = #{ord}
 		where category_no = #{category_no}
 	</update>
 	

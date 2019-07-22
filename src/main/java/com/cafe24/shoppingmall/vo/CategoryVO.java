@@ -11,12 +11,14 @@ public class CategoryVO {
 	private String category_name;
 	private Integer parent;
 	
+	private Integer ord = 1;
+	
 	private Integer product_no;
 
 	@Override
 	public String toString() {
 		return "CategoryVO [category_no=" + category_no + ", category_name=" + category_name + ", parent=" + parent
-				+ ", product_no=" + product_no + "]";
+				+ ", ord=" + ord + ", product_no=" + product_no + "]";
 	}
 
 	public Integer getCategory_no() {
@@ -43,6 +45,14 @@ public class CategoryVO {
 		this.parent = parent;
 	}
 
+	public Integer getOrd() {
+		return ord;
+	}
+
+	public void setOrd(Integer ord) {
+		this.ord = ord;
+	}
+
 	public Integer getProduct_no() {
 		return product_no;
 	}
@@ -50,7 +60,6 @@ public class CategoryVO {
 	public void setProduct_no(Integer product_no) {
 		this.product_no = product_no;
 	}
-
 
 
 	
