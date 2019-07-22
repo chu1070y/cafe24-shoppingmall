@@ -20,8 +20,8 @@ public class ProductDAO {
 		return vo;
 	}
 
-	public void deleteAll() {
-		sqlSession.delete("product.deleteAll");
+	public Boolean deleteAll() {
+		return 1 == sqlSession.delete("product.deleteAll");
 	}
 
 	public Integer totalCount() {

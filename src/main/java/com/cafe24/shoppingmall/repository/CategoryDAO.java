@@ -54,4 +54,8 @@ public class CategoryDAO {
 		return 1 == sqlSession.delete("category.deleteCategProductByProductNo", no);
 	}
 
+	public List<CategoryVO> getCategoryProduct(Integer no) {
+		return sqlSession.selectList("category.getCategoryProduct", no);
+	}
+
 }

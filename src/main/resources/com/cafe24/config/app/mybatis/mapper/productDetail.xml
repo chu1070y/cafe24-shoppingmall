@@ -10,7 +10,7 @@
 	</insert>
 	
 	<select id="getList" parameterType="int" resultType="productdetailvo">
-		select * from product_detail where product_no = #{no} and detail_del = '1'
+		select * from product_detail where product_no = #{no} and detail_del = '0'
 	</select>
 
 	<delete id="deleteAll">

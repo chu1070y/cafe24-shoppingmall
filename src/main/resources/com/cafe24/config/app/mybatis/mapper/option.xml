@@ -32,4 +32,27 @@
 	<delete id="delete">
 		delete from option where product_no = #{product_no}
 	</delete>
+	
+	<resultMap type="optionvo" id="optionmap">
+  		<result property="option_no1" column="option_no"/>
+  		<result property="product_no" column="product_no"/>
+  		<result property="name" column="name"/>
+  		<result property="necessary" column="necessary"/>
+  		<collection property="optionDetailList" resultMap="detailmap"></collection>
+  	</resultMap>
+	
+	<resultMap type="optiondetailvo" id="detailmap">
+		<result property="option_detail_no" column="option_detail_no"/>
+		<result property="option_no2" column="option_no"/>
+		<result property="detail_name" column="detail_name"/>
+	</resultMap>
+	
+	<select id="getOptionByProductNo" parameterType="int" resultMap="optionmap">
+		select a.option_no as option_no1, a.product_no, a.name, a.necessary, b.option_detail_no, b.option_no as option_no2, b.detail_name
+		from product_option a 
+			left join option_detail b 
+			on a.option_no = b.option_no
+		where a.product_no = #{no}
+	</select>
+	
 </mapper>

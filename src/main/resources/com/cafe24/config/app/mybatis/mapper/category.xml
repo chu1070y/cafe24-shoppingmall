@@ -17,6 +17,10 @@
 		select * from category where parent = #{category_no}
 	</select>
 	
+	<select id="getCategoryProduct" parameterType="int" resultType="categoryvo">
+		select * from category_product where product_no = #{category_no}
+	</select>
+	
 	<update id="update" parameterType="categoryvo">
 		update category set category_name = #{category_name}, parent = #{parent}
 		where category_no = #{category_no}

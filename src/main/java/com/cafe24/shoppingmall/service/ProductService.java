@@ -131,6 +131,8 @@ public class ProductService {
 		
 		vo.setProductImgList(productImgDAO.getImgs(no));
 		vo.setProductDetailList(productDetailDAO.getDetails(no));
+		vo.setCategoryList(categoryDAO.getCategoryProduct(no));
+		vo.setOptionList(optionDAO.getOption(no));
 		
 		return vo;
 	}

@@ -102,7 +102,7 @@ public class ProductControllerTest extends TemplateTest {
 		
 		productVO.setProductDetailList(list2);
 		
-		// 상품카테고리 등록
+		// 상품카테고리 수정
 		String categNo1 = categoryAddGetNo("shirts", null, status().isOk());
 		String categNo2 = categoryAddGetNo("t-shirts", Integer.parseInt(categNo1), status().isOk());
 		
@@ -118,7 +118,7 @@ public class ProductControllerTest extends TemplateTest {
 		
 		productVO.setCategoryList(list3);
 		
-		// 상품 옵션 등록
+		// 상품 옵션 수정
 		OptionVO optionVO1 = new OptionVO();
 		optionVO1.setName("색상");
 		optionVO1.setNecessary("1");
@@ -243,7 +243,7 @@ public class ProductControllerTest extends TemplateTest {
 		productList(pageInfo, status().isOk());
 	}
 	
-	// 상품 등록 Test Case 1. - 상품 정상 등록(성공)
+	// 상품 등록 Test Case 1. - 상품 정상 등록(성공) - 이미지, 상세, 카테고리, 옵션
 	@Test
 	public void productAddTest1() throws Exception{
 		ProductVO productVO = new ProductVO();
@@ -494,7 +494,7 @@ public class ProductControllerTest extends TemplateTest {
 		OptionVO optionVO2 = new OptionVO();
 		optionVO2.setName("크기");
 		optionVO2.setNecessary("1");
-						
+		
 		OptionDetailVO optionDetailVO3 = new OptionDetailVO();
 		optionDetailVO3.setDetail_name("S");
 		OptionDetailVO optionDetailVO4 = new OptionDetailVO();
