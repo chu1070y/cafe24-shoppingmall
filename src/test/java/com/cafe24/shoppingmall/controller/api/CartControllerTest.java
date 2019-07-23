@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 
 import com.cafe24.shoppingmall.vo.CartVO;
+import com.cafe24.shoppingmall.vo.NomemberVO;
 import com.cafe24.shoppingmall.vo.ProductVO;
 import com.google.gson.Gson;
 
@@ -24,6 +25,7 @@ public class CartControllerTest extends TemplateTest {
 	@Override
 	public void setup() {
 		super.setup();
+		nomemberService.deleteAll();
 		userService.deleteAll();
 		cartService.deleteAll();
 		
@@ -61,6 +63,27 @@ public class CartControllerTest extends TemplateTest {
 		// 장바구니 담기
 		CartVO cartVO = new CartVO();
 		cartVO.setMember_no(userNo);
+		cartVO.setProduct_detail_no(productVO.getProductDetailList().get(0).getProduct_detail_no());
+		cartVO.setQuantity(1);
+
+		CartAdd(cartVO, status().isOk());
+	}
+	
+	// 장바구니 등록 Test Case 2. - 장바구니 등록 (성공) - 비회원
+	@Test
+	public void CartAddtest2() throws Exception {
+		// 비회원 등록
+		NomemberVO nomemberVO = nomember("sessionid_1", status().isOk());
+		
+		// 상품 등록하고 상품번호 갖고오기
+		Integer productNo = productAddTest1("너네가 찾던 코트");
+		
+		// 특정 상품 정보 가져오기
+		ProductVO productVO = productRead(productNo, status().isOk());
+		
+		// 장바구니 담기
+		CartVO cartVO = new CartVO();
+		cartVO.setNomember_no(nomemberVO.getNo());
 		cartVO.setProduct_detail_no(productVO.getProductDetailList().get(0).getProduct_detail_no());
 		cartVO.setQuantity(1);
 
