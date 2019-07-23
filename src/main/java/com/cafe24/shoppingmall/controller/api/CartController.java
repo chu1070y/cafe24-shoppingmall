@@ -36,6 +36,8 @@ public class CartController {
 	@PostMapping("/update")
 	public ResponseEntity<JSONResult> update(@RequestBody CartVO vo) {
 		
+		System.out.println("--------------------->" + vo);
+		
 		if(vo.getNo() < 1) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("수량 1이상 입력 요망"));
 		}

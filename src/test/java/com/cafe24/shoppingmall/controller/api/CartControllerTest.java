@@ -6,19 +6,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.common.util.JacksonJsonParser;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 
 import com.cafe24.shoppingmall.vo.CartVO;
+import com.cafe24.shoppingmall.vo.CategoryVO;
 import com.cafe24.shoppingmall.vo.NomemberVO;
 import com.cafe24.shoppingmall.vo.ProductVO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 public class CartControllerTest extends TemplateTest {
+	
+	JacksonJsonParser jsonParser = new JacksonJsonParser();
+	ObjectMapper oMapper = new ObjectMapper();
 	
 	@Override
 	public void setup() {
@@ -155,25 +163,44 @@ public class CartControllerTest extends TemplateTest {
 		map.put("id", "chu1070y");
 		map.put("pw", "12345678z!");
 		Integer userNo = userLogin(map, status().isOk());
-				
-		// 상품 등록하고 상품번호 갖고오기
-		Integer productNo = productAddTest1("너네가 찾던 코트");
-			
-		// 특정 상품 정보 가져오기
-		ProductVO productVO = productRead(productNo, status().isOk());
-				
-		// 장바구니 담기
+		
+		// 장바구니 상품 등록
+		cartAddForTest("니가 원하는 청바지", userNo , null);
+		
 		CartVO cartVO = new CartVO();
 		cartVO.setMember_no(userNo);
-		cartVO.setProduct_detail_no(productVO.getProductDetailList().get(0).getProduct_detail_no());
-		cartVO.setQuantity(1);
-		cartAdd(cartVO, status().isOk());
+
+		// 장바구니 가져오기
+		Object cartNo = cartListForTest(cartVO, status().isOk());
 		
 		// 장바구니 수량 변경
+		cartVO.setNo((Integer) cartNo);
 		cartVO.setQuantity(3);
+		
 		cartUpdate(cartVO, status().isOk());
 	}
 	
+	// 장바구니 수량 변경 Test Case 2. - 장바구니 수량 변경 (성공) - 비회원
+	@Test
+	public void cartUpdateTest2() throws Exception {
+		// 비회원 등록
+		NomemberVO nomemberVO = nomember("sessionid_1", status().isOk());
+		
+		// 장바구니 상품 등록
+		cartAddForTest("니가 원하는 청바지2", null, nomemberVO.getNo());
+		
+		CartVO cartVO = new CartVO();
+		cartVO.setNomember_no(nomemberVO.getNo());
+
+		// 장바구니 가져오기
+		Object cartNo = cartListForTest(cartVO, status().isOk());
+		
+		// 장바구니 수량 변경
+		cartVO.setNo((Integer) cartNo);
+		cartVO.setQuantity(4);
+		
+		cartUpdate(cartVO, status().isOk());
+	}
 	
 	/*
 	 * 테스트케이스에 사용될 함수들..
@@ -185,6 +212,21 @@ public class CartControllerTest extends TemplateTest {
 
 		resultActions.andDo(print()).andExpect(status().isOk()).andExpect(rm);
 	}
+	// 장바구니 자동 등록 (다른 test용)
+	public void cartAddForTest(String name, Integer member_no, Integer nomember_no) throws Exception {
+		// 상품 등록하고 상품번호 갖고오기
+		Integer productNo = productAddTest1(name);
+		// 특정 상품 정보 가져오기
+		ProductVO productVO = productRead(productNo, status().isOk());
+		// 장바구니 담기
+		CartVO cartVO = new CartVO();
+		cartVO.setMember_no(member_no);
+		cartVO.setNomember_no(nomember_no);
+		cartVO.setProduct_detail_no(productVO.getProductDetailList().get(0).getProduct_detail_no());
+		cartVO.setQuantity(1);
+
+		cartAdd(cartVO, status().isOk());
+	}
 	
 	// 장바구니 리스트
 	public void cartList(CartVO cartVO, ResultMatcher rm) throws Exception {
@@ -194,7 +236,23 @@ public class CartControllerTest extends TemplateTest {
 						.param("nomember_no", cartVO.getNomember_no() == null ? null : Integer.toString(cartVO.getNomember_no())));
 		
 		resultActions.andDo(print()).andExpect(status().isOk()).andExpect(rm);
+		
 	}
+	// 장바구니 리스트 (다른 테스트 용)
+	public Object cartListForTest(CartVO cartVO, ResultMatcher rm) throws Exception {
+		ResultActions resultActions = 
+				mockMvc.perform(get("/api/cart/list")
+						.param("member_no", cartVO.getMember_no() == null ? null : Integer.toString(cartVO.getMember_no()))
+						.param("nomember_no", cartVO.getNomember_no() == null ? null : Integer.toString(cartVO.getNomember_no())));
+		
+		resultActions.andDo(print()).andExpect(status().isOk()).andExpect(rm);
+		
+		String resultString = resultActions.andReturn().getResponse().getContentAsString();
+		List<Map<String, Object>> list = oMapper.convertValue(jsonParser.parseMap(resultString).get("data"), List.class);
+		
+		return list.get(0).get("no");
+	}
+	
 	
 	// 장바구니 수량 변경
 	public void cartUpdate(CartVO cartVO, ResultMatcher rm) throws Exception {
