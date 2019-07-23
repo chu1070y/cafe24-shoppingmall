@@ -13,8 +13,10 @@ import java.util.Map;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.ResultMatcher;
 
 import com.cafe24.shoppingmall.vo.CartVO;
+import com.cafe24.shoppingmall.vo.ProductVO;
 import com.google.gson.Gson;
 
 public class CartControllerTest extends TemplateTest {
@@ -48,15 +50,21 @@ public class CartControllerTest extends TemplateTest {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", "chu1070y");
 		map.put("pw", "12345678z!");
-		Integer no = userLogin(map, status().isOk());
+		Integer userNo = userLogin(map, status().isOk());
 		
+		// 상품 등록하고 상품번호 갖고오기
+		Integer productNo = productAddTest1("너네가 찾던 코트");
+		
+		// 특정 상품 정보 가져오기
+		ProductVO productVO = productRead(productNo, status().isOk());
+		
+		// 장바구니 담기
 		CartVO cartVO = new CartVO();
-		cartVO.setNo(no);
+		cartVO.setMember_no(userNo);
+		cartVO.setProduct_detail_no(productVO.getProductDetailList().get(0).getProduct_detail_no());
+		cartVO.setQuantity(1);
 
-		ResultActions resultActions = mockMvc.perform(
-				post("/api/cart/add").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map)));
-
-		resultActions.andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.result", is("success")));
+		CartAdd(cartVO, status().isOk());
 	}
 
 	@Test
@@ -77,17 +85,11 @@ public class CartControllerTest extends TemplateTest {
 	 * 테스트케이스에 사용될 함수들..
 	 */
 	// 장바구니 등록
-	public void CartAdd() throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("memberNo", "1");
-		map.put("nomemberNo", "null");
-		map.put("productDetailNo", "2");
-		map.put("quantity", "5");
-
+	public void CartAdd(CartVO cartVO, ResultMatcher rm) throws Exception {
 		ResultActions resultActions = mockMvc.perform(
-				post("/api/cart/add").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map)));
+				post("/api/cart/add").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(cartVO)));
 
-		resultActions.andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.result", is("success")));
+		resultActions.andDo(print()).andExpect(status().isOk()).andExpect(rm);
 	}
 
 }

@@ -419,11 +419,6 @@ public class ProductControllerTest extends TemplateTest {
 				pageinfo.getDisplay().toString())).andDo(print()).andExpect(rm);
 	}
 
-	// 특정 상품 조회
-	public void productRead(Integer no, ResultMatcher rm) throws Exception {
-		mockMvc.perform(get("/api/product/" + no)).andDo(print()).andExpect(rm);
-	}
-
 	// 상품 수정
 	public void productUpdate(ProductVO productVO, ResultMatcher rm) throws Exception {
 		ResultActions resultActions = mockMvc.perform(post("/api/product/update")

@@ -1,5 +1,6 @@
 package com.cafe24.shoppingmall.controller.api;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -215,5 +216,15 @@ public class TemplateTest {
 		Integer productNo = oMapper.convertValue(jsonParser.parseMap(resultString).get("data"), Integer.class);
 
 		return productNo;
+	}
+	
+	// 특정 상품 조회
+	public ProductVO productRead(Integer no, ResultMatcher rm) throws Exception {
+		ResultActions resultActions = mockMvc.perform(get("/api/product/" + no)).andDo(print()).andExpect(rm);
+		
+		String resultString = resultActions.andReturn().getResponse().getContentAsString();
+		ProductVO productVO = oMapper.convertValue(jsonParser.parseMap(resultString).get("data"), ProductVO.class);
+		
+		return productVO;
 	}
 }

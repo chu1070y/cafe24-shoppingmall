@@ -13,9 +13,7 @@ public class CartService {
 	private CartDAO cartDAO;
 	
 	public Boolean insertCart(CartVO vo) {
-		// DB 접속해 장바구니에 상품담기
-		System.out.println(vo);
-		return true;
+		return cartDAO.insert(vo);
 	}
 
 	public Boolean updateCart(CartVO vo) {
