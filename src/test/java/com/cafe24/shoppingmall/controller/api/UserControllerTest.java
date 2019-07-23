@@ -20,6 +20,7 @@ public class UserControllerTest extends TemplateTest{
 	@Override
 	public void setup() {
 		super.setup();
+		cartService.deleteAll();
 		userService.deleteAll();
 	}
 

@@ -28,9 +28,11 @@ import com.cafe24.shoppingmall.config.TestAppConfig;
 import com.cafe24.shoppingmall.config.TestWebConfig;
 import com.cafe24.shoppingmall.service.CartService;
 import com.cafe24.shoppingmall.service.CategoryService;
+import com.cafe24.shoppingmall.service.NomemberService;
 import com.cafe24.shoppingmall.service.ProductService;
 import com.cafe24.shoppingmall.service.UserService;
 import com.cafe24.shoppingmall.vo.CategoryVO;
+import com.cafe24.shoppingmall.vo.NomemberVO;
 import com.cafe24.shoppingmall.vo.OptionDetailVO;
 import com.cafe24.shoppingmall.vo.OptionVO;
 import com.cafe24.shoppingmall.vo.ProductDetailVO;
@@ -60,6 +62,9 @@ public class TemplateTest {
 	
 	@Autowired
 	protected CartService cartService;
+	
+	@Autowired
+	protected NomemberService nomemberService;
 
 	JacksonJsonParser jsonParser = new JacksonJsonParser();
 	ObjectMapper oMapper = new ObjectMapper();
@@ -226,5 +231,19 @@ public class TemplateTest {
 		ProductVO productVO = oMapper.convertValue(jsonParser.parseMap(resultString).get("data"), ProductVO.class);
 		
 		return productVO;
+	}
+	
+	// 비회원 조회
+	public NomemberVO nomember(String sessionID, ResultMatcher rm) throws Exception{
+		ResultActions resultActions = mockMvc
+		.perform(get("/api/nomember").param("session_id", sessionID))
+		.andDo(print())
+		.andExpect(rm)
+		;
+		
+		String resultString = resultActions.andReturn().getResponse().getContentAsString();
+		NomemberVO nomemberVO = oMapper.convertValue(jsonParser.parseMap(resultString).get("data"), NomemberVO.class);
+		
+		return nomemberVO;
 	}
 }

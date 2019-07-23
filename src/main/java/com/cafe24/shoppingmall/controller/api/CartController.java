@@ -39,4 +39,6 @@ public class CartController {
 				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("장바구니 수량변경 성공")) : 
 					ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("장바구니 수량변경 실패"));
 	}
+	
+
 }

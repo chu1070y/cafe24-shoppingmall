@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="nomember">
+
+	<insert id="insert" parameterType="nomembervo">
+		insert into nomember(session_id)
+			values(#{session_id})
+		
+		<selectKey keyProperty="no" resultType="int" order="AFTER">
+			select last_insert_id()
+		</selectKey>	
+	</insert>
+
+	<select id="get" parameterType="nomembervo" resultType="nomembervo">
+		select * from nomember where session_id = #{session_id}
+	</select>
+
+	
+	<delete id="deleteAll">
+		delete from nomember
+	</delete>
+	
+</mapper>

@@ -11,7 +11,6 @@ import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.common.util.JacksonJsonParser;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cafe24.shoppingmall.dto.JSONResult;
 import com.cafe24.shoppingmall.service.CategoryService;
 import com.cafe24.shoppingmall.vo.CategoryVO;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping(value = "/api/category")
@@ -31,9 +29,6 @@ public class CategoryController {
 
 	@Autowired
 	private CategoryService categoryService;
-	
-	JacksonJsonParser jsonParser = new JacksonJsonParser();
-	ObjectMapper oMapper = new ObjectMapper();
 	
 	// 카테고리 등록
 	@PostMapping("add")
