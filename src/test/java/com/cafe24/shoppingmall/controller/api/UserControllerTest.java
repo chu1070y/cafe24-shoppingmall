@@ -177,7 +177,7 @@ public class UserControllerTest extends TemplateTest{
 		map.put("id", "chu10");
 		map.put("pw", "12345678z!");
 		
-		userLogin(map, status().isOk());
+		userLogin(map, status().isBadRequest());
 	}
 	
 	// 사용자 로그인 Test Case 3. - 비밀번호 틀림
@@ -190,7 +190,7 @@ public class UserControllerTest extends TemplateTest{
 		map.put("id", "chu1070y");
 		map.put("pw", "123456zzz!");
 		
-		userLogin(map, status().isOk());
+		userLogin(map, status().isBadRequest());
 	}
 	
 	// 회원정보 조회 Test Case 1. - 회원정보 조회(성공)
@@ -296,30 +296,6 @@ public class UserControllerTest extends TemplateTest{
 		.param("id", id))
 		.andDo(print())
 		.andExpect(rm);
-	}
-	
-	// 회원가입
-	public void registerMember(Map<String, Object> map, ResultMatcher rm) throws Exception{
-		ResultActions resultActions = mockMvc
-				.perform(post("/api/user/registerMember")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(new Gson().toJson(map)));
-		
-		resultActions
-			.andDo(print())
-			.andExpect(rm);
-	}
-	
-	// 로그인
-	public void userLogin(Map<String, Object> map, ResultMatcher rm) throws Exception{
-		ResultActions resultActions = mockMvc
-				.perform(post("/api/user/login")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(new Gson().toJson(map)));
-		
-		resultActions
-			.andDo(print())
-			.andExpect(rm);
 	}
 	
 	// 회원정보 조회 - 1명

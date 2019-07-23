@@ -84,7 +84,7 @@ public class UserController {
 		
 		return uservo != null ? 
 				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(uservo)) : 
-					ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("해당 정보와 일치하는 값이 없습니다."));
+					ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("해당 정보와 일치하는 값이 없습니다."));
 	}
 	
 	//회원정보 조회- 1명

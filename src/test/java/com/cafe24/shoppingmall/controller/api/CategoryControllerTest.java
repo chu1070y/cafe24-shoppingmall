@@ -24,7 +24,7 @@ public class CategoryControllerTest extends TemplateTest{
 	// 카테고리 삭제 Test Case 1. - 카테고리 삭제 (성공)
 	@Test
 	public void categoryDeleteTest1() throws Exception{
-		String no = categoryAddGetNo("상의", null, status().isOk());
+		Integer no = categoryAddGetNo("상의", null, status().isOk()).getCategory_no();
 		
 		categoryDelete(no, status().isOk());
 	}
@@ -32,12 +32,12 @@ public class CategoryControllerTest extends TemplateTest{
 	// 카테고리 수정 Test Case 1. - 카테고리 수정 (성공)
 	@Test
 	public void categoryUpdateTest1() throws Exception{
-		String[] no = categoryAddGetNo2("상의", null, status().isOk());
+		CategoryVO vo = categoryAddGetNo("상의", null, status().isOk());
 		
 		CategoryVO categoryVO = new CategoryVO();
-		categoryVO.setCategory_no(Integer.parseInt(no[0]));
+		categoryVO.setCategory_no(vo.getCategory_no());
 		categoryVO.setCategory_name("shirt");
-		categoryVO.setParent("null".equals(no[1])? null : Integer.parseInt(no[1]));
+		categoryVO.setParent(vo.getParent());
 		
 		categoryUpdate(categoryVO, status().isOk());
 	}
@@ -56,10 +56,10 @@ public class CategoryControllerTest extends TemplateTest{
 	// 카테고리 수정 Test Case 3. - 해당 상위 카테고리 번호 없음
 	@Test
 	public void categoryUpdateTest3() throws Exception{
-		String[] no = categoryAddGetNo2("상의", null, status().isOk());
+		CategoryVO vo = categoryAddGetNo("상의", null, status().isOk());
 		
 		CategoryVO categoryVO = new CategoryVO();
-		categoryVO.setCategory_no(Integer.parseInt(no[0]));
+		categoryVO.setCategory_no(vo.getCategory_no());
 		categoryVO.setCategory_name("shirt");
 		categoryVO.setParent(-1);
 		
@@ -69,12 +69,12 @@ public class CategoryControllerTest extends TemplateTest{
 	// 카테고리 리스트 Test Case 1. - 카테고리 리스트 조회 (성공)
 	@Test
 	public void categoryListTest1() throws Exception{
-		String no1 = categoryAddGetNo("상의", null, status().isOk());
-		String no2 = categoryAddGetNo("티셔츠", Integer.parseInt(no1), status().isOk());
-		categoryAdd("반팔 티셔츠", Integer.parseInt(no2), status().isOk());
+		Integer no1 = categoryAddGetNo("상의", null, status().isOk()).getCategory_no();
+		Integer no2 = categoryAddGetNo("티셔츠", no1, status().isOk()).getCategory_no();
+		categoryAdd("반팔 티셔츠", no2, status().isOk());
 		
-		String no3 = categoryAddGetNo("하의", null, status().isOk());
-		categoryAdd("청바지", Integer.parseInt(no3), status().isOk());
+		Integer no3 = categoryAddGetNo("하의", null, status().isOk()).getCategory_no();
+		categoryAdd("청바지", no3, status().isOk());
 		
 		categoryList(status().isOk());
 	}
@@ -88,16 +88,16 @@ public class CategoryControllerTest extends TemplateTest{
 	// 카테고리 등록 Test Case 2. - 카테고리 등록 (성공) - 대분류, 중분류 카테고리 추가
 	@Test
 	public void checkIdTest2() throws Exception{
-		String no = categoryAddGetNo("상의", null, status().isOk());
-		categoryAdd("티셔츠", Integer.parseInt(no), status().isOk());
+		Integer no = categoryAddGetNo("상의", null, status().isOk()).getCategory_no();
+		categoryAdd("티셔츠", no, status().isOk());
 	}
 	
 	// 카테고리 등록 Test Case 3. - 카테고리 등록 (성공) - 대분류, 중분류, 소분류 카테고리 추가
 	@Test
 	public void checkIdTest3() throws Exception{
-		String no1 = categoryAddGetNo("상의", null, status().isOk());
-		String no2 = categoryAddGetNo("티셔츠", Integer.parseInt(no1), status().isOk());
-		categoryAdd("반팔 티셔츠", Integer.parseInt(no2), status().isOk());
+		Integer no1 = categoryAddGetNo("상의", null, status().isOk()).getCategory_no();
+		Integer no2 = categoryAddGetNo("티셔츠", no1, status().isOk()).getCategory_no();
+		categoryAdd("반팔 티셔츠", no2, status().isOk());
 	}
 	
 	// 카테고리 등록 Test Case 4. - 카테고리 이름 미입력
@@ -152,26 +152,9 @@ public class CategoryControllerTest extends TemplateTest{
 			.andDo(print())
 		.andExpect(rm);
 	}
-	// 카테고리 등록 no 파싱하기 + 상위 카테고리 no
-	public String[] categoryAddGetNo2(String name, Integer no, ResultMatcher rm) throws Exception {
-		CategoryVO categoryVO = new CategoryVO();
-		categoryVO.setCategory_name(name);
-		categoryVO.setParent(no);
-		
-		ResultActions resultActions = mockMvc
-				.perform(post("/api/category/add")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(new Gson().toJson(categoryVO)));
-		
-		resultActions
-			.andDo(print())
-			.andExpect(rm);
-		
-		return parsingNo2(resultActions.andReturn().getResponse().getContentAsString());
-	}
 	
 	// 카테고리 삭제
-	public void categoryDelete(String category_no, ResultMatcher rm) throws Exception {
+	public void categoryDelete(Integer category_no, ResultMatcher rm) throws Exception {
 		ResultActions resultActions = mockMvc
 				.perform(post("/api/category/delete")
 				.contentType(MediaType.APPLICATION_JSON)

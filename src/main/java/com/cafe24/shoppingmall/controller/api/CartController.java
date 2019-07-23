@@ -20,8 +20,8 @@ public class CartController {
 	@Autowired
 	private CartService cartService;
 	
-	@PostMapping("insert")
-	public ResponseEntity<JSONResult> cart(@RequestBody CartVO vo) {
+	@PostMapping("add")
+	public ResponseEntity<JSONResult> cartAdd(@RequestBody CartVO vo) {
 		return cartService.insertCart(vo) ? 
 				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("장바구니 담기 성공")) : 
 					ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("장바구니 담기 실패"));

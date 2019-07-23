@@ -34,8 +34,8 @@ public class ProductControllerTest extends TemplateTest {
 	// 상품 삭제 Test Case 1. - 상품 삭제(성공)
 	@Test
 	public void productDeleteTest1() throws Exception {
-		String no = productAddTest1("빅뱅이론 티셔츠8282");
-		productDelete(no, status().isOk());
+		Integer no = productAddTest1("빅뱅이론 티셔츠8282");
+		productDelete(Integer.toString(no), status().isOk());
 	}
 
 	// 상품 삭제 Test Case 2. - 숫자 아닌 값 입력
@@ -53,10 +53,10 @@ public class ProductControllerTest extends TemplateTest {
 	// 상품 수정 Test Case 1. - 상품 수정(성공) + 이미지 + 상품상세 + 카테고리 + 옵션
 	@Test
 	public void productUpdateTest1() throws Exception {
-		String no = productAddTest1("빅뱅이론 티셔츠xyz");
+		Integer no = productAddTest1("빅뱅이론 티셔츠xyz");
 
 		ProductVO productVO = new ProductVO();
-		productVO.setNo(Integer.parseInt(no));
+		productVO.setNo(no);
 		productVO.setName("빅뱅이론 티셔츠xxxxxxxxx");
 		productVO.setDescription("맘마미아----------");
 		productVO.setPrice(25000);
@@ -102,15 +102,15 @@ public class ProductControllerTest extends TemplateTest {
 		productVO.setProductDetailList(list2);
 
 		// 상품카테고리 수정
-		String categNo1 = categoryAddGetNo("shirts", null, status().isOk());
-		String categNo2 = categoryAddGetNo("t-shirts", Integer.parseInt(categNo1), status().isOk());
+		Integer categNo1 = categoryAddGetNo("shirts", null, status().isOk()).getCategory_no();
+		Integer categNo2 = categoryAddGetNo("t-shirts", categNo1, status().isOk()).getCategory_no();
 
 		List<CategoryVO> list3 = new ArrayList<CategoryVO>();
 
 		CategoryVO categoryVO1 = new CategoryVO();
-		categoryVO1.setCategory_no(Integer.parseInt(categNo1));
+		categoryVO1.setCategory_no(categNo1);
 		CategoryVO categoryVO2 = new CategoryVO();
-		categoryVO2.setCategory_no(Integer.parseInt(categNo2));
+		categoryVO2.setCategory_no(categNo2);
 
 		list3.add(categoryVO1);
 		list3.add(categoryVO2);
@@ -150,10 +150,10 @@ public class ProductControllerTest extends TemplateTest {
 	// 상품 수정 Test Case 2. - 상품 수정(성공) + 이미지 미포함 + 카테고리 미포함 + 옵션 미포함
 	@Test
 	public void productUpdateTest2() throws Exception {
-		String no = productAddTest1("빅뱅이론 티셔츠xyz");
+		Integer no = productAddTest1("빅뱅이론 티셔츠xyz");
 
 		ProductVO productVO = new ProductVO();
-		productVO.setNo(Integer.parseInt(no));
+		productVO.setNo(no);
 		productVO.setName("빅뱅이론 티셔츠xxxxxxxxx");
 		productVO.setDescription("맘마미아----------");
 		productVO.setPrice(25000);
@@ -184,10 +184,10 @@ public class ProductControllerTest extends TemplateTest {
 	// 상품 수정 Test Case 3. - 상품상세, 카테고리, 옵션 미포함
 	@Test
 	public void productUpdateTest3() throws Exception {
-		String no = productAddTest1("빅뱅이론 티셔츠xyz");
+		Integer no = productAddTest1("빅뱅이론 티셔츠xyz");
 
 		ProductVO productVO = new ProductVO();
-		productVO.setNo(Integer.parseInt(no));
+		productVO.setNo(no);
 		productVO.setName("빅뱅이론 티셔츠xxxxxxxxx");
 		productVO.setDescription("맘마미아----------");
 		productVO.setPrice(25000);
@@ -218,14 +218,14 @@ public class ProductControllerTest extends TemplateTest {
 	// 특정 상품 정보 조회 Test Case 1. - 특정 상품 정보 조회(성공)
 	@Test
 	public void productReadTest1() throws Exception {
-		String no = productAddTest1("빅뱅이론 티셔츠z");
+		Integer no = productAddTest1("빅뱅이론 티셔츠z");
 		productRead(no, status().isOk());
 	}
 
 	// 특정 상품 정보 조회 Test Case 2. - 잘못된 상품번호
 	@Test
 	public void productReadTest2() throws Exception {
-		productRead("-1", status().isBadRequest());
+		productRead(-1, status().isBadRequest());
 	}
 
 	// 상품 리스트 조회 Test Case 1. - 상품 리스트 조회(성공)
@@ -292,15 +292,15 @@ public class ProductControllerTest extends TemplateTest {
 		productVO.setProductDetailList(list2);
 
 		// 상품카테고리 등록
-		String categNo1 = categoryAddGetNo("상의", null, status().isOk());
-		String categNo2 = categoryAddGetNo("티셔츠", Integer.parseInt(categNo1), status().isOk());
+		Integer categNo1 = categoryAddGetNo("상의", null, status().isOk()).getCategory_no();
+		Integer categNo2 = categoryAddGetNo("티셔츠", categNo1, status().isOk()).getCategory_no();
 
 		List<CategoryVO> list3 = new ArrayList<CategoryVO>();
 
 		CategoryVO categoryVO1 = new CategoryVO();
-		categoryVO1.setCategory_no(Integer.parseInt(categNo1));
+		categoryVO1.setCategory_no(categNo1);
 		CategoryVO categoryVO2 = new CategoryVO();
-		categoryVO2.setCategory_no(Integer.parseInt(categNo2));
+		categoryVO2.setCategory_no(categNo2);
 
 		list3.add(categoryVO1);
 		list3.add(categoryVO2);
@@ -419,103 +419,9 @@ public class ProductControllerTest extends TemplateTest {
 				pageinfo.getDisplay().toString())).andDo(print()).andExpect(rm);
 	}
 
-	// test 상품 등록
-	public String productAddTest1(String name) throws Exception {
-		ProductVO productVO = new ProductVO();
-		productVO.setCode("P0000001");
-		productVO.setName(name);
-		productVO.setDescription("버징가~~~ ㅎㅎ");
-		productVO.setPrice(15000);
-		productVO.setSale_price(15000);
-		productVO.setShow_product("1");
-
-		// 이미지 넣기
-		List<ProductImgVO> list1 = new ArrayList<ProductImgVO>();
-
-		ProductImgVO productImgVO1 = new ProductImgVO();
-		productImgVO1.setFilename("tshirts_img1");
-		productImgVO1.setExtension(".png");
-		productImgVO1.setImg_type("대표이미지");
-
-		ProductImgVO productImgVO2 = new ProductImgVO();
-		productImgVO2.setFilename("tshirts_img2");
-		productImgVO2.setExtension(".png");
-		productImgVO2.setImg_type("본문이미지");
-
-		list1.add(productImgVO1);
-		list1.add(productImgVO2);
-
-		productVO.setProductImgList(list1);
-
-		// 상품상세 넣기
-		List<ProductDetailVO> list2 = new ArrayList<ProductDetailVO>();
-
-		ProductDetailVO productDetailVO1 = new ProductDetailVO();
-		productDetailVO1.setStock_use("0");
-
-		list2.add(productDetailVO1);
-
-		productVO.setProductDetailList(list2);
-
-		// 상품카테고리 등록
-		String categNo1 = categoryAddGetNo("상의", null, status().isOk());
-		String categNo2 = categoryAddGetNo("티셔츠", Integer.parseInt(categNo1), status().isOk());
-
-		List<CategoryVO> list3 = new ArrayList<CategoryVO>();
-
-		CategoryVO categoryVO1 = new CategoryVO();
-		categoryVO1.setCategory_no(Integer.parseInt(categNo1));
-		CategoryVO categoryVO2 = new CategoryVO();
-		categoryVO2.setCategory_no(Integer.parseInt(categNo2));
-
-		list3.add(categoryVO1);
-		list3.add(categoryVO2);
-
-		productVO.setCategoryList(list3);
-
-		// 상품 옵션 등록
-		OptionVO optionVO1 = new OptionVO();
-		optionVO1.setName("색상");
-		optionVO1.setNecessary("1");
-
-		OptionDetailVO optionDetailVO1 = new OptionDetailVO();
-		optionDetailVO1.setDetail_name("블랙");
-		OptionDetailVO optionDetailVO2 = new OptionDetailVO();
-		optionDetailVO2.setDetail_name("화이트");
-
-		optionVO1.setOptionDetailList(Arrays.asList(optionDetailVO1, optionDetailVO2));
-
-		OptionVO optionVO2 = new OptionVO();
-		optionVO2.setName("크기");
-		optionVO2.setNecessary("1");
-
-		OptionDetailVO optionDetailVO3 = new OptionDetailVO();
-		optionDetailVO3.setDetail_name("S");
-		OptionDetailVO optionDetailVO4 = new OptionDetailVO();
-		optionDetailVO4.setDetail_name("M");
-		OptionDetailVO optionDetailVO5 = new OptionDetailVO();
-		optionDetailVO5.setDetail_name("L");
-
-		optionVO2.setOptionDetailList(Arrays.asList(optionDetailVO3, optionDetailVO4, optionDetailVO5));
-
-		productVO.setOptionList(Arrays.asList(optionVO1, optionVO2));
-
-		return productAddGetNo(productVO, status().isOk());
-	}
-
 	// 특정 상품 조회
-	public void productRead(String no, ResultMatcher rm) throws Exception {
+	public void productRead(Integer no, ResultMatcher rm) throws Exception {
 		mockMvc.perform(get("/api/product/" + no)).andDo(print()).andExpect(rm);
-	}
-
-	// 상품 등록
-	public String productAddGetNo(ProductVO productVO, ResultMatcher rm) throws Exception {
-		ResultActions resultActions = mockMvc.perform(
-				post("/api/product/add").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(productVO)));
-
-		resultActions.andDo(print()).andExpect(rm);
-
-		return parsingNo(resultActions.andReturn().getResponse().getContentAsString());
 	}
 
 	// 상품 수정

@@ -14,25 +14,47 @@ import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
+import com.cafe24.shoppingmall.vo.CartVO;
 import com.google.gson.Gson;
 
 public class CartControllerTest extends TemplateTest {
-
+	
+	@Override
+	public void setup() {
+		super.setup();
+		userService.deleteAll();
+		cartService.deleteAll();
+		
+		// 사전 회원가입
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", "chu1070y");
+		map.put("pw", "12345678z!");
+		map.put("name", "chuchu");
+		map.put("email", "aaaaa@naver.com");
+		map.put("tel_phone", "010-1234-1234");
+		
+		try { registerMember(map, status().isOk());} catch (Exception e) {e.printStackTrace();}
+	}
+	
 	@Test
 	public void testCartPage() throws Exception {
 		mockMvc.perform(get("/api/cart")).andDo(print()).andExpect(status().isOk());
 	}
-
+	
+	// 장바구니 등록 Test Case 1. - 장바구니 등록 (성공) - 회원
 	@Test
-	public void testCartInsert() throws Exception {
+	public void CartAddtest1() throws Exception {
+		// 로그인 후 회원번호 갖고오기
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("memberNo", "1");
-		map.put("nomemberNo", "null");
-		map.put("productDetailNo", "2");
-		map.put("quantity", "5");
+		map.put("id", "chu1070y");
+		map.put("pw", "12345678z!");
+		Integer no = userLogin(map, status().isOk());
+		
+		CartVO cartVO = new CartVO();
+		cartVO.setNo(no);
 
 		ResultActions resultActions = mockMvc.perform(
-				post("/api/cart/insert").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map)));
+				post("/api/cart/add").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map)));
 
 		resultActions.andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.result", is("success")));
 	}
@@ -47,6 +69,23 @@ public class CartControllerTest extends TemplateTest {
 
 		ResultActions resultActions = mockMvc.perform(
 				post("/api/cart/update").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map)));
+
+		resultActions.andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.result", is("success")));
+	}
+	
+	/*
+	 * 테스트케이스에 사용될 함수들..
+	 */
+	// 장바구니 등록
+	public void CartAdd() throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("memberNo", "1");
+		map.put("nomemberNo", "null");
+		map.put("productDetailNo", "2");
+		map.put("quantity", "5");
+
+		ResultActions resultActions = mockMvc.perform(
+				post("/api/cart/add").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map)));
 
 		resultActions.andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.result", is("success")));
 	}
