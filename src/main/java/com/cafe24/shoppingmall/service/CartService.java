@@ -1,5 +1,7 @@
 package com.cafe24.shoppingmall.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +19,16 @@ public class CartService {
 	}
 
 	public Boolean updateCart(CartVO vo) {
-		// DB 접속해 장바구니 수량 변경
-		System.out.println(vo);
-		return true;
+		return cartDAO.update(vo);
 	}
 	
 	// junit test용
 	public Boolean deleteAll() {
 		return cartDAO.deleteAll();
+	}
+
+	public List<CartVO> get(CartVO vo) {
+		return cartDAO.get(vo);
 	}
 
 }

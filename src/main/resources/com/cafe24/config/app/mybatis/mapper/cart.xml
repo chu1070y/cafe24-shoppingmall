@@ -8,9 +8,25 @@
 			values( #{member_no}, #{product_detail_no}, #{nomember_no}, #{quantity})
 	</insert>
 
+	<update id="update" parameterType="cartvo">
+		update cart set quantity = #{quantity} where no = #{no}
+	</update>
 	
 	<delete id="deleteAll">
 		delete from cart
 	</delete>
+	
+	<select id="getList" parameterType="cartvo" resultType="cartvo">
+		select * from cart 
+		where 
+		<if test="member_no != null">
+			member_no = #{member_no}
+		</if>
+		
+		<if test="nomember_no != null">
+			nomember_no = #{nomember_no}
+		</if>
+		
+	</select>
 	
 </mapper>
