@@ -34,17 +34,23 @@ public class CartController {
 	}
 	
 	@PostMapping("/update")
-	public ResponseEntity<JSONResult> update(@RequestBody CartVO vo) {
+	public ResponseEntity<JSONResult> cartUpdate(@RequestBody CartVO vo) {
 		
-		System.out.println("--------------------->" + vo);
-		
-		if(vo.getNo() < 1) {
+		if(vo.getQuantity() < 1) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("수량 1이상 입력 요망"));
 		}
 		
 		return cartService.updateCart(vo) ? 
 				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("장바구니 수량변경 성공")) : 
 					ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("장바구니 수량변경 실패"));
+	}
+	
+	@PostMapping("/delete")
+	public ResponseEntity<JSONResult> cartDelete(@RequestBody Integer no) {
+		
+		return cartService.deleteCart(no) ? 
+				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("장바구니 상품 삭제 성공")) : 
+					ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("장바구니 상품 삭제 실패"));
 	}
 
 }

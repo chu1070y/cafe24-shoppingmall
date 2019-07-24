@@ -31,4 +31,8 @@ public class CartService {
 		return cartDAO.get(vo);
 	}
 
+	public Boolean deleteCart(Integer no) {
+		return cartDAO.deleteCart(no);
+	}
+
 }

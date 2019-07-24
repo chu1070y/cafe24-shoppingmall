@@ -29,4 +29,8 @@ public class CartDAO {
 	public List<CartVO> get(CartVO vo) {
 		return sqlSession.selectList("cart.getList", vo);
 	}
+
+	public Boolean deleteCart(Integer no) {
+		return 1 == sqlSession.delete("cart.deleteCart", no);
+	}
 }

@@ -29,4 +29,8 @@
 		
 	</select>
 	
+	<delete id="deleteCart" parameterType="int">
+		delete from cart where no = #{no}
+	</delete>
+	
 </mapper>

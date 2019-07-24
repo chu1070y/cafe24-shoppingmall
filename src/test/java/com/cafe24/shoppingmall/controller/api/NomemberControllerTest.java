@@ -9,6 +9,7 @@ public class NomemberControllerTest extends TemplateTest{
 	@Override
 	public void setup() {
 		super.setup();
+		cartService.deleteAll();
 		nomemberService.deleteAll();
 	}
 	
