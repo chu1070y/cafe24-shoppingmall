@@ -9,9 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shoppingmall.dto.JSONResult;
@@ -41,6 +43,12 @@ public class OrderController {
 
 		orderService.orderAdd(orderVO);
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("주문 등록 성공"));
+	}
+	
+	@GetMapping("/getOrderUsr")
+	public ResponseEntity<JSONResult> orderAdd(@RequestParam("memberNo") Integer memberNo) {
+
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(orderService.orderGet(memberNo)));
 	}
 
 }

@@ -38,4 +38,8 @@ public class ProductDetailDAO {
 	public Boolean updateDetailDel(Integer product_detail_no) {
 		return 1 == sqlSession.update("productDetail.updateDetailDel", product_detail_no);
 	}
+	
+	public Integer getProductNo(Integer product_detail_no) {
+		return sqlSession.selectOne("productDetail.getProductNo", product_detail_no);
+	}
 }

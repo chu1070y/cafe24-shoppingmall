@@ -1,5 +1,7 @@
 package com.cafe24.shoppingmall.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,9 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cafe24.shoppingmall.repository.OrderDAO;
 import com.cafe24.shoppingmall.vo.OrderDetailVO;
 import com.cafe24.shoppingmall.vo.OrderVO;
+import com.cafe24.shoppingmall.vo.ProductVO;
 
 @Service
 public class OrderService {
+	
+	@Autowired
+	private ProductService productService;
 	
 	@Autowired
 	private OrderDAO orderDAO;
@@ -33,6 +39,21 @@ public class OrderService {
 	public Boolean deleteAll() {
 		orderDAO.deleteAll2();
 		return orderDAO.deleteAll1();
+	}
+
+	@Transactional
+	public List<OrderVO> orderGet(Integer memberNo) {
+		List<OrderVO> list = orderDAO.orderGet(memberNo);
+		
+		for(OrderVO orderVO : list) {
+			for(OrderDetailVO vo : orderVO.getOrderDetail()) {
+				Integer productNo = productService.getProductNo(vo.getProduct_detail_no());
+				ProductVO productVO = productService.getProduct(productNo);
+				vo.setOrderInfo(productVO);
+			}
+		}
+		
+		return list;
 	}
 
 

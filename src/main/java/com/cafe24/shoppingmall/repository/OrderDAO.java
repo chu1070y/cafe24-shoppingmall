@@ -1,5 +1,7 @@
 package com.cafe24.shoppingmall.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -28,6 +30,10 @@ public class OrderDAO {
 
 	public Boolean orderAddDetail(OrderDetailVO detailVO) {
 		return 1 == sqlSession.insert("order.orderAddDetail", detailVO);
+	}
+
+	public List<OrderVO> orderGet(Integer memberNo) {
+		return sqlSession.selectList("order.orderGetWithUser", memberNo);
 	}
 
 

@@ -211,6 +211,10 @@ public class ProductService {
 		
 		return true;
 	}
+	
+	public Integer getProductNo(Integer product_detail_no) {
+		return productDetailDAO.getProductNo(product_detail_no);
+	}
 
 	// 상품 삭제
 	@Transactional

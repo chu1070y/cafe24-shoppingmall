@@ -15,7 +15,7 @@
 				AES_ENCRYPT(#{receiver_tel_phone}, 'cafe24'),
 				AES_ENCRYPT(#{deliver_addr}, 'cafe24'),
 				#{deliver_msg}, #{deliver_cost},
-				#{point}, #{payment}, #{pay_method}, #{pay_token}, #{status}, null, 
+				#{point}, #{payment}, #{pay_method}, #{pay_token}, #{status}, default, 
 				SHA2(#{pw}, 512))
 				
 		<selectKey keyProperty="no" resultType="int" order="AFTER">
@@ -35,5 +35,53 @@
 	<delete id="deleteAll2">
 		delete from orders_detail
 	</delete>
+	
+	<select id="orderGetWithUser" parameterType="int" resultMap="orderMap">
+		select no, member_no, order_code, order_name,
+			cast(AES_DECRYPT(order_addr, 'cafe24') as char(200)) as order_addr,
+			cast(AES_DECRYPT(order_tel_home, 'cafe24') as char(200)) as order_tel_home,
+			cast(AES_DECRYPT(order_tel_phone, 'cafe24') as char(200)) as order_tel_phone,
+			cast(AES_DECRYPT(order_email, 'cafe24') as char(200)) as order_email,
+			receiver_name,
+			cast(AES_DECRYPT(receiver_tel_home, 'cafe24') as char(200)) as receiver_tel_home,
+			cast(AES_DECRYPT(receiver_tel_phone, 'cafe24') as char(200)) as receiver_tel_phone,
+			cast(AES_DECRYPT(deliver_addr, 'cafe24') as char(200)) as deliver_addr,
+			deliver_msg, deliver_cost, point, payment, pay_method, pay_token, status, approved_at,
+			product_detail_no, order_no, price, quantity
+		from orders a left join orders_detail b on a.no = b.order_no
+			where member_no = #{memberNo}
+	</select>
+	
+	<resultMap type="ordervo" id="orderMap">
+  		<result property="no" column="no"/>
+  		<result property="member_no" column="member_no"/>
+  		<result property="order_code" column="order_code"/>
+  		<result property="order_name" column="order_name"/>
+  		<result property="order_addr" column="order_addr"/>
+  		<result property="order_tel_home" column="order_tel_home"/>
+  		<result property="order_tel_phone" column="order_tel_phone"/>
+  		<result property="order_email" column="order_email"/>
+  		<result property="receiver_name" column="receiver_name"/>
+  		<result property="receiver_tel_home" column="receiver_tel_home"/>
+  		<result property="receiver_tel_phone" column="receiver_tel_phone"/>
+  		<result property="deliver_addr" column="deliver_addr"/>
+  		<result property="deliver_msg" column="deliver_msg"/>
+  		<result property="deliver_cost" column="deliver_cost"/>
+  		<result property="point" column="point"/>
+  		<result property="payment" column="payment"/>
+  		<result property="pay_method" column="pay_method"/>
+  		<result property="pay_token" column="pay_token"/>
+  		<result property="status" column="status"/>
+  		<result property="approved_at" column="approved_at"/>
+  		
+  		<collection property="orderDetail" resultMap="orderDetailMap"></collection>
+  	</resultMap>
+	
+	<resultMap type="orderdetailvo" id="orderDetailMap">
+		<result property="product_detail_no" column="product_detail_no"/>
+		<result property="order_no" column="order_no"/>
+		<result property="price" column="price"/>
+		<result property="quantity" column="quantity"/>
+	</resultMap>
 	
 </mapper>
