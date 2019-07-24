@@ -1,50 +1,38 @@
 package com.cafe24.shoppingmall.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.cafe24.shoppingmall.repository.OrderDAO;
+import com.cafe24.shoppingmall.vo.OrderDetailVO;
 import com.cafe24.shoppingmall.vo.OrderVO;
 
 @Service
 public class OrderService {
 	
-	public String pay(OrderVO vo) {
-		// 주문 정보 캐시에 저장해놓기
-		System.out.println(vo);
-		// 결제 API 준비
-		// 사용자 결제 API 페이지로 보내기 위한 url 리턴하기
-		
-		return "결제 API 페이지";
-	}
+	@Autowired
+	private OrderDAO orderDAO;
 
-	// @Transactional 처리
-	public Integer stockCheck() {
+	@Transactional
+	public Boolean orderAdd(OrderVO orderVO) {
+		// 주문 추가
+		OrderVO vo = orderDAO.orderAdd(orderVO);
 		
-		// DB에 들어가 판매가능수량을 확인한다.
-		Integer stock = this.stockAvail;
-		
-		return stock;
-	}
-	
-	// @Transactional 처리
-	public Boolean paySuccess(String token) {
-		// 토큰 값으로 결제정보 확인
-		System.out.println(token);
-		// 캐시에서 저장된 사용자 주문 정보 불러옴
-		// DB에 접속하여 주문 insert
-		// 주문상세 insert
-		// 장바구니 update
+		// 주문상세 추가
+		for (OrderDetailVO detailVO : vo.getOrderDetail()) {
+			detailVO.setOrder_no(vo.getNo());
+			orderDAO.orderAddDetail(detailVO);
+		}
+
 		return true;
 	}
 	
-	
-	
-	// 테스트용 판매가능수량 설정 - DB 구현시 삭제 예정
-	private Integer stockAvail = 0;
-	public void setStockAvailNum(Integer stock) {
-		this.stockAvail = stock;
-	}
-	public Integer getStockAvailNum() {
-		return this.stockAvail;
+	// junit test용
+	@Transactional
+	public Boolean deleteAll() {
+		orderDAO.deleteAll2();
+		return orderDAO.deleteAll1();
 	}
 
 

@@ -12,6 +12,8 @@
 		<typeAlias alias="optiondetailvo" type="com.cafe24.shoppingmall.vo.OptionDetailVO" />
 		<typeAlias alias="cartvo" type="com.cafe24.shoppingmall.vo.CartVO" />
 		<typeAlias alias="nomembervo" type="com.cafe24.shoppingmall.vo.NomemberVO" />
+		<typeAlias alias="ordervo" type="com.cafe24.shoppingmall.vo.OrderVO" />
+		<typeAlias alias="orderdetailvo" type="com.cafe24.shoppingmall.vo.OrderDetailVO" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/cafe24/config/app/mybatis/mapper/user.xml" />
@@ -22,6 +24,7 @@
 		<mapper resource="com/cafe24/config/app/mybatis/mapper/option.xml" />
 		<mapper resource="com/cafe24/config/app/mybatis/mapper/cart.xml" />
 		<mapper resource="com/cafe24/config/app/mybatis/mapper/nomember.xml" />
+		<mapper resource="com/cafe24/config/app/mybatis/mapper/order.xml" />
 	</mappers>
 
 </configuration>

@@ -1,13 +1,17 @@
 package com.cafe24.shoppingmall.controller.api;
 
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shoppingmall.dto.JSONResult;
@@ -17,32 +21,26 @@ import com.cafe24.shoppingmall.vo.OrderVO;
 @RestController
 @RequestMapping(value = "/api/order")
 public class OrderController {
-	
+
 	@Autowired
 	OrderService orderService;
-	
-	@GetMapping("")
-	public ResponseEntity<JSONResult> orderPage() {
-		// 판매가능수량이 0인경우
-		if (orderService.stockCheck() == 0) {
-			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("장바구니 페이지(상품품절 표시)"));
+
+	@PostMapping("/add")
+	public ResponseEntity<JSONResult> orderAdd(@RequestBody @Valid OrderVO orderVO, BindingResult result) {
+
+		// 유효성 검사 실패시
+		if (result.hasErrors()) {
+			List<FieldError> list = result.getFieldErrors();
+			String errorMsg = "";
+			for (FieldError error : list) {
+				errorMsg += error.getField() + "/";
+			}
+			errorMsg += "오류발생";
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(errorMsg));
 		}
-		
-		// 판매가능수량이 1인경우
-		// DB에 들어가 판매가능수량 -1 업데이트
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("주문/결제 페이지"));
+
+		orderService.orderAdd(orderVO);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("주문 등록 성공"));
 	}
-	
-	@PostMapping("pay")
-	public ResponseEntity<JSONResult> pay(@RequestBody OrderVO vo) {
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(orderService.pay(vo) + "로 리다이렉트"));
-	}
-	
-	@GetMapping("paySuccess")
-	public ResponseEntity<JSONResult> pay(@RequestParam("token") String token) {
-		return orderService.paySuccess(token) ? 
-				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("결제 완료 페이지")) :
-					ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("결제 실패 페이지"));
-	}
-	
+
 }

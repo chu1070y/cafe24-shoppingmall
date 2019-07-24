@@ -299,17 +299,6 @@ public class UserControllerTest extends TemplateTest{
 		.andExpect(rm);
 	}
 	
-	// 회원정보 조회 - 1명
-	public void userInfoRead(String id, ResultMatcher rm) throws Exception {
-		ResultActions resultActions = mockMvc
-		.perform(get("/api/user/read")
-		.param("id", id));
-		
-		resultActions
-		.andDo(print())
-		.andExpect(rm);
-	}
-	
 	// 회원정보 수정
 	public void userInfoUpdate(Map<String, Object> map, ResultMatcher rm) throws Exception {
 		ResultActions resultActions = mockMvc
@@ -332,6 +321,17 @@ public class UserControllerTest extends TemplateTest{
 		resultActions
 			.andDo(print())
 			.andExpect(rm);
+	}
+	
+	// 회원정보 조회 - 1명
+	public void userInfoRead(String id, ResultMatcher rm) throws Exception {
+		ResultActions resultActions = mockMvc
+		.perform(get("/api/user/read")
+		.param("id", id));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(rm);
 	}
 	
 	// 회원정보 리스트

@@ -2,30 +2,66 @@ package com.cafe24.shoppingmall.vo;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
 public class OrderVO {
 	
 	private Integer no;
-	private Integer memberNo;
+	private Integer member_no;
+	@NotBlank
 	private String order_code;
+	@NotBlank
 	private String order_name;
+	@NotBlank
 	private String order_addr;
 	private String order_tel_home;
+	@NotBlank
+	@Pattern(regexp = "^01(?:0|1|0)-\\d{4}-\\d{4}$")
 	private String order_tel_phone;
+	@Email
 	private String order_email;
+	@NotBlank
 	private String receiver_name;
 	private String receiver_tel_home;
+	@NotBlank
+	@Pattern(regexp = "^01(?:0|1|0)-\\d{4}-\\d{4}$")
 	private String receiver_tel_phone;
+	@NotBlank
 	private String deliver_addr;
 	private String deliver_msg;
-	private Integer deliver_cost;
-	private Integer point;
+	private Integer deliver_cost = 0;
+	private Integer point = 0;
+	@NotNull
 	private Integer payment;
-	private String payMethod;
+	@NotBlank
+	private String pay_method;
+	private String pay_token;
+	@NotBlank
 	private String status;
 	private String approved_at;
+	@NotBlank
 	private String pw;
 	
+	@Valid
+	@NotNull
 	private List<OrderDetailVO> orderDetail;
+
+	@Override
+	public String toString() {
+		return "OrderVO [no=" + no + ", member_no=" + member_no + ", order_code=" + order_code + ", order_name="
+				+ order_name + ", order_addr=" + order_addr + ", order_tel_home=" + order_tel_home
+				+ ", order_tel_phone=" + order_tel_phone + ", order_email=" + order_email + ", receiver_name="
+				+ receiver_name + ", receiver_tel_home=" + receiver_tel_home + ", receiver_tel_phone="
+				+ receiver_tel_phone + ", deliver_addr=" + deliver_addr + ", deliver_msg=" + deliver_msg
+				+ ", deliver_cost=" + deliver_cost + ", point=" + point + ", payment=" + payment + ", pay_method="
+				+ pay_method + ", pay_token=" + pay_token + ", status=" + status + ", approved_at=" + approved_at
+				+ ", pw=" + pw + ", orderDetail=" + orderDetail + "]";
+	}
 
 	public Integer getNo() {
 		return no;
@@ -35,12 +71,12 @@ public class OrderVO {
 		this.no = no;
 	}
 
-	public Integer getMemberNo() {
-		return memberNo;
+	public Integer getMember_no() {
+		return member_no;
 	}
 
-	public void setMemberNo(Integer memberNo) {
-		this.memberNo = memberNo;
+	public void setMember_no(Integer member_no) {
+		this.member_no = member_no;
 	}
 
 	public String getOrder_code() {
@@ -155,12 +191,20 @@ public class OrderVO {
 		this.payment = payment;
 	}
 
-	public String getPayMethod() {
-		return payMethod;
+	public String getPay_method() {
+		return pay_method;
 	}
 
-	public void setPayMethod(String payMethod) {
-		this.payMethod = payMethod;
+	public void setPay_method(String pay_method) {
+		this.pay_method = pay_method;
+	}
+
+	public String getPay_token() {
+		return pay_token;
+	}
+
+	public void setPay_token(String pay_token) {
+		this.pay_token = pay_token;
 	}
 
 	public String getStatus() {
@@ -195,17 +239,6 @@ public class OrderVO {
 		this.orderDetail = orderDetail;
 	}
 
-	@Override
-	public String toString() {
-		return "OrderVO [no=" + no + ", memberNo=" + memberNo + ", order_code=" + order_code + ", order_name="
-				+ order_name + ", order_addr=" + order_addr + ", order_tel_home=" + order_tel_home
-				+ ", order_tel_phone=" + order_tel_phone + ", order_email=" + order_email + ", receiver_name="
-				+ receiver_name + ", receiver_tel_home=" + receiver_tel_home + ", receiver_tel_phone="
-				+ receiver_tel_phone + ", deliver_addr=" + deliver_addr + ", deliver_msg=" + deliver_msg
-				+ ", deliver_cost=" + deliver_cost + ", point=" + point + ", payment=" + payment + ", payMethod="
-				+ payMethod + ", status=" + status + ", approved_at=" + approved_at + ", pw=" + pw + ", orderDetail="
-				+ orderDetail + "]";
-	}
 
 
 	

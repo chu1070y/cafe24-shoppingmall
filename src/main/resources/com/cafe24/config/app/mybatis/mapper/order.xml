@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="order">
+
+	<insert id="orderAdd" parameterType="ordervo">
+		insert into orders
+			values(null, #{member_no}, #{order_code}, #{order_name}, 
+				AES_ENCRYPT(#{order_addr}, 'cafe24'),
+				AES_ENCRYPT(#{order_tel_home}, 'cafe24'),
+				AES_ENCRYPT(#{order_tel_phone}, 'cafe24'),
+				AES_ENCRYPT(#{order_email}, 'cafe24'),
+				#{receiver_name},
+				AES_ENCRYPT(#{receiver_tel_home}, 'cafe24'),
+				AES_ENCRYPT(#{receiver_tel_phone}, 'cafe24'),
+				AES_ENCRYPT(#{deliver_addr}, 'cafe24'),
+				#{deliver_msg}, #{deliver_cost},
+				#{point}, #{payment}, #{pay_method}, #{pay_token}, #{status}, null, 
+				SHA2(#{pw}, 512))
+				
+		<selectKey keyProperty="no" resultType="int" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+	
+	<insert id="orderAddDetail" parameterType="orderdetailvo">
+		insert into orders_detail
+			values(#{product_detail_no}, #{order_no}, #{price}, #{quantity})
+	</insert>
+	
+	<delete id="deleteAll1">
+		delete from orders
+	</delete>
+	
+	<delete id="deleteAll2">
+		delete from orders_detail
+	</delete>
+	
+</mapper>

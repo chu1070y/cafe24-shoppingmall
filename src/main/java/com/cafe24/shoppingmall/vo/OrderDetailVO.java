@@ -1,21 +1,28 @@
 package com.cafe24.shoppingmall.vo;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 public class OrderDetailVO {
-	private Integer no;
+	@NotNull
+	private Integer product_detail_no;
 	private Integer order_no;
+	@NotNull
 	private Integer price;
+	@NotNull
+	@Min(1)
 	private Integer quantity;
 	
 	@Override
 	public String toString() {
-		return "OrderDetailVO [no=" + no + ", order_no=" + order_no + ", price=" + price + ", quantity=" + quantity
-				+ "]";
+		return "OrderDetailVO [product_detail_no=" + product_detail_no + ", order_no=" + order_no + ", price=" + price
+				+ ", quantity=" + quantity + "]";
 	}
-	public Integer getNo() {
-		return no;
+	public Integer getProduct_detail_no() {
+		return product_detail_no;
 	}
-	public void setNo(Integer no) {
-		this.no = no;
+	public void setProduct_detail_no(Integer product_detail_no) {
+		this.product_detail_no = product_detail_no;
 	}
 	public Integer getOrder_no() {
 		return order_no;
@@ -35,6 +42,8 @@ public class OrderDetailVO {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
+	
+
 	
 	
 }

@@ -29,6 +29,7 @@ import com.cafe24.shoppingmall.config.TestWebConfig;
 import com.cafe24.shoppingmall.service.CartService;
 import com.cafe24.shoppingmall.service.CategoryService;
 import com.cafe24.shoppingmall.service.NomemberService;
+import com.cafe24.shoppingmall.service.OrderService;
 import com.cafe24.shoppingmall.service.ProductService;
 import com.cafe24.shoppingmall.service.UserService;
 import com.cafe24.shoppingmall.vo.CategoryVO;
@@ -65,6 +66,9 @@ public class TemplateTest {
 	
 	@Autowired
 	protected NomemberService nomemberService;
+	
+	@Autowired
+	protected OrderService orderService;
 
 	JacksonJsonParser jsonParser = new JacksonJsonParser();
 	ObjectMapper oMapper = new ObjectMapper();
@@ -245,5 +249,21 @@ public class TemplateTest {
 		NomemberVO nomemberVO = oMapper.convertValue(jsonParser.parseMap(resultString).get("data"), NomemberVO.class);
 		
 		return nomemberVO;
+	}
+	
+	// 회원정보 조회 - 1명
+	public UserVO userInfoRead(String id) throws Exception {
+		ResultActions resultActions = mockMvc
+		.perform(get("/api/user/read")
+		.param("id", id));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk());
+		
+		String resultString = resultActions.andReturn().getResponse().getContentAsString();
+		UserVO vo = oMapper.convertValue(jsonParser.parseMap(resultString).get("data"), UserVO.class);
+		
+		return vo;
 	}
 }
