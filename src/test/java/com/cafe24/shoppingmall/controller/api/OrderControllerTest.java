@@ -14,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 
-import com.cafe24.shoppingmall.vo.NomemberVO;
 import com.cafe24.shoppingmall.vo.OrderDetailVO;
 import com.cafe24.shoppingmall.vo.OrderVO;
 import com.cafe24.shoppingmall.vo.ProductVO;
@@ -43,7 +42,43 @@ public class OrderControllerTest extends TemplateTest {
 		try { registerMember(map, status().isOk());} catch (Exception e) {e.printStackTrace();}
 	}
 	
-	// 주문 조회 - 회원 Test Case 1. - 주문 조회 (성공) - 회원
+	// 주문 조회(비회원) Test Case 1. - 주문 조회 (성공) - 비회원
+	@Test
+	public void getOrderNoUsrTest1() throws Exception {
+		// 회원정보
+		UserVO userVO = new UserVO();
+		userVO.setName("비회원");
+		userVO.setEmail("ganzzi@men.com");
+		
+		// 상품 등록 및 주문 정보 입력 함수
+		OrderVO orderVO = orderInfo(userVO);
+		
+		// 주문 등록
+		orderAdd(orderVO, status().isOk());		
+		
+		// 주문 조회(비회원)
+		getOrderNoUsr("S0190724-12123221", "1234", status().isOk());	
+	}
+	
+	// 주문 조회(비회원) Test Case 2. - 비밀번호 틀림
+	@Test
+	public void getOrderNoUsrTest2() throws Exception {
+		// 회원정보
+		UserVO userVO = new UserVO();
+		userVO.setName("비회원");
+		userVO.setEmail("ganzzi@men.com");
+		
+		// 상품 등록 및 주문 정보 입력 함수
+		OrderVO orderVO = orderInfo(userVO);
+		
+		// 주문 등록
+		orderAdd(orderVO, status().isOk());		
+		
+		// 주문 조회(비회원)
+		getOrderNoUsr("S0190724-12123221", "123", status().isOk());	
+	}
+	
+	// 주문 조회(회원) Test Case 1. - 주문 조회 (성공) - 회원
 	@Test
 	public void getOrderUsrTest1() throws Exception {
 		// 로그인 하기
@@ -64,17 +99,16 @@ public class OrderControllerTest extends TemplateTest {
 		// 주문 조회 - 회원
 		getOrderUsr(userNo, status().isOk());	
 	}
-
+	
+	// 주문 조회 - 회원 Test Case 2. - 주문 조회 (성공) - 해당회원 주문정보 없음
+	@Test
+	public void getOrderUsrTest2() throws Exception {
+		getOrderUsr(3, status().isOk());	
+	}
 	
 	// 주문 등록 Test Case 1. - 주문 등록 (성공) - 회원
 	@Test
 	public void orderAddTest1() throws Exception {
-		// 로그인 하기
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("id", "chu1070y");
-		map.put("pw", "12345678z!");
-		Integer userNo = userLogin(map, status().isOk());
-		
 		// 회원정보
 		UserVO userVO = userInfoRead("chu1070y");
 
@@ -88,9 +122,6 @@ public class OrderControllerTest extends TemplateTest {
 	// 주문 등록 Test Case 2. - 주문 등록 (성공) - 비회원
 	@Test
 	public void orderAddTest2() throws Exception {
-		// 비회원 등록
-		NomemberVO nomemberVO = nomember("sessionid_1", status().isOk());
-		
 		// 회원정보
 		UserVO userVO = new UserVO();
 		userVO.setName("비회원");
@@ -176,10 +207,18 @@ public class OrderControllerTest extends TemplateTest {
 		return orderVO;
 	}
 	
-	// 주문 조회 - 회원
+	// 주문 조회(회원)
 	public void getOrderUsr(Integer userNo, ResultMatcher rm) throws Exception {
 		ResultActions resultActions = mockMvc.perform(
 				get("/api/order/getOrderUsr").param("memberNo", Integer.toString(userNo)));
+
+		resultActions.andDo(print()).andExpect(rm);
+	}
+	
+	// 주문 조회(비회원)
+	public void getOrderNoUsr(String order_code, String pw, ResultMatcher rm) throws Exception {
+		ResultActions resultActions = mockMvc.perform(
+				get("/api/order/getOrderNoUsr").param("order_code", order_code).param("pw", pw));
 
 		resultActions.andDo(print()).andExpect(rm);
 	}

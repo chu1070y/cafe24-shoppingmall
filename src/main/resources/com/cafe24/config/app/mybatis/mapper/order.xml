@@ -52,6 +52,22 @@
 			where member_no = #{memberNo}
 	</select>
 	
+	<select id="orderGetWithNoUser" parameterType="ordervo" resultMap="orderMap">
+		select no, member_no, order_code, order_name,
+			cast(AES_DECRYPT(order_addr, 'cafe24') as char(200)) as order_addr,
+			cast(AES_DECRYPT(order_tel_home, 'cafe24') as char(200)) as order_tel_home,
+			cast(AES_DECRYPT(order_tel_phone, 'cafe24') as char(200)) as order_tel_phone,
+			cast(AES_DECRYPT(order_email, 'cafe24') as char(200)) as order_email,
+			receiver_name,
+			cast(AES_DECRYPT(receiver_tel_home, 'cafe24') as char(200)) as receiver_tel_home,
+			cast(AES_DECRYPT(receiver_tel_phone, 'cafe24') as char(200)) as receiver_tel_phone,
+			cast(AES_DECRYPT(deliver_addr, 'cafe24') as char(200)) as deliver_addr,
+			deliver_msg, deliver_cost, point, payment, pay_method, pay_token, status, approved_at,
+			product_detail_no, order_no, price, quantity
+		from orders a left join orders_detail b on a.no = b.order_no
+			where order_code = #{order_code} and pw = SHA2(#{pw}, 512)
+	</select>
+	
 	<resultMap type="ordervo" id="orderMap">
   		<result property="no" column="no"/>
   		<result property="member_no" column="member_no"/>

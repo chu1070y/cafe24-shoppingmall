@@ -36,5 +36,9 @@ public class OrderDAO {
 		return sqlSession.selectList("order.orderGetWithUser", memberNo);
 	}
 
+	public List<OrderVO> orderGetNoUser(OrderVO orderVO) {
+		return sqlSession.selectList("order.orderGetWithNoUser", orderVO);
+	}
+
 
 }

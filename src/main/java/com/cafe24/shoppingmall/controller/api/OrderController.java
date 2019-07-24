@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,9 +47,14 @@ public class OrderController {
 	}
 	
 	@GetMapping("/getOrderUsr")
-	public ResponseEntity<JSONResult> orderAdd(@RequestParam("memberNo") Integer memberNo) {
+	public ResponseEntity<JSONResult> orderGetOrderUsr(@RequestParam("memberNo") Integer memberNo) {
 
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(orderService.orderGet(memberNo)));
 	}
-
+	
+	@GetMapping("/getOrderNoUsr")
+	public ResponseEntity<JSONResult> orderGetOrderNoUsr(@ModelAttribute OrderVO vo) {
+		List<OrderVO> orderList = orderService.orderGetNoUser(vo);
+		return orderList == null ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("주문번호나 비밀번호가 틀립니다")) : ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(orderList));
+	}
 }

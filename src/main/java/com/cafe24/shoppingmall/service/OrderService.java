@@ -56,5 +56,21 @@ public class OrderService {
 		return list;
 	}
 
+	@Transactional
+	public List<OrderVO> orderGetNoUser(OrderVO vo) {
+		List<OrderVO> list = orderDAO.orderGetNoUser(vo);
+		if(list.size() == 0) {return null;}
+		
+		for(OrderVO orderVO : list) {
+			for(OrderDetailVO detailVO : orderVO.getOrderDetail()) {
+				Integer productNo = productService.getProductNo(detailVO.getProduct_detail_no());
+				ProductVO productVO = productService.getProduct(productNo);
+				detailVO.setOrderInfo(productVO);
+			}
+		}
+		
+		return list;
+	}
+
 
 }
