@@ -30,6 +30,7 @@ public class CartControllerTest extends TemplateTest {
 	public void setup() {
 		super.setup();
 		cartService.deleteAll();
+		orderService.deleteAll();
 		nomemberService.deleteAll();
 		userService.deleteAll();
 		productService.deleteAll();

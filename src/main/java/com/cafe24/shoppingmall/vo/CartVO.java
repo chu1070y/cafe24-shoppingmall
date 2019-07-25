@@ -8,10 +8,12 @@ public class CartVO {
 	private Integer nomember_no;
 	private Integer quantity;
 	
+	private ProductVO productInfo;
+
 	@Override
 	public String toString() {
 		return "CartVO [no=" + no + ", member_no=" + member_no + ", product_detail_no=" + product_detail_no
-				+ ", nomember_no=" + nomember_no + ", quantity=" + quantity + "]";
+				+ ", nomember_no=" + nomember_no + ", quantity=" + quantity + ", productInfo=" + productInfo + "]";
 	}
 
 	public Integer getNo() {
@@ -53,6 +55,13 @@ public class CartVO {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
-	
-	
+
+	public ProductVO getProductInfo() {
+		return productInfo;
+	}
+
+	public void setProductInfo(ProductVO productInfo) {
+		this.productInfo = productInfo;
+	}
+
 }
