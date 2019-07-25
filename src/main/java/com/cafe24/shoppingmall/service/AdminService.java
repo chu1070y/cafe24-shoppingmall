@@ -1,30 +1,27 @@
 package com.cafe24.shoppingmall.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cafe24.shoppingmall.vo.LoginVO;
-import com.cafe24.shoppingmall.vo.ProductVO;
+import com.cafe24.shoppingmall.repository.AdminDAO;
+import com.cafe24.shoppingmall.vo.AdminVO;
 
 @Service
 public class AdminService {
+	
+	@Autowired
+	private AdminDAO adminDAO;
 
-	public Boolean login(LoginVO adminVO) {
-		// admin 로그인 프로세스
-		LoginVO vo = new LoginVO();
-		vo.setId("chu1070y");
-		vo.setPw("12345678!z");
-		
-		return vo.equals(adminVO);
+	public Boolean add(AdminVO vo) {
+		return adminDAO.add(vo);
 	}
 
-	public void productRegister(ProductVO vo) {
-		// 상품 등록 프로세스
-		// 1. 상품 등록 후 상품번호를 받아온다.
-		// 2. 상품번호를 이용해 상품 이미지를 등록한다.
-		// 3. 상품번호를 이용해 재고, 진열상태를 등록한다.
-		
-		System.out.println(vo);
-		
+	public Boolean checkId(String id) {
+		return adminDAO.checkId(id);
+	}
+
+	public Boolean deleteAll() {
+		return adminDAO.deleteAll();
 	}
 
 	

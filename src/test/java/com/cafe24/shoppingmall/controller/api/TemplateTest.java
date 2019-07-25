@@ -26,6 +26,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.shoppingmall.config.TestAppConfig;
 import com.cafe24.shoppingmall.config.TestWebConfig;
+import com.cafe24.shoppingmall.service.AdminService;
 import com.cafe24.shoppingmall.service.CartService;
 import com.cafe24.shoppingmall.service.CategoryService;
 import com.cafe24.shoppingmall.service.NomemberService;
@@ -69,6 +70,9 @@ public class TemplateTest {
 	
 	@Autowired
 	protected OrderService orderService;
+	
+	@Autowired
+	protected AdminService adminService;
 
 	JacksonJsonParser jsonParser = new JacksonJsonParser();
 	ObjectMapper oMapper = new ObjectMapper();

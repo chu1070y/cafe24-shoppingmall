@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="admin">
+
+	<select id="checkId" parameterType="string" resultType="adminvo">
+		select * from admin where id = #{id}
+	</select>
+	
+	<insert id="add" parameterType="adminvo">
+		insert into admin values(default, #{id}, #{pw}, now(), default)
+	</insert>
+
+	<delete id="deleteAll">
+		delete from admin
+	</delete>
+</mapper>

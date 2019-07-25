@@ -1,8 +1,16 @@
 package com.cafe24.shoppingmall.vo;
 
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotBlank;
+
 public class AdminVO {
 	private Integer no;
+	@NotBlank
+	@Pattern(regexp = "^[a-zA-Z0-9]{4,18}$")
 	private String id;
+	@NotBlank
+	@Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,}$")
 	private String pw;
 	private String regdate;
 	private String updatedate;

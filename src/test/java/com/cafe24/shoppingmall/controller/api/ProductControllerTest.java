@@ -31,7 +31,7 @@ public class ProductControllerTest extends TemplateTest {
 		productService.deleteAll();
 	}
 	
-	// 재고상황 확인/수정 Test Case 1. - 재고상황 확인/수정(성공)
+	// ㄹ Test Case 1. - 재고상황 확인/수정(성공)
 	@Test
 	public void checkStockTest1() throws Exception {
 		Integer no1 = productAddTest2("키가 크는 신발", 100);

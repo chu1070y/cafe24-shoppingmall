@@ -1,6 +1,7 @@
 package com.cafe24.shoppingmall.controller.api;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.validation.Valid;
 
@@ -13,12 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shoppingmall.dto.JSONResult;
 import com.cafe24.shoppingmall.service.AdminService;
-import com.cafe24.shoppingmall.vo.LoginVO;
-import com.cafe24.shoppingmall.vo.ProductVO;
+import com.cafe24.shoppingmall.vo.AdminVO;
 
 @RestController
 @RequestMapping(value = "/api/admin")
@@ -27,29 +28,28 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 	
-	@PostMapping("/login")
-	public ResponseEntity<JSONResult> login(@RequestBody @Valid LoginVO vo, BindingResult result) {
-		System.out.println(vo);
-		// 유효성 검사 실패시
-		if(result.hasErrors()) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("유효성검사로 인한 로그인 실패"));
+	//관리자 등록 전 아이디 중복여부 확인
+	@GetMapping(value = "/checkId")
+	public ResponseEntity<JSONResult> checkId(
+			@RequestParam("id") String id) {
+
+        if(!Pattern.matches("^[a-zA-Z0-9]{4,18}$", id)){
+        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("아이디 입력형식 오류"));
+        }
+		
+		return adminService.checkId(id)? 
+				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("중복")) :
+					ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("사용가능"));
+	}
+	
+	@PostMapping("/add")
+	public ResponseEntity<JSONResult> adminAdd(@RequestBody @Valid AdminVO vo, BindingResult result) {
+		
+		// 아이디 중복 한번 더 체크
+		if(adminService.checkId(vo.getId())) {
+			return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("중복 아이디"));
 		}
 		
-		return adminService.login(vo) ? 
-				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("로그인 성공")) : 
-					ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("로그인 실패"));
-	}
-	
-	@GetMapping("/productAdmin")
-	public ResponseEntity<JSONResult> adminPage() {
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("상품관리 페이지"));
-	}
-	
-	@PostMapping("/productRegister")
-	public ResponseEntity<JSONResult> productRegister(
-			@RequestBody @Valid ProductVO vo,
-			BindingResult result) {
-		System.out.println(vo);
 		// 유효성 검사 실패시
 		if(result.hasErrors()) {
 			List<FieldError> list = result.getFieldErrors();
@@ -61,8 +61,10 @@ public class AdminController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(errorMsg));
 		}
 		
-		adminService.productRegister(vo);
-		
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("상품 등록 성공"));
+		adminService.add(vo);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("관리자 등록 성공"));
 	}
+
+	
+
 }
