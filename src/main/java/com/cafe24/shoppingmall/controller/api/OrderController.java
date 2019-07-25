@@ -42,8 +42,7 @@ public class OrderController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(errorMsg));
 		}
 
-		orderService.orderAdd(orderVO);
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("주문 등록 성공"));
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(orderService.orderAdd(orderVO)));
 	}
 	
 	@GetMapping("/getOrderUsr")
@@ -56,5 +55,12 @@ public class OrderController {
 	public ResponseEntity<JSONResult> orderGetOrderNoUsr(@ModelAttribute OrderVO vo) {
 		List<OrderVO> orderList = orderService.orderGetNoUser(vo);
 		return orderList == null ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("주문번호나 비밀번호가 틀립니다")) : ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(orderList));
+	}
+	
+	@PostMapping("/update")
+	public ResponseEntity<JSONResult> orderUpdate(@RequestBody OrderVO vo) {
+		return orderService.update(vo) ?
+				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("주문 상태 업데이트 성공")) :
+					ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("주문 상태 업데이트 실패 - 주문번호 없음"));
 	}
 }

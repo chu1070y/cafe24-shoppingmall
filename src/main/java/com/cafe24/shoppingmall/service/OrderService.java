@@ -21,7 +21,7 @@ public class OrderService {
 	private OrderDAO orderDAO;
 
 	@Transactional
-	public Boolean orderAdd(OrderVO orderVO) {
+	public Integer orderAdd(OrderVO orderVO) {
 		// 주문 추가
 		OrderVO vo = orderDAO.orderAdd(orderVO);
 		
@@ -31,7 +31,7 @@ public class OrderService {
 			orderDAO.orderAddDetail(detailVO);
 		}
 
-		return true;
+		return vo.getNo();
 	}
 	
 	// junit test용
@@ -70,6 +70,10 @@ public class OrderService {
 		}
 		
 		return list;
+	}
+
+	public Boolean update(OrderVO vo) {
+		return orderDAO.update(vo);
 	}
 
 

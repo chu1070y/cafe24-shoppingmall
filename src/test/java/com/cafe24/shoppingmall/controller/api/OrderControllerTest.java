@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.common.util.JacksonJsonParser;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 
@@ -18,10 +19,14 @@ import com.cafe24.shoppingmall.vo.OrderDetailVO;
 import com.cafe24.shoppingmall.vo.OrderVO;
 import com.cafe24.shoppingmall.vo.ProductVO;
 import com.cafe24.shoppingmall.vo.UserVO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 public class OrderControllerTest extends TemplateTest {
 
+	JacksonJsonParser jsonParser = new JacksonJsonParser();
+	ObjectMapper oMapper = new ObjectMapper();
+	
 	@Override
 	public void setup() {
 		super.setup();
@@ -40,6 +45,37 @@ public class OrderControllerTest extends TemplateTest {
 		map.put("tel_phone", "010-1234-1234");
 		
 		try { registerMember(map, status().isOk());} catch (Exception e) {e.printStackTrace();}
+	}
+	
+	// 주문 상태 업데이트 Test Case 1. - 주문 상태 업데이트 (성공)
+	@Test
+	public void orderUpdateTest1() throws Exception {
+		// 회원정보
+		UserVO userVO = new UserVO();
+		userVO.setName("비회원");
+		userVO.setEmail("ganzzi@men.com");
+		
+		// 상품 등록 및 주문 정보 입력 함수
+		OrderVO orderVO1 = orderInfo(userVO);
+		
+		// 주문 등록
+		Integer no = orderAdd(orderVO1, status().isOk());
+		
+		// 주문 상태 업데이트
+		OrderVO orderVO2 = new OrderVO();
+		orderVO2.setNo(no);
+		orderVO2.setStatus("배송중");
+		orderUpdate(orderVO2, status().isOk());
+	}
+	
+	// 주문 상태 업데이트 Test Case 2. - 잘못된 주문번호
+	@Test
+	public void orderUpdateTest2() throws Exception {
+		// 주문 상태 업데이트
+		OrderVO orderVO2 = new OrderVO();
+		orderVO2.setNo(-1);
+		orderVO2.setStatus("배송중");
+		orderUpdate(orderVO2, status().isBadRequest());
 	}
 	
 	// 주문 조회(비회원) Test Case 1. - 주문 조회 (성공) - 비회원
@@ -149,11 +185,16 @@ public class OrderControllerTest extends TemplateTest {
 	 * 테스트케이스에 사용될 함수들..
 	 */
 	// 주문 등록 
-	public void orderAdd(OrderVO orderVO, ResultMatcher rm) throws Exception {
+	public Integer orderAdd(OrderVO orderVO, ResultMatcher rm) throws Exception {
 		ResultActions resultActions = mockMvc.perform(
 				post("/api/order/add").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(orderVO)));
 
 		resultActions.andDo(print()).andExpect(rm);
+		
+		String resultString = resultActions.andReturn().getResponse().getContentAsString();
+		Integer orderNo = oMapper.convertValue(jsonParser.parseMap(resultString).get("data"), Integer.class);
+		
+		return orderNo;
 	}
 	// 주문 정보 입력 함수
 	public OrderVO orderInfo(UserVO userVO) throws Exception {
@@ -223,4 +264,11 @@ public class OrderControllerTest extends TemplateTest {
 		resultActions.andDo(print()).andExpect(rm);
 	}
 	
+	// 주문 상태 업데이트
+	public void orderUpdate(OrderVO orderVO, ResultMatcher rm) throws Exception {
+		ResultActions resultActions = mockMvc.perform(
+				post("/api/order/update").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(orderVO)));
+
+		resultActions.andDo(print()).andExpect(rm);
+	}
 }

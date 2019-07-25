@@ -40,5 +40,9 @@ public class OrderDAO {
 		return sqlSession.selectList("order.orderGetWithNoUser", orderVO);
 	}
 
+	public Boolean update(OrderVO vo) {
+		return 1 == sqlSession.update("order.update", vo);
+	}
+
 
 }

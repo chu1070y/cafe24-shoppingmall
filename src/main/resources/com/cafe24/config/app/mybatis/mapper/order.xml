@@ -100,4 +100,8 @@
 		<result property="quantity" column="quantity"/>
 	</resultMap>
 	
+	<update id="update" parameterType="ordervo">
+		update orders set status = #{status} where no = #{no}
+	</update>
+	
 </mapper>
