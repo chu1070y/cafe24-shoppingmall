@@ -4,18 +4,30 @@
 <mapper namespace="admin">
 
 	<select id="checkId" parameterType="string" resultType="adminvo">
-		select * from admin where id = #{id}
+		select * from shop_admin where id = #{id}
 	</select>
 	
 	<insert id="add" parameterType="adminvo">
-		insert into admin values(default, #{id}, SHA2(#{pw}, 512), now(), default)
+		insert into shop_admin values(default, #{id}, SHA2(#{pw}, 512), #{shop_name}, '0', now(), default)
 	</insert>
 
 	<delete id="deleteAll">
-		delete from admin
+		delete from shop_admin
 	</delete>
 	
 	<select id="login" parameterType="adminvo" resultType="adminvo">
-		select * from admin where id = #{id} and pw = SHA2(#{pw}, 512)
+		select * from shop_admin where id = #{id} and pw = SHA2(#{pw}, 512) where del = '0'
 	</select>
+	
+	<update id="update" parameterType="adminvo">
+		update shop_admin 
+			set pw = SHA2(#{pw}, 512), shop_name = #{shop_name}
+			where id = #{id}
+	</update>
+	
+	<update id="delete" parameterType="string">
+		update shop_admin
+			set del = '1'
+		where id = #{id}
+	</update>
 </mapper>

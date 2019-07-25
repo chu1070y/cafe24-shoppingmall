@@ -27,4 +27,12 @@ public class AdminDAO {
 	public AdminVO login(AdminVO vo) {
 		return sqlSession.selectOne("admin.login", vo);
 	}
+
+	public Boolean update(AdminVO vo) {
+		return 1 == sqlSession.update("admin.update", vo);
+	}
+
+	public Boolean delete(String id) {
+		return 1 == sqlSession.delete("admin.delete", id);
+	}
 }

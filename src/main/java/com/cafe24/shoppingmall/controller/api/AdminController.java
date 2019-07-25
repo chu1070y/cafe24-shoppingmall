@@ -75,6 +75,34 @@ public class AdminController {
 				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(adminVO)) : 
 					ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("해당 정보와 일치하는 값이 없습니다."));
 	}
+	
+	//관리자 수정
+	@PostMapping("/update")
+	public ResponseEntity<JSONResult> update(@RequestBody @Valid AdminVO vo, BindingResult result) {
+		// 유효성 검사 실패시
+		if(result.hasErrors()) {
+			List<FieldError> list = result.getFieldErrors();
+			String errorMsg = "";
+			for(FieldError error : list) {
+				errorMsg += error.getField() + "/";
+			}
+			errorMsg += "오류발생";
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail(errorMsg));
+		}
+		
+		return adminService.update(vo) ? 
+				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("관리자 정보 수정 성공")) : 
+					ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("관리자 정보 수정 실패"));
+	}
+	
+	//관리자 삭제
+	@PostMapping("/delete")
+	public ResponseEntity<JSONResult> delete(@RequestBody String id) {
+		
+		return adminService.delete(id) ? 
+				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("관리자 정보 삭제 성공")) : 
+					ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("관리자 정보 삭제 실패"));
+	}
 
 	
 

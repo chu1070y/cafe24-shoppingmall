@@ -28,6 +28,14 @@ public class AdminService {
 		return adminDAO.login(vo);
 	}
 
+	public Boolean update(AdminVO vo) {
+		return adminDAO.update(vo);
+	}
+
+	public Boolean delete(String id) {
+		return adminDAO.delete(id);
+	}
+
 	
 	
 	
