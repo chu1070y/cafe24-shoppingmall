@@ -90,13 +90,13 @@ public class AdminControllerTest extends TemplateTest{
 	
 	// 관리자 회원가입 Test Case 1. - 관리자 정상 등록(성공)
 	@Test
-	public void registerMemberTest1() throws Exception{
+	public void adminAddTest1() throws Exception{
 		adminAdd("admin", "12345678z!", status().isOk());
 	}
 	
 	// 관리자 회원가입 Test Case 2. - 비밀번호 형식 오류
 	@Test
-	public void registerMemberTest2() throws Exception{
+	public void adminAddTest2() throws Exception{
 		adminAdd("admin", "12345678z", status().isBadRequest());
 	}
 	
