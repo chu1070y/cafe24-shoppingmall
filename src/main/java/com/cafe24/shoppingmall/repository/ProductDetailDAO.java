@@ -50,4 +50,13 @@ public class ProductDetailDAO {
 	public Boolean updateStockAvail(Integer productDetailNo) {
 		return 1 == sqlSession.update("productDetail.updateStockAvail", productDetailNo);
 	}
+
+	public Boolean stockUpdate(Integer product_detail_no) {
+		return 1 == sqlSession.update("productDetail.stockUpdate", product_detail_no);
+	}
+
+	public Boolean isStockUse(Integer product_detail_no) {
+		ProductDetailVO vo = sqlSession.selectOne("productDetail.isStockUse", product_detail_no);
+		return "1".equals(vo.getStock_use());
+	}
 }

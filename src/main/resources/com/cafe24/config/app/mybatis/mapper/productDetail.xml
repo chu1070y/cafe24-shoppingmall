@@ -44,4 +44,12 @@
 		update product_detail set stock_avail = stock_avail - 1 where product_detail_no = #{productDetailNo}
 	</update>
 	
+	<update id="stockUpdate" parameterType="int">
+		update product_detail set stock_num = stock_num - 1 where product_detail_no = #{product_detail_no}
+	</update>
+	
+	<select id="isStockUse" parameterType="int" resultType="productdetailvo">
+		select * from product_detail where product_detail_no = #{product_detail_no}
+	</select>
+	
 </mapper>

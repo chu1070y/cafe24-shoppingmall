@@ -255,5 +255,13 @@ public class ProductService {
 		return "재고문제없음";
 	}
 
+	public Boolean stockUpdate(Integer product_detail_no) {
+		if(productDetailDAO.isStockUse(product_detail_no)) {
+			return productDetailDAO.stockUpdate(product_detail_no);
+		}
+		
+		return false;
+	}
+
 
 }

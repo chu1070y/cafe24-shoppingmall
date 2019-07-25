@@ -25,10 +25,13 @@ public class OrderService {
 		// 주문 추가
 		OrderVO vo = orderDAO.orderAdd(orderVO);
 		
-		// 주문상세 추가
 		for (OrderDetailVO detailVO : vo.getOrderDetail()) {
 			detailVO.setOrder_no(vo.getNo());
+			// 주문상세 추가
 			orderDAO.orderAddDetail(detailVO);
+			
+			// 재고 -1
+			productService.stockUpdate(detailVO.getProduct_detail_no());
 		}
 
 		return vo.getNo();
