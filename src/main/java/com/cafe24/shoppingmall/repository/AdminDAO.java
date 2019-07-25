@@ -23,4 +23,8 @@ public class AdminDAO {
 	public Boolean deleteAll() {
 		return 1 == sqlSession.delete("admin.deleteAll");
 	}
+
+	public AdminVO login(AdminVO vo) {
+		return sqlSession.selectOne("admin.login", vo);
+	}
 }

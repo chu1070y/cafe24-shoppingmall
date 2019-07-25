@@ -24,6 +24,10 @@ public class AdminService {
 		return adminDAO.deleteAll();
 	}
 
+	public AdminVO login(AdminVO vo) {
+		return adminDAO.login(vo);
+	}
+
 	
 	
 	

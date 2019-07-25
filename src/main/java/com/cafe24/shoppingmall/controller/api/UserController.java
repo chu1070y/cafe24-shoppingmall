@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,12 +29,6 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
-	
-	//회원가입 페이지 for 시나리오용
-	@RequestMapping(value="/join", method = RequestMethod.GET)
-	public ResponseEntity<JSONResult> joinPage() {
-		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("회원가입 페이지"));
-	}
 	
 	//회원가입 전 아이디 중복여부 확인
 	@GetMapping(value = "/checkId")
@@ -79,7 +72,7 @@ public class UserController {
 	
 	//로그인
 	@PostMapping("/login")
-	public ResponseEntity<JSONResult> login(@RequestBody UserVO vo, BindingResult result) {
+	public ResponseEntity<JSONResult> login(@RequestBody UserVO vo) {
         UserVO uservo = userService.login(vo);
 		
 		return uservo != null ? 

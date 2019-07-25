@@ -8,10 +8,14 @@
 	</select>
 	
 	<insert id="add" parameterType="adminvo">
-		insert into admin values(default, #{id}, #{pw}, now(), default)
+		insert into admin values(default, #{id}, SHA2(#{pw}, 512), now(), default)
 	</insert>
 
 	<delete id="deleteAll">
 		delete from admin
 	</delete>
+	
+	<select id="login" parameterType="adminvo" resultType="adminvo">
+		select * from admin where id = #{id} and pw = SHA2(#{pw}, 512)
+	</select>
 </mapper>

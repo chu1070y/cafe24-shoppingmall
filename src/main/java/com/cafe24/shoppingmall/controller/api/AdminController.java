@@ -28,7 +28,7 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 	
-	//관리자 등록 전 아이디 중복여부 확인
+	// 관리자 등록 전 아이디 중복여부 확인
 	@GetMapping(value = "/checkId")
 	public ResponseEntity<JSONResult> checkId(
 			@RequestParam("id") String id) {
@@ -42,6 +42,7 @@ public class AdminController {
 					ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("사용가능"));
 	}
 	
+	// 관리자 등록
 	@PostMapping("/add")
 	public ResponseEntity<JSONResult> adminAdd(@RequestBody @Valid AdminVO vo, BindingResult result) {
 		
@@ -63,6 +64,16 @@ public class AdminController {
 		
 		adminService.add(vo);
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("관리자 등록 성공"));
+	}
+	
+	//관리자 로그인
+	@PostMapping("/login")
+	public ResponseEntity<JSONResult> login(@RequestBody AdminVO vo) {
+        AdminVO adminVO = adminService.login(vo);
+        
+		return adminVO != null ? 
+				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(adminVO)) : 
+					ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("해당 정보와 일치하는 값이 없습니다."));
 	}
 
 	
