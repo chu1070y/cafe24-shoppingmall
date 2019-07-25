@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shoppingmall.dto.JSONResult;
@@ -97,6 +98,13 @@ public class ProductController {
 
 		Boolean checkVO = productService.delete(productNo);
 		return checkVO ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("상품 정상 삭제")) : ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("상품 삭제 실패"));
+	}
+	
+	// 재고상황 확인/수정
+	@GetMapping("checkStock")
+	public ResponseEntity<JSONResult> checkStock(@RequestParam("productDetailNoList") Integer[] productDetailNoList){
+		String result = productService.checkStock(productDetailNoList);
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(result));
 	}
 	
 }

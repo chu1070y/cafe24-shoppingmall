@@ -226,4 +226,34 @@ public class ProductService {
 		return true;
 	}
 
+	@Transactional
+	public String checkStock(Integer[] productDetailNoList) {
+		String stockOut = "일시품절";
+		
+		for(Integer productDetailNo: productDetailNoList) {
+			// 재고 정보 가져오기
+			ProductDetailVO detailVO = productDetailDAO.getStockInfo(productDetailNo);
+			// 재고 사용여부 체크
+			if("1".equals(detailVO.getStock_use())) {
+				// 판매가능수량 체크
+				if(detailVO.getStock_avail() < 1) {
+					// 해당 제품 일시품절
+					stockOut = stockOut + "/" + productDetailNo;
+				}
+			}
+		}
+		
+		if(stockOut.length() != 4) {
+			return stockOut;
+		}
+		
+		// 판매가능수량 -1
+		for(Integer productDetailNo: productDetailNoList) {
+			productDetailDAO.updateStockAvail(productDetailNo);
+		}
+		
+		return "재고문제없음";
+	}
+
+
 }

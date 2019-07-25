@@ -36,5 +36,12 @@
 		select distinct product_no from product_detail where product_detail_no = #{product_detail_no}
 	</select>
 	
+	<select id="getStockInfo" parameterType="int" resultType="productdetailvo">
+		select * from product_detail where product_detail_no = #{productDetailNo}
+	</select>
+	
+	<update id="updateStockAvail" parameterType="int">
+		update product_detail set stock_avail = stock_avail - 1 where product_detail_no = #{productDetailNo}
+	</update>
 	
 </mapper>

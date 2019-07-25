@@ -42,4 +42,12 @@ public class ProductDetailDAO {
 	public Integer getProductNo(Integer product_detail_no) {
 		return sqlSession.selectOne("productDetail.getProductNo", product_detail_no);
 	}
+
+	public ProductDetailVO getStockInfo(Integer productDetailNo) {
+		return sqlSession.selectOne("productDetail.getStockInfo", productDetailNo);
+	}
+
+	public Boolean updateStockAvail(Integer productDetailNo) {
+		return 1 == sqlSession.update("productDetail.updateStockAvail", productDetailNo);
+	}
 }

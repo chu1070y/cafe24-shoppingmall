@@ -30,6 +30,40 @@ public class ProductControllerTest extends TemplateTest {
 		super.setup();
 		productService.deleteAll();
 	}
+	
+	// 재고상황 확인/수정 Test Case 1. - 재고상황 확인/수정(성공)
+	@Test
+	public void checkStockTest1() throws Exception {
+		Integer no1 = productAddTest2("키가 크는 신발", 100);
+		Integer no2 = productAddTest2("어깨가 넓어지는 코트", 10);
+		
+		// 특정 상품 정보 가져오기
+		ProductVO productVO1 = productRead(no1, status().isOk());
+		ProductVO productVO2 = productRead(no2, status().isOk());
+		
+		String[] IntegerArray = {
+				Integer.toString(productVO1.getProductDetailList().get(0).getProduct_detail_no()), 
+				Integer.toString(productVO2.getProductDetailList().get(0).getProduct_detail_no())
+				};
+		checkStock(IntegerArray, status().isOk());
+	}
+	
+	// 재고상황 확인/수정 Test Case 2. - 재고 0인 경우(판매가능수량 0)
+	@Test
+	public void checkStockTest2() throws Exception {
+		Integer no1 = productAddTest2("키가 크는 신발", 0);
+		Integer no2 = productAddTest2("어깨가 넓어지는 코트", 0);
+		
+		// 특정 상품 정보 가져오기
+		ProductVO productVO1 = productRead(no1, status().isOk());
+		ProductVO productVO2 = productRead(no2, status().isOk());
+		
+		String[] IntegerArray = {
+				Integer.toString(productVO1.getProductDetailList().get(0).getProduct_detail_no()), 
+				Integer.toString(productVO2.getProductDetailList().get(0).getProduct_detail_no())
+				};
+		checkStock(IntegerArray, status().isOk());
+	}
 
 	// 상품 삭제 Test Case 1. - 상품 삭제(성공)
 	@Test
@@ -433,5 +467,76 @@ public class ProductControllerTest extends TemplateTest {
 				post("/api/product/delete").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(no)));
 
 		resultActions.andDo(print()).andExpect(rm);
+	}
+	
+	// 재고상황 확인/수정
+	public void checkStock(String[] productDetailNoList, ResultMatcher rm) throws Exception {
+		mockMvc.perform(get("/api/product/checkStock").param("productDetailNoList", productDetailNoList)).andDo(print()).andExpect(rm);
+	}
+	// test 재고상품 등록
+	public Integer productAddTest2(String name, Integer stockNum) throws Exception {
+		ProductVO productVO = new ProductVO();
+		productVO.setCode("P0000001");
+		productVO.setName(name);
+		productVO.setDescription("버징가~~~ ㅎㅎ");
+		productVO.setPrice(15000);
+		productVO.setSale_price(15000);
+		productVO.setShow_product("1");
+
+		// 상품상세 넣기
+		List<ProductDetailVO> list2 = new ArrayList<ProductDetailVO>();
+		ProductDetailVO productDetailVO1 = new ProductDetailVO();
+		productDetailVO1.setStock_use("1");
+		productDetailVO1.setStock_num(stockNum);
+		productDetailVO1.setStock_avail(stockNum);
+
+		list2.add(productDetailVO1);
+
+		productVO.setProductDetailList(list2);
+
+		// 상품카테고리 등록
+		Integer categNo1 = categoryAddGetNo("상의", null, status().isOk()).getCategory_no();
+		Integer categNo2 = categoryAddGetNo("티셔츠", categNo1, status().isOk()).getCategory_no();
+
+		List<CategoryVO> list3 = new ArrayList<CategoryVO>();
+
+		CategoryVO categoryVO1 = new CategoryVO();
+		categoryVO1.setCategory_no(categNo1);
+		CategoryVO categoryVO2 = new CategoryVO();
+		categoryVO2.setCategory_no(categNo2);
+
+		list3.add(categoryVO1);
+		list3.add(categoryVO2);
+
+		productVO.setCategoryList(list3);
+
+		// 상품 옵션 등록
+		OptionVO optionVO1 = new OptionVO();
+		optionVO1.setName("색상");
+		optionVO1.setNecessary("1");
+
+		OptionDetailVO optionDetailVO1 = new OptionDetailVO();
+		optionDetailVO1.setDetail_name("블랙");
+		OptionDetailVO optionDetailVO2 = new OptionDetailVO();
+		optionDetailVO2.setDetail_name("화이트");
+
+		optionVO1.setOptionDetailList(Arrays.asList(optionDetailVO1, optionDetailVO2));
+
+		OptionVO optionVO2 = new OptionVO();
+		optionVO2.setName("크기");
+		optionVO2.setNecessary("1");
+
+		OptionDetailVO optionDetailVO3 = new OptionDetailVO();
+		optionDetailVO3.setDetail_name("S");
+		OptionDetailVO optionDetailVO4 = new OptionDetailVO();
+		optionDetailVO4.setDetail_name("M");
+		OptionDetailVO optionDetailVO5 = new OptionDetailVO();
+		optionDetailVO5.setDetail_name("L");
+
+		optionVO2.setOptionDetailList(Arrays.asList(optionDetailVO3, optionDetailVO4, optionDetailVO5));
+
+		productVO.setOptionList(Arrays.asList(optionVO1, optionVO2));
+
+		return productAddGetNo(productVO, status().isOk());
 	}
 }
