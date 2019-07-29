@@ -111,7 +111,7 @@ public class OrderControllerTest extends TemplateTest {
 		orderAdd(orderVO, status().isOk());		
 		
 		// 주문 조회(비회원)
-		getOrderNoUsr("S0190724-12123221", "123", status().isOk());	
+		getOrderNoUsr("S0190724-12123221", "123", status().isBadRequest());	
 	}
 	
 	// 주문 조회(회원) Test Case 1. - 주문 조회 (성공) - 회원
@@ -136,7 +136,7 @@ public class OrderControllerTest extends TemplateTest {
 		getOrderUsr(userNo, status().isOk());	
 	}
 	
-	// 주문 조회 - 회원 Test Case 2. - 주문 조회 (성공) - 해당회원 주문정보 없음
+	// 주문 조회(회원) Test Case 2. - 주문 조회 (성공) - 해당회원 주문정보 없음
 	@Test
 	public void getOrderUsrTest2() throws Exception {
 		getOrderUsr(3, status().isOk());	

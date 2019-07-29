@@ -57,7 +57,7 @@ public class OrderController {
 	@GetMapping("/getOrderNoUsr")
 	public ResponseEntity<JSONResult> orderGetOrderNoUsr(@ModelAttribute OrderVO vo) {
 		List<OrderVO> orderList = orderService.orderGetNoUser(vo);
-		return orderList == null ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("주문번호나 비밀번호가 틀립니다")) : ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(orderList));
+		return orderList == null ? ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("주문번호나 비밀번호가 틀립니다")) : ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(orderList));
 	}
 	
 	// 주문 상태 수정

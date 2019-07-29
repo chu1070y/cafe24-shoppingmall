@@ -24,9 +24,14 @@ public class CartController {
 	// 장바구니 담기
 	@PostMapping("/add")
 	public ResponseEntity<JSONResult> cartAdd(@RequestBody CartVO vo) {
+		
+		if(vo.getQuantity() < 1) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("수량 1이상 입력 요망"));
+		}
+		
 		return cartService.insertCart(vo) ? 
 				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("장바구니 담기 성공")) : 
-					ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("장바구니 담기 실패"));
+					ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("장바구니 담기 실패"));
 	}
 	
 	// 장바구니 목록

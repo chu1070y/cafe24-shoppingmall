@@ -244,7 +244,7 @@ public class UserControllerTest extends TemplateTest{
 		userInfoUpdate(map, status().isBadRequest());
 	}
 
-	// 회원정보 수정 Test Case 1. - 회원정보 삭제(성공)
+	// 회원정보 삭제 Test Case 1. - 회원정보 삭제(성공)
 	@Test
 	public void userInfoDeleteTest1() throws Exception{
 		// 사전에 회원등록해놓긔
@@ -253,7 +253,7 @@ public class UserControllerTest extends TemplateTest{
 		userInfoDelete("chu1070y", status().isOk());
 	}
 	
-	// 회원정보 수정 Test Case 2. - 해당 회원 없음
+	// 회원정보 삭제 Test Case 2. - 해당 회원 없음
 	@Test
 	public void userInfoDeleteTest2() throws Exception{
 		// 사전에 회원등록해놓긔
