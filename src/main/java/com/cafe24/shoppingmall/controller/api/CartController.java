@@ -21,6 +21,7 @@ public class CartController {
 	@Autowired
 	private CartService cartService;
 	
+	// 장바구니 담기
 	@PostMapping("/add")
 	public ResponseEntity<JSONResult> cartAdd(@RequestBody CartVO vo) {
 		return cartService.insertCart(vo) ? 
@@ -28,11 +29,13 @@ public class CartController {
 					ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("장바구니 담기 실패"));
 	}
 	
+	// 장바구니 목록
 	@GetMapping("/list")
 	public ResponseEntity<JSONResult> cartList(@ModelAttribute CartVO vo) {
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(cartService.get(vo)));
 	}
 	
+	// 장바구니 수량 수정
 	@PostMapping("/update")
 	public ResponseEntity<JSONResult> cartUpdate(@RequestBody CartVO vo) {
 		
@@ -45,6 +48,7 @@ public class CartController {
 					ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("장바구니 수량변경 실패"));
 	}
 	
+	// 장바구니 상품 삭제
 	@PostMapping("/delete")
 	public ResponseEntity<JSONResult> cartDelete(@RequestBody Integer no) {
 		

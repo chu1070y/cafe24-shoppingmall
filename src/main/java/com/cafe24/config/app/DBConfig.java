@@ -17,9 +17,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @PropertySource("classpath:com/cafe24/config/app/properties/jdbc.properties")
 public class DBConfig {
 	
+	// DB 정보
 	@Autowired
 	private Environment env;
 	
+	// DB 연결 관리
 	@Bean
 	public DataSource basicDataSource() {
 		
@@ -30,14 +32,13 @@ public class DBConfig {
 		basicDataSource.setUsername(env.getProperty("jdbc.username"));
 		basicDataSource.setPassword(env.getProperty("jdbc.password"));
 		
-		// 이거 가지고 데이터 소스를 관리하는 것
-		// 100개라 설정하면 101번째 연결부터는 기다려야한다.
 		basicDataSource.setInitialSize(env.getProperty("jdbc.initialSize", Integer.class));
 		basicDataSource.setMaxActive(env.getProperty("jdbc.maxActive", Integer.class));
 		
 		return basicDataSource;
 	}
 	
+	// 트랜젝션 설정
 	@Bean
 	public PlatformTransactionManager transactionManager(DataSource dataSource) {
 		return new DataSourceTransactionManager(dataSource);

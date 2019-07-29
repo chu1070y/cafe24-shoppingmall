@@ -19,7 +19,7 @@ public class NomemberController {
 	@Autowired
 	private NomemberService nomemberService;
 	
-	//회원가입 페이지 for 시나리오용
+	// 비회원 저장
 	@RequestMapping(value="", method = RequestMethod.GET)
 	public ResponseEntity<JSONResult> nomember(@ModelAttribute NomemberVO nomemberVO) {
 		NomemberVO no = nomemberService.get(nomemberVO);

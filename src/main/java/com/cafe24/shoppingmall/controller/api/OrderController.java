@@ -28,6 +28,7 @@ public class OrderController {
 	@Autowired
 	OrderService orderService;
 
+	// 주문 등록
 	@PostMapping("/add")
 	public ResponseEntity<JSONResult> orderAdd(@RequestBody @Valid OrderVO orderVO, BindingResult result) {
 
@@ -45,18 +46,21 @@ public class OrderController {
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(orderService.orderAdd(orderVO)));
 	}
 	
+	// 주문 조회 - 회원
 	@GetMapping("/getOrderUsr")
 	public ResponseEntity<JSONResult> orderGetOrderUsr(@RequestParam("memberNo") Integer memberNo) {
 
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(orderService.orderGet(memberNo)));
 	}
 	
+	// 쥬문 조회 - 비회원
 	@GetMapping("/getOrderNoUsr")
 	public ResponseEntity<JSONResult> orderGetOrderNoUsr(@ModelAttribute OrderVO vo) {
 		List<OrderVO> orderList = orderService.orderGetNoUser(vo);
 		return orderList == null ? ResponseEntity.status(HttpStatus.OK).body(JSONResult.fail("주문번호나 비밀번호가 틀립니다")) : ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(orderList));
 	}
 	
+	// 주문 상태 수정
 	@PostMapping("/update")
 	public ResponseEntity<JSONResult> orderUpdate(@RequestBody OrderVO vo) {
 		return orderService.update(vo) ?
