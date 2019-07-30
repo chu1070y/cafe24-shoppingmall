@@ -18,6 +18,7 @@ public class NomemberService {
 		
 		NomemberVO vo = nomemberDAO.get(nomemberVO);
 		
+		// 비회원정보가 없으면 등록
 		if (vo == null) {
 			vo = nomemberDAO.insert(nomemberVO);
 		}

@@ -241,7 +241,7 @@ public class TemplateTest {
 		return productVO;
 	}
 	
-	// 비회원 조회
+	// 비회원 조회, 없을시 등록
 	public NomemberVO nomember(String sessionID, ResultMatcher rm) throws Exception{
 		ResultActions resultActions = mockMvc
 		.perform(get("/api/nomember").param("session_id", sessionID))
