@@ -19,14 +19,10 @@
 	<select id="getList" parameterType="cartvo" resultType="cartvo">
 		select * from cart 
 		where 
-		<if test="member_no != null">
-			member_no = #{member_no}
-		</if>
-		
-		<if test="nomember_no != null">
-			nomember_no = #{nomember_no}
-		</if>
-		
+			(member_no = #{member_no} or #{member_no} is null) and
+	
+			(nomember_no = #{nomember_no} or #{nomember_no} is null)
+
 	</select>
 	
 	<delete id="deleteCart" parameterType="int">
