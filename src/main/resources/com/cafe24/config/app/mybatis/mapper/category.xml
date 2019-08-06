@@ -62,13 +62,17 @@
 	
 	<update id="updateOrd" parameterType="categoryvo">
 		update category 
-		set ord = (select ord from (select ord from category where category_no = #{parent}) tmp) + 1 
+		set ord = 2
 		where category_no = #{category_no};
 	</update>
 	
 	<select id="getLowList" parameterType="categoryvo" resultType="categoryvo">
 		select * from category
-		where parent=#{parent}
+		where parent = #{parent} and ord = 2
 	</select>
+	
+	<update id="updateParent" parameterType="categoryvo">
+		update category set parent = #{category_no} where category_no = #{category_no}
+	</update>
 	
 </mapper>

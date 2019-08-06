@@ -43,14 +43,17 @@ public class CategoryController {
 		}
 		
 		// 상위 카테고리 존재 검사
-		if (categoryService.checkCategoryNo(vo.getParent())) {
+		if (categoryService.checkCategoryNo(vo)) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("상위 카테고리 없음"));
 		}
 		
 		CategoryVO categoryVO = categoryService.insert(vo);
 		
 		if (vo.getParent() != null) {
+			System.out.println("21121212");
 			categoryService.updateOrd(categoryVO);
+		} else {
+			categoryService.updateParent(categoryVO);
 		}
 		
 		return ResponseEntity.status(HttpStatus.OK).body(
@@ -78,7 +81,7 @@ public class CategoryController {
 			){
 		
 		// 상위 카테고리 존재 검사
-		if (categoryService.checkCategoryNo(vo.getParent())) {
+		if (categoryService.checkCategoryNo(vo)) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(JSONResult.fail("상위 카테고리 없음"));
 		}
 		

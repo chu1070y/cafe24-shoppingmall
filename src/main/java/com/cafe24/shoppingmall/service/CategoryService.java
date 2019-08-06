@@ -31,13 +31,13 @@ public class CategoryService {
 		return categoryDAO.update(vo);
 	}
 
-	public Boolean checkCategoryNo(Integer category_high_no) {
+	public Boolean checkCategoryNo(CategoryVO vo) {
 		// 상위 카테고리 번호가 null이면 해당 로직을 건너뛴다.
-		if(category_high_no == null) {
+		if(vo.getParent() == vo.getCategory_no()) {
 			return false;
 		}
 		
-		return categoryDAO.checkCategoryNo(category_high_no);
+		return categoryDAO.checkCategoryNo(vo.getParent());
 	}
 
 	@Transactional
@@ -51,6 +51,10 @@ public class CategoryService {
 
 	public List<CategoryVO> getLowList(CategoryVO vo) {
 		return categoryDAO.getLowList(vo);
+	}
+
+	public Boolean updateParent(CategoryVO categoryVO) {
+		return categoryDAO.updateParent(categoryVO);
 	}
 
 }

@@ -66,4 +66,8 @@ public class CategoryDAO {
 		return sqlSession.selectList("category.getLowList", vo);
 	}
 
+	public Boolean updateParent(CategoryVO categoryVO) {
+		return 1 == sqlSession.update("category.updateParent", categoryVO);
+	}
+
 }
