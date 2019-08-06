@@ -16,7 +16,7 @@
 	</delete>
 	
 	<select id="login" parameterType="adminvo" resultType="adminvo">
-		select * from shop_admin where id = #{id} and pw = SHA2(#{pw}, 512) where del = '0'
+		select * from shop_admin where id = #{id} and pw = SHA2(#{pw}, 512) and del = '0'
 	</select>
 	
 	<update id="update" parameterType="adminvo">
