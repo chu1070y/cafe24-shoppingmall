@@ -49,15 +49,26 @@ public class CategoryController {
 		
 		CategoryVO categoryVO = categoryService.insert(vo);
 		
+		if (vo.getParent() != null) {
+			categoryService.updateOrd(categoryVO);
+		}
+		
 		return ResponseEntity.status(HttpStatus.OK).body(
 				JSONResult.success(categoryVO));
 	}
 	
-	// 카테고리 조회
+	// 상위 카테고리 조회
 	@GetMapping("list")
 	public ResponseEntity<JSONResult> categoryList() {
 
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(categoryService.getList()));
+	}
+	
+	// 하위 카테고리 조회
+	@GetMapping("lowList")
+	public ResponseEntity<JSONResult> lowCategoryList(CategoryVO vo) {
+
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(categoryService.getLowList(vo)));
 	}
 	
 	// 카테고리 수정

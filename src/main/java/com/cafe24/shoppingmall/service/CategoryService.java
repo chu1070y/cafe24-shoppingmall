@@ -45,4 +45,12 @@ public class CategoryService {
 		return categoryDAO.delete(no);
 	}
 
+	public Boolean updateOrd(CategoryVO categoryVO) {
+		return categoryDAO.updateOrd(categoryVO);
+	}
+
+	public List<CategoryVO> getLowList(CategoryVO vo) {
+		return categoryDAO.getLowList(vo);
+	}
+
 }
