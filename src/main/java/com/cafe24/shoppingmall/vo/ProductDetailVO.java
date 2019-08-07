@@ -51,7 +51,7 @@ public class ProductDetailVO {
 	}
 
 	public void setAdd_price(Integer add_price) {
-		this.add_price = add_price;
+		this.add_price = add_price == null ? 0 : add_price;
 	}
 
 	public Integer getStock_num() {
@@ -60,6 +60,7 @@ public class ProductDetailVO {
 
 	public void setStock_num(Integer stock_num) {
 		this.stock_num = stock_num;
+		this.stock_avail = stock_num;
 	}
 
 	public Integer getStock_avail() {

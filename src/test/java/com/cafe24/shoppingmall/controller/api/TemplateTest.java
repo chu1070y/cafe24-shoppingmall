@@ -149,12 +149,10 @@ public class TemplateTest {
 
 		ProductImgVO productImgVO1 = new ProductImgVO();
 		productImgVO1.setFilename("tshirts_img1");
-		productImgVO1.setExtension(".png");
 		productImgVO1.setImg_type("대표이미지");
 
 		ProductImgVO productImgVO2 = new ProductImgVO();
 		productImgVO2.setFilename("tshirts_img2");
-		productImgVO2.setExtension(".png");
 		productImgVO2.setImg_type("본문이미지");
 
 		list1.add(productImgVO1);

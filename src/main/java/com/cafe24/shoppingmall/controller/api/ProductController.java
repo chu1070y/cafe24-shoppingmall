@@ -53,7 +53,7 @@ public class ProductController {
 	public ResponseEntity<JSONResult> addProduct(
 			@RequestBody @Valid ProductVO productVO, 
 			BindingResult result) {
-		
+		System.out.println(productVO);
 		// 가입 오류시 에러 출력
 	      if (result.hasErrors()) {
 	         List<ObjectError> list = result.getAllErrors();

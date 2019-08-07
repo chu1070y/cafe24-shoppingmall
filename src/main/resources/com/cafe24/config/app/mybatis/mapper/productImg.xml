@@ -4,8 +4,8 @@
 <mapper namespace="productImg">
 
 	<insert id="insert" parameterType="productimgvo">
-		insert into product_img(product_no, filename, extension, img_type)
-		values(#{product_no}, #{filename}, #{extension}, #{img_type})
+		insert into product_img(product_no, filename, img_type)
+		values(#{product_no}, #{filename}, #{img_type})
 		
 	</insert>
 	
