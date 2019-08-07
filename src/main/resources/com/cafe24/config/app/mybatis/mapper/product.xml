@@ -26,6 +26,12 @@
 		order by no desc
 		limit #{start}, #{display}
 	</select>
+	
+	<select id="getMainList" resultType="productvo">
+		select * from product where del='0' and show_product = '1'
+		order by regdate desc
+		limit 0, 12
+	</select>
 
 	<select id="totalCount" resultType="int">
 		select count(*) from product

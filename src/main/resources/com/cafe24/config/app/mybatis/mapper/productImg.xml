@@ -13,6 +13,11 @@
 		select * from product_img where product_no = #{no}
 	</select>
 	
+	<select id="getMainimg" parameterType="int" resultType="productimgvo">
+		select * from product_img where product_no = #{no} and img_type = 'main'
+	</select>
+	
+	
 	<delete id="deleteByNo" parameterType="int">
 		delete from product_img where product_no = #{no}
 	</delete>

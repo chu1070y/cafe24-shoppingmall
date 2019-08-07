@@ -48,6 +48,12 @@ public class ProductController {
 		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(productService.getList(pageInfo)));
 	}
 	
+	// 상품 메인화면 리스트
+	@GetMapping("/mainlist")
+	public ResponseEntity<JSONResult> mainlist() {
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(productService.getMainList()));
+	}
+	
 	// 상품 등록
 	@PostMapping("/add")
 	public ResponseEntity<JSONResult> addProduct(

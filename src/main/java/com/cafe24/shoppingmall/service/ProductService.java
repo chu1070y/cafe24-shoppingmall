@@ -1,5 +1,6 @@
 package com.cafe24.shoppingmall.service;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,11 +53,33 @@ public class ProductService {
 			vo.setProductImgList(imgList);
 		}
 		
+		for (ProductVO vo : productList) {
+			List<ProductDetailVO> detailList = productDetailDAO.getDetails(vo.getNo());
+			vo.setProductDetailList(detailList);
+		}
+		
 		Map<String, Object> map = new HashMap<String, Object>(); 
 		map.put("pageInfo", pageInfo);
 		map.put("productList", productList);
 		
 		return map;
+	}
+	
+	@Transactional
+	public List<ProductVO> getMainList() {
+		List<ProductVO> productList = productDAO.getMainList();
+		
+		for (ProductVO vo : productList) {
+		ProductImgVO imgList = productImgDAO.getMainImgs(vo.getNo());
+			vo.setProductImgList(Arrays.asList(imgList));
+		}
+		
+		for (ProductVO vo : productList) {
+			List<ProductDetailVO> detailList = productDetailDAO.getDetails(vo.getNo());
+			vo.setProductDetailList(detailList);
+		}
+		
+		return productList;
 	}
 
 	@Transactional

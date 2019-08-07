@@ -32,6 +32,10 @@ public class ProductDAO {
 	public List<ProductVO> getList(PageInfo pageInfo) {
 		return sqlSession.selectList("product.getList", pageInfo);
 	}
+	
+	public List<ProductVO> getMainList() {
+		return sqlSession.selectList("product.getMainList");
+	}
 
 	public ProductVO getProduct(Integer no) {
 		return sqlSession.selectOne("product.getProduct", no);
@@ -44,5 +48,6 @@ public class ProductDAO {
 	public Boolean updateDel(Integer no) {
 		return 1 == sqlSession.update("product.updateDel", no);
 	}
+
 
 }

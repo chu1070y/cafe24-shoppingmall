@@ -30,4 +30,8 @@ public class ProductImgDAO {
 	public Boolean deleteByNo(Integer no) {
 		return 1 == sqlSession.delete("productImg.deleteByNo", no);
 	}
+	
+	public ProductImgVO getMainImgs(Integer no) {
+		return sqlSession.selectOne("productImg.getMainimg", no);
+	}
 }
