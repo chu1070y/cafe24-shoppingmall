@@ -17,8 +17,12 @@
 		select * from category where parent = #{category_no}
 	</select>
 	
+	<select id="getCategory" parameterType="int" resultType="categoryvo">
+		select * from category where category_no = #{category_no}
+	</select>
+	
 	<select id="getCategoryProduct" parameterType="int" resultType="categoryvo">
-		select * from category_product where product_no = #{category_no}
+		select * from category_product where product_no = #{no}
 	</select>
 	
 	<update id="update" parameterType="categoryvo">

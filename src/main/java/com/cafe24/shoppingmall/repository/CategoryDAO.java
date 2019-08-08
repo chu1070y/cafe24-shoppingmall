@@ -57,6 +57,10 @@ public class CategoryDAO {
 	public List<CategoryVO> getCategoryProduct(Integer no) {
 		return sqlSession.selectList("category.getCategoryProduct", no);
 	}
+	
+	public CategoryVO getCategory(Integer no) {
+		return sqlSession.selectOne("category.getCategory", no);
+	}
 
 	public Boolean updateOrd(CategoryVO categoryVO) {
 		return 1 == sqlSession.update("category.updateOrd", categoryVO);

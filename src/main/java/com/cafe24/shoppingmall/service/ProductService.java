@@ -1,5 +1,6 @@
 package com.cafe24.shoppingmall.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -154,7 +155,16 @@ public class ProductService {
 		
 		vo.setProductImgList(productImgDAO.getImgs(no));
 		vo.setProductDetailList(productDetailDAO.getDetails(no));
-		vo.setCategoryList(categoryDAO.getCategoryProduct(no));
+		
+		List<CategoryVO> categoryList1 = categoryDAO.getCategoryProduct(no);
+		List<CategoryVO> categoryList2 = new ArrayList<CategoryVO>();
+		if(categoryList1 != null) {
+			for (CategoryVO categoryVO : categoryList1) {
+				categoryList2.add(categoryDAO.getCategory(categoryVO.getCategory_no()));
+			}
+		}
+		
+		vo.setCategoryList(categoryList2);
 		vo.setOptionList(optionDAO.getOption(no));
 		
 		return vo;
