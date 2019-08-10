@@ -34,7 +34,7 @@
 	</delete>
 	
 	<resultMap type="optionvo" id="optionmap">
-  		<result property="option_no1" column="option_no"/>
+  		<result property="option_no" column="option_no1"/>
   		<result property="product_no" column="product_no"/>
   		<result property="name" column="name"/>
   		<result property="necessary" column="necessary"/>
@@ -43,7 +43,7 @@
 	
 	<resultMap type="optiondetailvo" id="detailmap">
 		<result property="option_detail_no" column="option_detail_no"/>
-		<result property="option_no2" column="option_no"/>
+		<result property="option_no" column="option_no2"/>
 		<result property="detail_name" column="detail_name"/>
 	</resultMap>
 	
