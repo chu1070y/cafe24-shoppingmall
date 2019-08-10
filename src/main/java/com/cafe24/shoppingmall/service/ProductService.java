@@ -96,9 +96,13 @@ public class ProductService {
 		Integer productNo = vo.getNo();
 		
 		// 상품 상세 등록
-		for(ProductDetailVO detailVO: vo.getProductDetailList()) {
+		for(ProductDetailVO detailVO: productVO.getProductDetailList()) {
 			// 상품 등록 후 no 가져와 상품 상세 등록
+			System.out.println("----------------");
+			System.out.println(detailVO);
 			detailVO.setProduct_no(productNo);
+			System.out.println("=================");
+			System.out.println(detailVO);
 			productDetailDAO.insert(detailVO);
 		}
 		
