@@ -1,6 +1,6 @@
 package com.cafe24.shoppingmall.vo;
 
-public class ProductDetailVO {
+public class ProductDetailCartVO {
 	private Integer product_detail_no;
 	private Integer product_no;
 	private String option_code;
@@ -10,7 +10,9 @@ public class ProductDetailVO {
 	private String stock_use;		// 재고사용
 	private String detail_del;
 	
-	public ProductDetailVO() {
+	private ProductVO productVO;
+	
+	public ProductDetailCartVO() {
 		this.add_price = 0;
 		this.stock_use = "0";
 	}
@@ -19,7 +21,8 @@ public class ProductDetailVO {
 	public String toString() {
 		return "ProductDetailVO [product_detail_no=" + product_detail_no + ", product_no=" + product_no
 				+ ", option_code=" + option_code + ", add_price=" + add_price + ", stock_num=" + stock_num
-				+ ", stock_avail=" + stock_avail + ", stock_use=" + stock_use + ", detail_del=" + detail_del + "]";
+				+ ", stock_avail=" + stock_avail + ", stock_use=" + stock_use + ", detail_del=" + detail_del
+				+ ", productVO=" + productVO + "]";
 	}
 
 	public Integer getProduct_detail_no() {
@@ -85,5 +88,14 @@ public class ProductDetailVO {
 	public void setDetail_del(String detail_del) {
 		this.detail_del = detail_del;
 	}
+
+	public ProductVO getProductVO() {
+		return productVO;
+	}
+
+	public void setProductVO(ProductVO productVO) {
+		this.productVO = productVO;
+	}
+
 
 }

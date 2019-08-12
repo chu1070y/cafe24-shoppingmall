@@ -36,7 +36,7 @@
 		select distinct product_no from product_detail where product_detail_no = #{product_detail_no}
 	</select>
 	
-	<select id="getStockInfo" parameterType="int" resultType="productdetailvo">
+	<select id="getDetailInfo" parameterType="int" resultType="productdetailvo">
 		select * from product_detail where product_detail_no = #{productDetailNo}
 	</select>
 	

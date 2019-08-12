@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.shoppingmall.repository.CartDAO;
 import com.cafe24.shoppingmall.vo.CartVO;
+import com.cafe24.shoppingmall.vo.ProductDetailCartVO;
 import com.cafe24.shoppingmall.vo.ProductVO;
 
 @Service
@@ -37,9 +38,11 @@ public class CartService {
 		List<CartVO> cartList = cartDAO.get(vo);
 		
 		for(CartVO cartVO : cartList) {
-			Integer productNo = productService.getProductNo(cartVO.getProduct_detail_no());
-			ProductVO productVO = productService.getProduct(productNo);
-			cartVO.setProductInfo(productVO);
+			ProductDetailCartVO productDetail = productService.getProductDetailCart(cartVO.getProduct_detail_no());
+			ProductVO productVO = productService.getProduct2(productDetail.getProduct_no());
+			productDetail.setProductVO(productVO);
+			
+			cartVO.setProductDetailInfo(productDetail);
 		}
 		
 		return cartDAO.get(vo);

@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.cafe24.shoppingmall.vo.ProductDetailCartVO;
 import com.cafe24.shoppingmall.vo.ProductDetailVO;
 
 @Repository
@@ -39,12 +40,12 @@ public class ProductDetailDAO {
 		return 1 == sqlSession.update("productDetail.updateDetailDel", product_detail_no);
 	}
 	
-	public Integer getProductNo(Integer product_detail_no) {
-		return sqlSession.selectOne("productDetail.getProductNo", product_detail_no);
+	public ProductDetailVO getProductDetail(Integer product_detail_no) {
+		return sqlSession.selectOne("productDetail.getDetailInfo", product_detail_no);
 	}
-
-	public ProductDetailVO getStockInfo(Integer productDetailNo) {
-		return sqlSession.selectOne("productDetail.getStockInfo", productDetailNo);
+	
+	public ProductDetailCartVO getProductDetailCart(Integer product_detail_no) {
+		return sqlSession.selectOne("productDetail.getDetailInfo", product_detail_no);
 	}
 
 	public Boolean updateStockAvail(Integer productDetailNo) {
@@ -58,5 +59,9 @@ public class ProductDetailDAO {
 	public Boolean isStockUse(Integer product_detail_no) {
 		ProductDetailVO vo = sqlSession.selectOne("productDetail.isStockUse", product_detail_no);
 		return "1".equals(vo.getStock_use());
+	}
+
+	public Integer getProductNo(Integer product_detail_no) {
+		return sqlSession.selectOne("productDetail.getProductNo", product_detail_no);
 	}
 }

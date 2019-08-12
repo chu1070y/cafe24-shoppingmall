@@ -19,6 +19,7 @@ import com.cafe24.shoppingmall.repository.ProductImgDAO;
 import com.cafe24.shoppingmall.vo.CategoryVO;
 import com.cafe24.shoppingmall.vo.OptionDetailVO;
 import com.cafe24.shoppingmall.vo.OptionVO;
+import com.cafe24.shoppingmall.vo.ProductDetailCartVO;
 import com.cafe24.shoppingmall.vo.ProductDetailVO;
 import com.cafe24.shoppingmall.vo.ProductImgVO;
 import com.cafe24.shoppingmall.vo.ProductVO;
@@ -248,6 +249,14 @@ public class ProductService {
 	public Integer getProductNo(Integer product_detail_no) {
 		return productDetailDAO.getProductNo(product_detail_no);
 	}
+	
+	public ProductDetailVO getProductDetail(Integer product_detail_no) {
+		return productDetailDAO.getProductDetail(product_detail_no);
+	}
+	
+	public ProductDetailCartVO getProductDetailCart(Integer product_detail_no) {
+		return productDetailDAO.getProductDetailCart(product_detail_no);
+	}
 
 	// 상품 삭제
 	@Transactional
@@ -265,7 +274,7 @@ public class ProductService {
 		
 		for(Integer productDetailNo: productDetailNoList) {
 			// 재고 정보 가져오기
-			ProductDetailVO detailVO = productDetailDAO.getStockInfo(productDetailNo);
+			ProductDetailVO detailVO = productDetailDAO.getProductDetail(productDetailNo);
 			// 재고 사용여부 체크
 			if("1".equals(detailVO.getStock_use())) {
 				// 판매가능수량 체크
@@ -294,6 +303,12 @@ public class ProductService {
 		}
 		
 		return false;
+	}
+
+	public ProductVO getProduct2(Integer product_no) {
+		ProductVO vo = productDAO.getProduct(product_no);
+		vo.setProductImgList(Arrays.asList(productImgDAO.getMainImgs(product_no)));
+		return vo;
 	}
 
 
