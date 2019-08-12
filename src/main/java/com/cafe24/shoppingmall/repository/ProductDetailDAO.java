@@ -45,7 +45,7 @@ public class ProductDetailDAO {
 	}
 	
 	public ProductDetailCartVO getProductDetailCart(Integer product_detail_no) {
-		return sqlSession.selectOne("productDetail.getDetailInfo", product_detail_no);
+		return sqlSession.selectOne("productDetail.getDetailCartInfo", product_detail_no);
 	}
 
 	public Boolean updateStockAvail(Integer productDetailNo) {
