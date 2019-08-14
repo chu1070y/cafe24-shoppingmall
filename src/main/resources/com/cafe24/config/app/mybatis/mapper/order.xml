@@ -65,6 +65,7 @@
 			deliver_msg, deliver_cost, point, payment, pay_method, pay_token, status, approved_at,
 			product_detail_no, order_no, price, quantity
 		from orders a left join orders_detail b on a.no = b.order_no
+		order by no desc
 	</select>
 	
 	<select id="orderGetWithNoUser" parameterType="ordervo" resultMap="orderMap">
