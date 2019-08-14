@@ -18,14 +18,20 @@ public class OrderService {
 	private ProductService productService;
 	
 	@Autowired
+	private CartService cartService;
+	
+	@Autowired
 	private OrderDAO orderDAO;
 
 	@Transactional
-	public Integer orderAdd(OrderVO orderVO) {
+	public OrderVO orderAdd(OrderVO orderVO) {
 		// 주문 추가
 		OrderVO vo = orderDAO.orderAdd(orderVO);
 		
 		for (OrderDetailVO detailVO : vo.getOrderDetail()) {
+			// 장바구니 삭제
+			cartService.deleteCart(detailVO.getCart_no());
+			
 			detailVO.setOrder_no(vo.getNo());
 			// 주문상세 추가
 			orderDAO.orderAddDetail(detailVO);
@@ -34,7 +40,7 @@ public class OrderService {
 			productService.stockUpdate(detailVO.getProduct_detail_no());
 		}
 
-		return vo.getNo();
+		return orderVO;
 	}
 	
 	// junit test용
@@ -77,6 +83,21 @@ public class OrderService {
 
 	public Boolean update(OrderVO vo) {
 		return orderDAO.update(vo);
+	}
+	
+	@Transactional
+	public Object orderGet() {
+		List<OrderVO> list = orderDAO.orderGet();
+		
+		for(OrderVO orderVO : list) {
+			for(OrderDetailVO vo : orderVO.getOrderDetail()) {
+				Integer productNo = productService.getProductNo(vo.getProduct_detail_no());
+				ProductVO productVO = productService.getProduct(productNo);
+				vo.setOrderInfo(productVO);
+			}
+		}
+		
+		return list;
 	}
 
 

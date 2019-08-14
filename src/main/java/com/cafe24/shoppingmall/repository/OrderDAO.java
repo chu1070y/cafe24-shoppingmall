@@ -44,5 +44,9 @@ public class OrderDAO {
 		return 1 == sqlSession.update("order.update", vo);
 	}
 
+	public List<OrderVO> orderGet() {
+		return sqlSession.selectList("order.orderGet");
+	}
+
 
 }

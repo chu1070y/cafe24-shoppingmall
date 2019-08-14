@@ -1,5 +1,7 @@
 package com.cafe24.shoppingmall.controller.api;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +57,7 @@ public class CartController {
 	
 	// 장바구니 상품 삭제
 	@PostMapping("/delete")
-	public ResponseEntity<JSONResult> cartDelete(@RequestBody Integer no) {
+	public ResponseEntity<JSONResult> cartDelete(@RequestBody Integer no) throws IOException {
 		
 		return cartService.deleteCart(no) ? 
 				ResponseEntity.status(HttpStatus.OK).body(JSONResult.success("장바구니 상품 삭제 성공")) : 

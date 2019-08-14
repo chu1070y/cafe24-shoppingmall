@@ -12,13 +12,15 @@ public class OrderDetailVO {
 	@NotNull
 	@Min(1)
 	private Integer quantity;
-	
+
+	private Integer cart_no;
+
 	private ProductVO orderInfo;
 
 	@Override
 	public String toString() {
 		return "OrderDetailVO [product_detail_no=" + product_detail_no + ", order_no=" + order_no + ", price=" + price
-				+ ", quantity=" + quantity + ", orderInfo=" + orderInfo + "]";
+				+ ", quantity=" + quantity + ", cart_no=" + cart_no + ", orderInfo=" + orderInfo + "]";
 	}
 
 	public Integer getProduct_detail_no() {
@@ -53,6 +55,14 @@ public class OrderDetailVO {
 		this.quantity = quantity;
 	}
 
+	public Integer getCart_no() {
+		return cart_no;
+	}
+
+	public void setCart_no(Integer cart_no) {
+		this.cart_no = cart_no;
+	}
+
 	public ProductVO getOrderInfo() {
 		return orderInfo;
 	}
@@ -61,5 +71,4 @@ public class OrderDetailVO {
 		this.orderInfo = orderInfo;
 	}
 
-	
 }

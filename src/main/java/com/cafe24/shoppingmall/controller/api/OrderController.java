@@ -47,6 +47,13 @@ public class OrderController {
 	}
 	
 	// 주문 조회 - 회원
+	@GetMapping("/getOrder")
+	public ResponseEntity<JSONResult> getOrderUsr() {
+
+		return ResponseEntity.status(HttpStatus.OK).body(JSONResult.success(orderService.orderGet()));
+	}
+	
+	// 주문 조회 - 회원
 	@GetMapping("/getOrderUsr")
 	public ResponseEntity<JSONResult> orderGetOrderUsr(@RequestParam("memberNo") Integer memberNo) {
 

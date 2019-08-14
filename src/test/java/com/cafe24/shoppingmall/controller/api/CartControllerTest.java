@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.common.util.JacksonJsonParser;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.cafe24.shoppingmall.vo.CartVO;
 import com.cafe24.shoppingmall.vo.NomemberVO;
