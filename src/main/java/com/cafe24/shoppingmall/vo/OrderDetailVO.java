@@ -15,7 +15,7 @@ public class OrderDetailVO {
 
 	private Integer cart_no;
 
-	private ProductVO orderInfo;
+	private ProductDetailCartVO orderInfo;
 
 	@Override
 	public String toString() {
@@ -63,11 +63,11 @@ public class OrderDetailVO {
 		this.cart_no = cart_no;
 	}
 
-	public ProductVO getOrderInfo() {
+	public ProductDetailCartVO getOrderInfo() {
 		return orderInfo;
 	}
 
-	public void setOrderInfo(ProductVO orderInfo) {
+	public void setOrderInfo(ProductDetailCartVO orderInfo) {
 		this.orderInfo = orderInfo;
 	}
 
